@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--sip账户配置-->
+    <string name="sip_account">0009788925602</string>
+    <string name="sip_domain">211.157.150.111</string>
+    <string name="sip_port">5060</string>
+    <string name="sip_password">123</string>
+    <string name="sip_host">*605@211.157.150.111</string>
+    <!--扫描仪配置-->
+    <string name="scan_device">/dev/ttyS1</string>
+    <string name="scan_baud_rate">9600</string>
+    <!--打印机com配置-->
+    <string name="print_device">/dev/ttyS3</string>
+    <string name="print_baud_rate">9600</string>
+</resources>

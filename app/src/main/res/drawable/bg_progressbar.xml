@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <clip>
+            <shape>
+                <solid android:color="@color/toastBackground"/>  //这个貌似没起到作用，不知道有什么用
+            </shape>
+
+        </clip>
+        android:id="@android:id/background"
+        android:drawable="@color/white">
+    </item>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <corners android:radius="10dp"/>
+                <solid android:color="@color/colorAccent"/>  //这个也是，没起到作用
+            </shape>
+
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="10dp"/>
+                <solid android:color="@color/colorPrimary"/>   //这个是读进度条时候的颜色
+            </shape>
+
+        </clip>
+    </item>
+</layer-list>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content">-->
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <VideoView
+
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+        <com.bolink.customview.CircleProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:circleColor="@color/colorPrimary"
+            app:ringColor="@color/colorAccent"
+            app:textColor="#ffffff" />
+    </FrameLayout>
+    <!--<com.tencent.smtt.sdk.WebView-->
+
+    <!--android:id="@+id/webView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1" >-->
+    <!--<Button-->
+    <!--android:id="@+id/button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <!--</com.tencent.smtt.sdk.WebView>-->
+    <WebView
+
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="播放视频" />
+            <Button
+                android:id="@+id/currentversion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前版本号" />
+
+            <Button
+                android:id="@+id/buttoncash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开始收钞" />
+
+            <Button
+                android:id="@+id/buttoncashno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关闭收钞" />
+
+            <Button android:visibility="gone"
+                android:id="@+id/buttonprint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打印初始化" />
+
+            <Button
+                android:id="@+id/buttonprint2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打印" />
+
+            <Button
+                android:id="@+id/buttonscan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="扫描初始化" />
+
+            <Button
+                android:id="@+id/buttonscanopen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开始扫描" />
+
+            <Button
+
+                android:id="@+id/buttonhidestatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="隐藏状态栏" />
+
+            <Button
+
+                android:id="@+id/buttonshowstatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示状态栏" />
+            <EditText
+                android:visibility="gone"
+                android:id="@+id/sweepcode"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="扫码" android:visibility="gone"
+                android:id="@+id/btnsweepcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button android:visibility="gone"
+                android:text="更新banner"
+                android:id="@+id/banner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </WebView>
+</LinearLayout>
