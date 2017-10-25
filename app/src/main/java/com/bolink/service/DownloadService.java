@@ -28,6 +28,7 @@ public class DownloadService extends IntentService {
 
     private String apkUrl = "";
     private String fileName;
+
     public DownloadService() {
         super("DownloadAPIService");
 //        this.apkUrl = url;
@@ -36,10 +37,11 @@ public class DownloadService extends IntentService {
 
     private File outputFile;
     private String type;
+
     @Override
     protected void onHandleIntent(Intent intent) {
         this.type = intent.getStringExtra("type");
-        this.apkUrl = intent.getStringExtra("videoUrl");
+        this.apkUrl = intent.getStringExtra("fileUrl");
         this.fileName = intent.getStringExtra("fileName");
 
         download();
@@ -62,15 +64,12 @@ public class DownloadService extends IntentService {
             }
         };
         outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-        Log.e(TAG, "download: outputFile="+outputFile );
+        Log.e(TAG, "download: outputFile=" + outputFile);
         if (outputFile.exists()) {
             outputFile.delete();
         }
-
-
         String baseUrl = StringUtils.getHostName(apkUrl);
-
-        new DownloadAPI(baseUrl,listener).downloadAPK(apkUrl, outputFile, new DefaultObserver<Object>() {
+        new DownloadAPI(baseUrl, listener).downloadAPK(apkUrl, outputFile, new DefaultObserver<Object>() {
             @Override
             public void onNext(Object o) {
 
@@ -79,25 +78,30 @@ public class DownloadService extends IntentService {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
-                downloadCompleted();
+                downloadCompleted(false);
                 Log.e(TAG, "onError: " + e.getMessage());
             }
 
             @Override
             public void onComplete() {
-                downloadCompleted();
+                downloadCompleted(true);
             }
         });
     }
 
-    private void downloadCompleted() {
+    private void downloadCompleted(boolean sucess) {
         Download download = new Download();
+        download.setSuccess(sucess);
         download.setProgress(100);
         sendIntent(download);
-
     }
 
     private void sendNotification(Download download) {
+        if(download.getProgress()==100){
+            download.setSuccess(true);
+        }else{
+            download.setSuccess(false);
+        }
         sendIntent(download);
     }
 
@@ -111,7 +115,7 @@ public class DownloadService extends IntentService {
 //        if(type.equals("apk")){
 //            RxBus.get().post(new Messages(DOWNLOAD_PROGRESS_APK,download));
 //        }else{
-            RxBus.get().post(new Messages(DOWNLOAD_PROGRESS,download));
+        RxBus.get().post(new Messages(DOWNLOAD_PROGRESS, download));
 //        }
 
     }

@@ -34,5 +34,6 @@ public class AdsApplication extends Application{
 //        };
 //        //x5内核初始化接口
 //        QbSdk.initX5Environment(getApplicationContext(),  cb);
+//        ImageLoader.init(this,250*1024*1024, new GlideLoader());//指定缓存大小,以及使用哪个loader
     }
 }

@@ -63,5 +63,15 @@ public class JsMethod {
         String alert = "javascript:updateSwiper("+(new Gson().toJson(bannerUrlsList))+");";
         webView.loadUrl(alert);
     }
+    //更新全屏状态
+    public void getCheckStatus(boolean check){
+        String alert = "javascript:getCheckStatus("+check+");";
+        webView.loadUrl(alert);
+    }
+    //更新版本名称
+    public void CurrentVersion(String versionname){
+        String alert = "javascript:CurrentVersion('"+versionname+"');";
+        webView.loadUrl(alert);
+    }
 
 }

@@ -3,10 +3,14 @@ package com.bolink.hardware;
 import android.content.Context;
 import android.util.Log;
 
+import com.bolink.R;
+import com.bolink.bean.Messages;
+import com.bolink.hardware.PaperMoneyITL.ITLDeviceCom;
+import com.bolink.rx.RxBus;
 import com.ftdi.j2xx.D2xxManager;
 import com.ftdi.j2xx.FT_Device;
 
-import com.bolink.hardware.PaperMoneyITL.ITLDeviceCom;
+import static com.bolink.bean.Messages.PAPER_MONEY_OPEN;
 
 /**
  * Created by xulu on 2017/9/26.
@@ -47,6 +51,7 @@ public class MoneyPaperUtil {
             deviceCom.start();
         } else {
 //            Toast.makeText(MainActivity.this, "No USB connection detected!", Toast.LENGTH_SHORT).show();
+            RxBus.get().post(new Messages(PAPER_MONEY_OPEN,context.getResources().getString(R.string.msg_open_cash_result)));
         }
         Open();
     }

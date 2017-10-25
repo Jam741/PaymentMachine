@@ -12,6 +12,15 @@ public class Download implements Parcelable {
     private long currentFileSize;
     private long totalFileSize;
     private String URI;
+    private boolean success;
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 
     public String getURI() {
         return URI;

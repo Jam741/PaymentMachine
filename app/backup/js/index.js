@@ -8,7 +8,9 @@ vve = new Vue({
     el: '#div-body',
     data: {
 //        baseUrl: 'http://jarvisqh.vicp.io/api-web/centralpayment',
-        baseUrl: 'https://beta.bolink.club/unionapi/centralpayment',
+ //       baseUrl: 'https://beta.bolink.club/unionapi/centralpayment',
+         baseUrl: 'https://s.bolink.club/unionapi/centralpayment',
+
         callHostContent: '呼叫总机',
         order_price: 0,
         order_duration: 0,
@@ -72,6 +74,7 @@ vve = new Vue({
         showfinishcharge: false,
         showadvance: false,
         showadvanceErr: false,
+        showadvanceSet: false,
 
         selectIndex: -1,//选中的模糊查询的图片
         InparkImageUrl: '',//展示的订单详情图片
@@ -218,6 +221,9 @@ vve = new Vue({
 
         ],
         swiper: null,
+        bottomimgs: false,
+        checked: false,//是否全屏显示
+        VersionName:'',
     },
     created: function () {
 
@@ -355,87 +361,87 @@ vve = new Vue({
                 if (count > 0) {
                     count--;
                     // if (this.internet) {
-                        if (that.interval_nocar_back) {
-                            that.interval_nocar_back = false;
-                            that.$http.get(that.baseUrl + '/getorderinfosbyqrcode?token=' + that.token + '&qrcode=' + that.qrcode_nocarnum)
-                                .then(function (res) {
-                                    //扫描二维码 轮询
-                                    that.interval_nocar_back = true;
-                                    that.logUtil(res.data)
-                                    if (res.data.state == 1) {
-                                        that.datas = res.data;
-                                        that.showkeyboard_no = false;
-                                        that.left[1] = 'img/left_2_c.png'
-                                        that.showkeyboard = false;
-                                        that.showkeyboard2 = false;
-                                        that.oid = '';
-                                        if (res.data.type == 1) {
-                                            that.InparkImageUrl = res.data.orders[0].inparkImageUrl;
-                                            that.orderdetailNextGray = false;
-                                            that.showdetail = true;
-                                            that.used = 1;
-                                            that.freeOutTime = res.data.orders[0].freeOutTime;
-                                            that.order_id = res.data.orders[0].orderId;
-                                            that.oid = res.data.orders[0].oid;
-                                            that.plate_number = res.data.orders[0].plateNumber;
-                                            that.order_duration = res.data.orders[0].duration;
-                                            that.order_intime = new Date(res.data.orders[0].inTime * 1000).toLocaleString();
-                                            if (res.data.total == -1 || res.data.price == -1) {
-                                                that.orderdetail_title = '价格查询失败,请重新查询';
-                                                that.orderdetailNextGray = true;
-                                                that.order_price = 0;
-                                                that.order_prepay = 0;
-                                            } else {
-                                                that.order_price = res.data.total;
-                                                that.orderdetail_title = '总计' + this.order_price + '元';
-                                            }
+                    if (that.interval_nocar_back) {
+                        that.interval_nocar_back = false;
+                        that.$http.get(that.baseUrl + '/getorderinfosbyqrcode?token=' + that.token + '&qrcode=' + that.qrcode_nocarnum)
+                            .then(function (res) {
+                                //扫描二维码 轮询
+                                that.interval_nocar_back = true;
+                                that.logUtil(res.data)
+                                if (res.data.state == 1) {
+                                    that.datas = res.data;
+                                    that.showkeyboard_no = false;
+                                    that.left[1] = 'img/left_2_c.png'
+                                    that.showkeyboard = false;
+                                    that.showkeyboard2 = false;
+                                    that.oid = '';
+                                    if (res.data.type == 1) {
+                                        that.InparkImageUrl = res.data.orders[0].inparkImageUrl;
+                                        that.orderdetailNextGray = false;
+                                        that.showdetail = true;
+                                        that.used = 1;
+                                        that.freeOutTime = res.data.orders[0].freeOutTime;
+                                        that.order_id = res.data.orders[0].orderId;
+                                        that.oid = res.data.orders[0].oid;
+                                        that.plate_number = res.data.orders[0].plateNumber;
+                                        that.order_duration = res.data.orders[0].duration;
+                                        that.order_intime = new Date(res.data.orders[0].inTime * 1000).toLocaleString();
+                                        if (res.data.total == -1 || res.data.price == -1) {
+                                            that.orderdetail_title = '价格查询失败,请重新查询';
+                                            that.orderdetailNextGray = true;
+                                            that.order_price = 0;
+                                            that.order_prepay = 0;
                                         } else {
-                                            that.showorders = true;
-                                            that.used = 1;
-                                            that.datas = res.data;
-                                        }
-                                        that.url_nocarnum = '';
-                                        that.qrcode_nocarnum = '';
-                                        clearInterval(that.timeInterval)
-                                    } else if (res.data.state == 2) {
-                                        clearInterval(that.timeInterval)
-                                        that.datas = res.data;
-                                        that.left[1] = 'img/left_2_c.png'
-                                        that.showkeyboard = false;
-                                        that.showkeyboard2 = false;
-                                        that.showkeyboard_no = false;
-                                        //已预付过且是精确查询
-                                        that.orderdetailNextGray = true;
-                                        if (res.data.type == 1) {
-                                            that.freeOutTime = res.data.orders[0].freeOutTime;
-                                            that.InparkImageUrl = res.data.orders[0].inparkImageUrl;
-                                            that.order_id = res.data.orders[0].orderId;
-                                            that.oid = res.data.orders[0].oid;
-                                            that.order_duration = res.data.orders[0].duration;
-                                            that.plate_number = res.data.orders[0].plateNumber;
-                                            that.order_intime = new Date(res.data.orders[0].inTime * 1000).toLocaleString();
                                             that.order_price = res.data.total;
-                                            that.showdetail = true;
-                                            that.used = 1;
-                                            if (res.data.total == -1 || res.data.price == -1) {
-                                                that.orderdetail_title = '价格查询失败,请重新查询';
-                                                that.order_price = 0;
-                                                that.order_prepay = 0;
-                                            } else {
-                                                that.order_price = res.data.total;
-                                                that.order_prepay = res.data.prepay
-                                                that.cashReturn = 0;
-                                                that.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
-                                            }
+                                            that.orderdetail_title = '总计' + this.order_price + '元';
                                         }
-                                        that.url_nocarnum = '';
-                                        that.qrcode_nocarnum = '';
-                                        clearInterval(that.timeInterval)
+                                    } else {
+                                        that.showorders = true;
+                                        that.used = 1;
+                                        that.datas = res.data;
                                     }
-                                }).catch(function (e) {
-                                that.logUtil(e.data)
-                            })
-                        }
+                                    that.url_nocarnum = '';
+                                    that.qrcode_nocarnum = '';
+                                    clearInterval(that.timeInterval)
+                                } else if (res.data.state == 2) {
+                                    clearInterval(that.timeInterval)
+                                    that.datas = res.data;
+                                    that.left[1] = 'img/left_2_c.png'
+                                    that.showkeyboard = false;
+                                    that.showkeyboard2 = false;
+                                    that.showkeyboard_no = false;
+                                    //已预付过且是精确查询
+                                    that.orderdetailNextGray = true;
+                                    if (res.data.type == 1) {
+                                        that.freeOutTime = res.data.orders[0].freeOutTime;
+                                        that.InparkImageUrl = res.data.orders[0].inparkImageUrl;
+                                        that.order_id = res.data.orders[0].orderId;
+                                        that.oid = res.data.orders[0].oid;
+                                        that.order_duration = res.data.orders[0].duration;
+                                        that.plate_number = res.data.orders[0].plateNumber;
+                                        that.order_intime = new Date(res.data.orders[0].inTime * 1000).toLocaleString();
+                                        that.order_price = res.data.total;
+                                        that.showdetail = true;
+                                        that.used = 1;
+                                        if (res.data.total == -1 || res.data.price == -1) {
+                                            that.orderdetail_title = '价格查询失败,请重新查询';
+                                            that.order_price = 0;
+                                            that.order_prepay = 0;
+                                        } else {
+                                            that.order_price = res.data.total;
+                                            that.order_prepay = res.data.prepay
+                                            that.cashReturn = 0;
+                                            that.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
+                                        }
+                                    }
+                                    that.url_nocarnum = '';
+                                    that.qrcode_nocarnum = '';
+                                    clearInterval(that.timeInterval)
+                                }
+                            }).catch(function (e) {
+                            that.logUtil(e.data)
+                        })
+                    }
                     // } else {
                     //     that.alertMsg('网络有问题,请稍后重试');
                     // }
@@ -514,30 +520,31 @@ vve = new Vue({
             } else if (this.carnumber.indexOf("PR1NT") != -1) {
                 Print('预付费存根', '测试停车场', '中央电梯缴费机', '京A12345', '20元', '现金支付', '2017-10-13 15:17:22', '请在免费时间段内尽快离场，超时将补缴停车费');
                 return;
-            }else if (this.carnumber.indexOf("UPDATE") != -1) {
+            } else if (this.carnumber.indexOf("UPDATE") != -1) {
                 checkUpdate();
                 return;
-            } else if (this.carnumber.indexOf("1234") != -1) {
-                this.swiper.removeAllSlides();
-                this.swiperUrl = [
-                    {
-                        url: 'https://www.bolink.club/PaymentMachine/img/left_1.png'
-                    },
-                    {
-                        url: 'https://www.bolink.club/PaymentMachine/img/left_2.png'
-                    },
-                    {
-                        url: 'https://www.bolink.club/PaymentMachine/img/left_3.png'
-                    },
-                    {
-                        url: 'https://www.bolink.club/PaymentMachine/img/left_4.png'
-                    }
-                ];
-                for (su in this.swiperUrl) {
-                    this.swiper.appendSlide('<div class="swiper-slide"> <img  src="' + this.swiperUrl[su].url + '" width="1080px" height="607.5px"> </div>');
-                }
-                return;
             }
+            // else if (this.carnumber.indexOf("1234") != -1) {
+            //     this.swiper.removeAllSlides();
+            //     this.swiperUrl = [
+            //         {
+            //             url: 'https://www.bolink.club/PaymentMachine/img/left_1.png'
+            //         },
+            //         {
+            //             url: 'https://www.bolink.club/PaymentMachine/img/left_2.png'
+            //         },
+            //         {
+            //             url: 'https://www.bolink.club/PaymentMachine/img/left_3.png'
+            //         },
+            //         {
+            //             url: 'https://www.bolink.club/PaymentMachine/img/left_4.png'
+            //         }
+            //     ];
+            //     for (su in this.swiperUrl) {
+            //         this.swiper.appendSlide('<div class="swiper-slide"> <img  src="' + this.swiperUrl[su].url + '" width="1080px" height="607.5px"> </div>');
+            //     }
+            //     return;
+            // }
             this.oid = '';
             if (this.internet) {
                 this.loading = true;
@@ -803,15 +810,16 @@ vve = new Vue({
                                 this.logUtil(res.data);
                                 if (res.data.state == 1) {
                                     // 扫码支付成功,返回首页
-                                    this.loading = false;
+                                    that.loading = false;
                                     that.showcashpay = false;
                                     that.showcodepayscan = false;
                                     that.showfinishpay = true;
-                                    this.left[3] = 'img/left_4_c.png'
+                                    that.left[3] = 'img/left_4_c.png'
                                     that.used = 1;
                                     clearInterval(that.timeInterval)
                                 }
                             }).catch(function (e) {
+                            that.loading = false;
                             that.logUtil(e.data)
                         })
                     }
@@ -820,6 +828,7 @@ vve = new Vue({
                     // }
 
                 } else {
+                    that.loading = false;
                     clearInterval(that.timeInterval)
                     that.clickHome()
                 }
@@ -828,24 +837,24 @@ vve = new Vue({
         },
         ScanResult: function (result) {
             //从扫描仪获得扫码结果，调用接口发起支付
-            this.alertMsg('scan result:' + result);
+            //this.alertMsg('scan result:' + result);
             if (this.internet) {
                 this.loading = true;
-                this.$http.get(this.baseUrl + '/handlecenterauthcodeprepay?order_id=' + this.order_id + '&token=' + this.token + '&money=' + this.order_price + '&authcode=' + result+'&car_number='+this.plate_number)
+                this.$http.get(this.baseUrl + '/handlecenterauthcodeprepay?order_id=' + this.order_id + '&token=' + this.token + '&money=' + this.order_price + '&authcode=' + result + '&car_number=' + this.plate_number)
                     .then(function (res) {
 
                         if (res.data.state == 1) {
-									// 扫码支付成功,返回首页
-                                    this.loading = false;
-                                    this.showcashpay = false;
-                                    this.showcodepayscan = false;
-                                    this.showfinishpay = true;
-                                    this.left[3] = 'img/left_4_c.png'
-                                    this.used = 1;
-                                    clearInterval(this.timeInterval)
-                        } else if(res.data.state == 2){
+                            // 扫码支付成功,返回首页
+                            this.loading = false;
+                            this.showcashpay = false;
+                            this.showcodepayscan = false;
+                            this.showfinishpay = true;
+                            this.left[3] = 'img/left_4_c.png'
+                            this.used = 1;
+                            clearInterval(this.timeInterval)
+                        } else if (res.data.state == 2) {
 
-						}else {
+                        } else {
                             alertMsg(res.data.errmsg);
                         }
                     }).catch(function (e) {
@@ -1087,7 +1096,7 @@ vve = new Vue({
             this.showadvanceErr = false;
             this.left[1] = 'img/left_2.png';
             this.left[2] = 'img/left_3.png';
-            this.left[3] = 'img/left_4.png'
+            this.left[3] = 'img/left_4.png';
             this.clearTimeInteval();
             _close();
             ScanClose();
@@ -1095,6 +1104,9 @@ vve = new Vue({
             this.cashReturn = 0;
             this.getCash = 0;
             this.orderdetailNextGray = false;
+            this.showadvanceErr = false;
+            this.showadvanceSet = false;
+            ClearCache();
         },
         homeInterval: function () {
             var that = this;
@@ -1171,10 +1183,16 @@ vve = new Vue({
             AbNormalOrder();
             this.QuerryAdavanceAbNormal('');
         },
+        //高级登录 点击 设置
+        clickAdSet:function () {
+            this.showadvanceSet = true;
+            this.showadvance = false;
+        },
         //高级登录 异常订单 返回
         clickAdBack: function () {
             this.showadvance = true;
             this.showadvanceErr = false;
+            this.showadvanceSet = false;
         },
         //呼叫总机
         clickCallHost: function () {
@@ -1276,13 +1294,33 @@ vve = new Vue({
             this.dialogAlertMsg = '请核对现金是否统计正确，点击确定后，当前统计将被清空并返回登录页面！是否退出？';
         },
         updateSwiper: function (urls) {
-            //更新底部banner图片
+            //更新底部banner图片s
             this.swiper.removeAllSlides();
             this.swiperUrl = urls;
             for (su in this.swiperUrl) {
                 this.swiper.appendSlide('<div class="swiper-slide"> <img  src="' + this.swiperUrl[su].url + '" width="1080px" height="607.5px"> </div>');
             }
+        },
+        clickBar: function () {
+            //隐藏或显示 虚拟按键、状态栏
+            if (this.checked) {
+                LockBar();
+            } else {
+                UnLockBar();
+            }
+        },
+        getCheckStatus: function (check) {
+            this.checked = check;
+        },
+        clickUpdate: function () {
+            //检查更新
+            checkUpdate();
+        },
+        CurrentVersion:function (versionname) {
+            //版本号名称
+            this.VersionName = versionname;
         }
+
 
     }
 })
@@ -1370,11 +1408,14 @@ function ScanOpen() {
 function ScanClose() {
     window.AndroidMethod.ScanClose();
 }
-function MacAddress(){
-	window.AndroidMethod.MacAddress();
+function MacAddress() {
+    window.AndroidMethod.MacAddress();
 }
-function checkUpdate(){
-	window.AndroidMethod.checkUpdate();
+function checkUpdate() {
+    window.AndroidMethod.checkUpdate();
+}
+function ClearCache(){
+    window.AndroidMethod.ClearCache();
 }
 //android调用JS方法
 function NotifyNetState(netstate) {
@@ -1403,5 +1444,11 @@ function ScanResult(result) {
 }
 function updateSwiper(urls) {
     vve.updateSwiper(urls);
+}
+function getCheckStatus(check) {
+    vve.getCheckStatus(check);
+}
+function CurrentVersion(versionname) {
+    vve.CurrentVersion(versionname)
 }
 

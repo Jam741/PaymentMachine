@@ -1,17 +1,22 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 25
     buildToolsVersion "25.0.3"
 
     defaultConfig {
         applicationId "com.bolink"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 19
         jackOptions {
             enabled true
             android.compileOptions.sourceCompatibility 1.8
             android.compileOptions.targetCompatibility 1.8
+        }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+            incremental false
         }
 //        ndk {
 //            moduleName "serial_port"
@@ -21,8 +26,8 @@ android {
         ndk {
             moduleName "vbar_api"
         }
-        versionCode 1000
-        versionName "V1.0"
+        versionCode 1101
+        versionName "V1.1.1"
     }
 
     buildTypes {
@@ -34,6 +39,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    allprojects {
+        repositories {
+            maven { url "https://jitpack.io" }
         }
     }
 }
@@ -56,8 +66,8 @@ dependencies {
 //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     //butter knife
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+//    compile 'com.jakewharton:butterknife:8.8.1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //litepal
     compile 'org.litepal.android:core:1.6.0'
     //rxjava2 + retrofit2
@@ -69,4 +79,8 @@ dependencies {
     //拦截器要用的
     compile 'com.squareup.okhttp3:okhttp:latest.release'
     compile 'com.squareup.okhttp3:logging-interceptor:latest.release'
+    //glide图片轮播
+    compile 'cn.jianke.imageswitcher:app:1.0.4'
+    //如果使用glide
+//    compile 'com.github.hss01248.ImageLoader:glide:1.0.6'
 }
