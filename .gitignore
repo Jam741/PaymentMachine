@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+.bingitignore
+.gradle
+.idea/vcs.xml
+app/build/
+build/
+*.apk
