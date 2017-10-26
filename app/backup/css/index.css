@@ -56,7 +56,11 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
-input::-ms-clear{display: none;}
+
+input::-ms-clear {
+    display: none;
+}
+
 .video-top {
     height: 607.5px;
     /*width: 800px;*/
@@ -109,23 +113,26 @@ input::-ms-clear{display: none;}
     align-content: center;
     align-items: center;
     justify-content: space-around;
-    margin-left:20px;
+    margin-left: 20px;
     /*margin: 30px 0 30px 20px;*/
     /*background-color: lightgreen;*/
 }
-.call-host{
+
+.call-host {
     width: 224px;
-    height:96px;
+    height: 96px;
     background: url(../img/left_5_c.png) no-repeat center;
-    border:1px solid #131b2d;
-    border-radius:10px;
-    color:white;
+    border: 1px solid #131b2d;
+    border-radius: 10px;
+    color: white;
 }
-.call-host p{
-    line-height:96px;
-    text-align:center;
-    font-size:24px;
+
+.call-host p {
+    line-height: 96px;
+    text-align: center;
+    font-size: 24px;
 }
+
 .item-left h2 {
     color: white;
     background-color: green;
@@ -139,7 +146,7 @@ input::-ms-clear{display: none;}
 .item-right {
     display: flex;
     flex-direction: column;
-   /* width: 800px;*/
+    /* width: 800px;*/
     flex: 1;
     background-color: #242b3b;
     align-content: center;
@@ -154,9 +161,11 @@ input::-ms-clear{display: none;}
     flex-direction: row;
     background: #131b2d;
 }
-.top-tab img{
+
+.top-tab img {
     width: 50%;
 }
+
 .top-tab pic {
     flex: 1;
 }
@@ -327,9 +336,10 @@ input::-ms-clear{display: none;}
     overflow: hidden;
     position: relative;
 }
-.showdetail-head img{
+
+.showdetail-head img {
     width: 100%;
-    height:65px;
+    height: 65px;
 
 }
 
@@ -668,43 +678,75 @@ input::-ms-clear{display: none;}
 .detail-advance {
     flex: 9;
     display: flex;
-    justify-content: space-around ;
-    align-content: center ;
-    align-items: center ;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
     margin: 22px;
-    flex-direction:row;
-    color:white;
+    flex-direction: row;
+    color: white;
 }
-.advance-item{
-    display:flex;
-    flex-direction:column;
-    justify-content: space-around ;
-    align-item:center;
+
+.advance-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-item: center;
     align-content: center;
-    width:100%;
-    height:500px;
+    width: 100%;
+    height: 500px;
 }
-.detail-advance p{
-    padding-left:50px;
-    font-size:24px;
+
+.detail-advance p {
+    padding-left: 50px;
+    font-size: 24px;
 }
-.advance-item2{
-    flex-direction:column;
-    justify-content: space-around ;
-    align-item:center;
+
+.advance-item2 {
+    flex-direction: column;
+    justify-content: space-around;
+    align-item: center;
     align-content: center;
-    width:100%;
-    height:500px;
+    width: 100%;
+    height: 500px;
     overflow-y: auto;
 }
-.error-order{
-    color:white;
-    font-size:24px;
+.advance_setting{
+    display: flex;
+    flex-direction: column;
+    flex: 9;
+    color: white;
+}
+.setbar p{
+    font-size: 30px;
+    padding: 0 50px ;
+    margin:20px 50px;
+}
+.advance_setting input{
+    width: 30px;
+    height: 30px;
+    margin:20px 95px;
+}
+.setbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.p-devide-line{
+    background: white;
+    height: 1px;
+    line-height: 1px;
+    width:100%;
+
+}
+.error-order {
+    color: white;
+    font-size: 24px;
     margin: 20px;
     padding-bottom: 20px;
 }
-/*页面 高级登录*/
 
+/*页面 高级登录*/
 
 /*loading 动画*/
 .load {
@@ -750,7 +792,8 @@ input::-ms-clear{display: none;}
     justify-content: space-between;
     color: white;
 }
-.logindiv{
+
+.logindiv {
     height: 0;
     width: 100%;
     display: flex;
@@ -759,14 +802,17 @@ input::-ms-clear{display: none;}
     align-items: center;
     flex: 2;
 }
-.logindiv span{
+
+.logindiv span {
     font-size: 18px;
 }
-.logindiv input{
+
+.logindiv input {
     height: 24px;
     line-height: 24px;
 }
-.dialog p{
+
+.dialog p {
     height: 35px;
     background: #0390cb;
     font-size: 24px;
@@ -774,7 +820,8 @@ input::-ms-clear{display: none;}
     text-align: center;
     width: 100%;
 }
-.dialog-title{
+
+.dialog-title {
     height: 45px;
     font-size: 32px;
     line-height: 45px;
@@ -782,7 +829,8 @@ input::-ms-clear{display: none;}
     text-align: center;
     width: 100%;
 }
-.dialog-content{
+
+.dialog-content {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -790,10 +838,12 @@ input::-ms-clear{display: none;}
     height: 120px;
     width: 400px;
 }
-.dialog-content h1{
+
+.dialog-content h1 {
     margin: 20px;
     line-height: 30px;
 }
+
 .dialog-buttons {
     flex: 1;
     display: flex;
@@ -803,6 +853,7 @@ input::-ms-clear{display: none;}
     justify-content: space-between;
     align-items: flex-end;
 }
+
 .dialog-buttons a {
     width: 13px;
 }

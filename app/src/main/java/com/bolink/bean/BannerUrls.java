@@ -5,27 +5,49 @@ package com.bolink.bean;
  */
 
 public class BannerUrls {
-    String url;
+    String imgUrl;
+    String fileName;
+    boolean del;
+    boolean download;//是否下载成功
 
-    public BannerUrls(String url) {
-        this.url = url;
+    public boolean isDownload() {
+        return download;
     }
 
-    public BannerUrls() {
+    public void setDownload(boolean download) {
+        this.download = download;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public boolean isDel() {
+        return del;
+    }
+
+    public void setDel(boolean del) {
+        this.del = del;
     }
 
     @Override
     public String toString() {
         return "BannerUrls{" +
-                "url='" + url + '\'' +
+                "imgUrl='" + imgUrl + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", del=" + del +
                 '}';
     }
 }

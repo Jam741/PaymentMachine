@@ -909,12 +909,23 @@ public class CommontUtils {
 
     // 获取当前应用程序的版本号
     public static String getVersion(Context context) {
-
         try {
             PackageManager manager = context.getPackageManager();
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
             System.out.println("banbenhaooo" + String.valueOf(info.versionCode));
             return String.valueOf(info.versionCode);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "版本号未知";
+        }
+    }
+    // 获取当前应用程序的版本名称
+    public static String getVersionName(Context context) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            return info.versionName;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1268,5 +1279,4 @@ public class CommontUtils {
     public static String getHardWareName(Context context){
         return android.os.Build.MODEL;
     }
-
 }

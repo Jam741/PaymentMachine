@@ -1,6 +1,7 @@
 package com.bolink.method;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.webkit.JavascriptInterface;
@@ -15,6 +16,7 @@ import com.bolink.hardware.AndroidRom;
 import com.bolink.hardware.MoneyPaperUtil;
 import com.bolink.rx.RxBus;
 import com.bolink.utils.CommontUtils;
+import com.bolink.utils.SharedPreferenceUtil;
 import com.google.gson.Gson;
 
 import org.litepal.LitePal;
@@ -23,7 +25,7 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bolink.bean.Messages.CHECK_UPDATE;
+import static com.bolink.bean.Messages.CLEAR_CACHE;
 import static com.bolink.bean.Messages.MacAddress;
 import static com.bolink.bean.Messages.PRINT_MSG;
 import static com.bolink.bean.Messages.PRINT_TICKET;
@@ -252,12 +254,20 @@ public class AndroidMethod {
     @JavascriptInterface
     public void UnLockBar() {
         AndroidRom.get().UnLockBar(context);
+        SharedPreferences sharedPreference = SharedPreferenceUtil.get(context);
+        SharedPreferences.Editor editor = sharedPreference.edit();
+        editor.putBoolean("BarStatus",false);
+        editor.commit();
     }
 
     //屏蔽 status bar
     @JavascriptInterface
     public void LockBar() {
         AndroidRom.get().LockBar(context);
+        SharedPreferences sharedPreference = SharedPreferenceUtil.get(context);
+        SharedPreferences.Editor editor = sharedPreference.edit();
+        editor.putBoolean("BarStatus",true);
+        editor.commit();
     }
 
     //重载webview
@@ -302,8 +312,15 @@ public class AndroidMethod {
         if (null != mac && !"".equals(mac))
             RxBus.get().post(new Messages(MacAddress, mac));
     }
+    //检查更新
     @JavascriptInterface
     public void checkUpdate(){
-        RxBus.get().post(new Messages(CHECK_UPDATE, null));
+
     }
+    //清除webview缓存
+    @JavascriptInterface
+    public void ClearCache(){
+        RxBus.get().post(new Messages(CLEAR_CACHE, null));
+    }
+
 }

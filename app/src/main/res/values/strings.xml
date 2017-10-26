@@ -90,9 +90,77 @@
     <string name="ads_tail">分钟内离场，超时需补缴停车费</string>
     <string name="ads_line">-------------------------------</string>
 
-    <!--更新信息-->
-    <string name="web_url">https://www.bolink.club/PaymentMachine/index.html</string>
-    <string name="update_url">https://www.bolink.club/data/update/</string>
+    <!--更新信息 beta-->
+    <!--<string name="web_url">https://www.bolink.club/PaymentMachine/index.html</string>-->
+    <!--<string name="update_url">https://www.bolink.club/data/update/</string>-->
+    <!--<string name="apk_name">PaymentMachine.apk</string>-->
+    <!--<string name="msg_alreadylatest">已经是最新版本了！</string>-->
+    <!--更新信息 正式-->
+    <string name="web_url">https://s.bolink.club/PaymentMachine/index.html</string>
+    <string name="update_url">https://s.bolink.club/PaymentMachine/update/</string>
     <string name="apk_name">PaymentMachine.apk</string>
-    <string name="msg_alreadylatest">已经是最近版本了！</string>
+    <string name="msg_alreadylatest">已经是最新版本了！</string>
+
+    <!--模拟json-->
+    <!--<string name="inteval_json">{-->
+    <!--"state":1,-->
+    <!--"errmsg":"",-->
+    <!--"videoList":[-->
+        <!--{-->
+            <!--"videoUrl":"https://www.bolink.club/data/video/001.mp4",-->
+            <!--"fileName":"001.mp4",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"videoUrl":"https://www.bolink.club/data/video/002.mp4",-->
+            <!--"fileName":"002.mp4",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"videoUrl":"https://www.bolink.club/data/video/003.mp4",-->
+            <!--"fileName":"003.mp4",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"videoUrl":"https://www.bolink.club/data/video/004.mp4",-->
+            <!--"fileName":"004.mp4",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"videoUrl":"https://www.bolink.club/data/video/005.mp4",-->
+            <!--"fileName":"005.mp4",-->
+            <!--"del":false-->
+        <!--}-->
+    <!--],-->
+    <!--"imgList":[-->
+        <!--{-->
+            <!--"imgUrl":"https://www.bolink.club/PaymentMachine/img/1.jpg",-->
+            <!--"fileName":"1.jpg",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"imgUrl":"https://www.bolink.club/PaymentMachine/img/2.jpg",-->
+            <!--"fileName":"2.jpg",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"imgUrl":"https://www.bolink.club/PaymentMachine/img/3.jpg",-->
+            <!--"fileName":"3.jpg",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"imgUrl":"https://www.bolink.club/PaymentMachine/img/4.jpg",-->
+            <!--"fileName":"4.jpg",-->
+            <!--"del":false-->
+        <!--},-->
+        <!--{-->
+            <!--"imgUrl":"https://www.bolink.club/PaymentMachine/img/5.jpg",-->
+            <!--"fileName":"5.jpg",-->
+            <!--"del":false-->
+        <!--}-->
+    <!--]-->
+<!--}</string>-->
+    <!--提示消息-->
+    <string name="msg_open_scan_result">扫描仪故障！请选择现金支付</string>
+    <string name="msg_open_cash_result">纸币器故障！请选择电子支付</string>
 </resources>

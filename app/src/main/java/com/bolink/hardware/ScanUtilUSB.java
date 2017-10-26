@@ -1,10 +1,14 @@
 package com.bolink.hardware;
 
+import android.content.Context;
+
+import com.bolink.R;
 import com.bolink.bean.Messages;
 import com.bolink.rx.RxBus;
 import com.vguang.Vbar;
 
 import static com.bolink.bean.Messages.SCAN_MSG;
+import static com.bolink.bean.Messages.SCAN_OPEN_RESULT;
 
 /**
  * Created by xulu on 2017/9/28.
@@ -27,9 +31,15 @@ public class ScanUtilUSB {
     static boolean IsRun = true;
 //    ReadThread read;
 
-    public void init() {
+    public void init(Context context) {
         boolean state = b.vbarOpen();
-//        RxBus.get().post(new Messages(SCAN_MSG, "open result:" + state));
+        String msg;
+        if(state){
+            msg = "success";
+        }else{
+            msg = context.getResources().getString(R.string.msg_open_scan_result);
+        }
+        RxBus.get().post(new Messages(SCAN_OPEN_RESULT,msg));
     }
 
     public void open() {
