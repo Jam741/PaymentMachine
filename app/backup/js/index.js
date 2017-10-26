@@ -225,31 +225,6 @@ vve = new Vue({
         checked: false,//是否全屏显示
         VersionName:'',
     },
-    created: function () {
-
-//  this.logUtil('sMacAddr='+sMacAddr)
-//  localStorage .setItem('username','123')
-//  localStorage .setItem('pwd','321')
-//  this.logUtil(localStorage.getItem('username'))
-//  this.logUtil(localStorage.getItem('pwd'))
-
-//        this.$http.get(this.baseUrl + '/login?machine_id=2003&password=123')
-//            .then(function (res) {
-//                this.logUtil(res.data)
-//                if (res.data.state == 1) {
-//                    this.token = res.data.token;
-//                    this.order_park = res.data.parkName;
-//                    this.carnumber = CarNumberHead;
-//                } else {
-//                    this.alertMsg(res.data.errmsg);
-//                    return;
-//                }
-//            }).catch(function (e) {
-//            this.logUtil(e.data)
-//        })
-//         MacAddress();
-    },
-
     mounted: function () {
 
         //this.carnumber = CarNumberHead;
@@ -274,17 +249,17 @@ vve = new Vue({
             internet = false;
         });
 
-        that.swiper = new Swiper('.swiper-container', {
-            pagination: '.swiper-pagination',
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
-            paginationClickable: true,
-            spaceBetween: 30,
-            centeredSlides: true,
-            autoplay: 2500,
-            autoplayDisableOnInteraction: false,
-            loop: true
-        });
+        // that.swiper = new Swiper('.swiper-container', {
+        //     pagination: '.swiper-pagination',
+        //     nextButton: '.swiper-button-next',
+        //     prevButton: '.swiper-button-prev',
+        //     paginationClickable: true,
+        //     spaceBetween: 30,
+        //     centeredSlides: true,
+        //     autoplay: 2500,
+        //     autoplayDisableOnInteraction: false,
+        //     loop: true
+        // });
         // swiper.removeSlide(0);
         // swiper.update();
         MacAddress();
@@ -1295,11 +1270,11 @@ vve = new Vue({
         },
         updateSwiper: function (urls) {
             //更新底部banner图片s
-            this.swiper.removeAllSlides();
-            this.swiperUrl = urls;
-            for (su in this.swiperUrl) {
-                this.swiper.appendSlide('<div class="swiper-slide"> <img  src="' + this.swiperUrl[su].url + '" width="1080px" height="607.5px"> </div>');
-            }
+            // this.swiper.removeAllSlides();
+            // this.swiperUrl = urls;
+            // for (su in this.swiperUrl) {
+            //     this.swiper.appendSlide('<div class="swiper-slide"> <img  src="' + this.swiperUrl[su].url + '" width="1080px" height="607.5px"> </div>');
+            // }
         },
         clickBar: function () {
             //隐藏或显示 虚拟按键、状态栏

@@ -25,12 +25,7 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bolink.bean.Messages.CLEAR_CACHE;
-import static com.bolink.bean.Messages.MacAddress;
-import static com.bolink.bean.Messages.PRINT_MSG;
-import static com.bolink.bean.Messages.PRINT_TICKET;
-import static com.bolink.bean.Messages.SCAN_CLOSE;
-import static com.bolink.bean.Messages.SCAN_OPEN;
+import static com.bolink.bean.Messages.*;
 
 /**
  * Created by xulu on 2017/8/22.
@@ -256,7 +251,7 @@ public class AndroidMethod {
         AndroidRom.get().UnLockBar(context);
         SharedPreferences sharedPreference = SharedPreferenceUtil.get(context);
         SharedPreferences.Editor editor = sharedPreference.edit();
-        editor.putBoolean("BarStatus",false);
+        editor.putBoolean("BarStatus", false);
         editor.commit();
     }
 
@@ -266,7 +261,7 @@ public class AndroidMethod {
         AndroidRom.get().LockBar(context);
         SharedPreferences sharedPreference = SharedPreferenceUtil.get(context);
         SharedPreferences.Editor editor = sharedPreference.edit();
-        editor.putBoolean("BarStatus",true);
+        editor.putBoolean("BarStatus", true);
         editor.commit();
     }
 
@@ -308,18 +303,29 @@ public class AndroidMethod {
     //获取mac地址
     @JavascriptInterface
     public void MacAddress() {
-        String mac = CommontUtils.getMacAddress(context);
-        if (null != mac && !"".equals(mac))
+        SharedPreferences sp = SharedPreferenceUtil.get(context);
+        String mac = sp.getString("MacAddress", "");
+        if (mac.equals("")) {
+            mac = CommontUtils.getMacAddress(context);
+        }
+        CommontUtils.writeSDFile("MMMMMac address",mac);
+        if (null != mac && !"".equals(mac)) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("MacAddress", mac);
+            editor.commit();
             RxBus.get().post(new Messages(MacAddress, mac));
+        }
     }
+
     //检查更新
     @JavascriptInterface
-    public void checkUpdate(){
-
+    public void checkUpdate() {
+        RxBus.get().post(new Messages(CHECK_UPDATE, null));
     }
+
     //清除webview缓存
     @JavascriptInterface
-    public void ClearCache(){
+    public void ClearCache() {
         RxBus.get().post(new Messages(CLEAR_CACHE, null));
     }
 

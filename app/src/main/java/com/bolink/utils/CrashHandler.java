@@ -49,6 +49,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bolink.MainActivity;
+import com.bolink.R;
 
 
 /**
@@ -136,7 +137,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.msg_crash_alertmsg), Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         }.start();

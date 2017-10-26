@@ -157,7 +157,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                view.loadUrl("javascript:onPageFinished();");
+                initPost();
+//                view.loadUrl("javascript:onPageFinished();");
 //                jsMethod.getMacAddress(CommontUtils.getMacAddress(MainActivity.this));
                 jsMethod.getCheckStatus(SharedPreferenceUtil.get(MainActivity.this).getBoolean("BarStatus", false));
                 jsMethod.CurrentVersion(CommontUtils.getVersionName(MainActivity.this));
@@ -176,12 +177,6 @@ public class MainActivity extends BaseActivity {
 //        webView.loadUrl("file:///android_asset/index.html");
 //        webView.loadUrl("https://tryit.jssip.net/");
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        initRxbus();
-//        requestResult = getResources().getString(R.string.inteval_json);
-        initVideo();
-//        initSip();
-//        AndroidRom.get().LockBar(MainActivity.this);
-
 
         findViewById(R.id.currentversion).setOnClickListener(v -> Toast.makeText(MainActivity.this, "当前版本:" + CommontUtils.getVersion(this), Toast.LENGTH_LONG).show());
 
@@ -210,20 +205,32 @@ public class MainActivity extends BaseActivity {
             jsMethod.ScanResult(code);
         });
 
+        initRxbus();
+
+//        initSip();
+//        AndroidRom.get().LockBar(MainActivity.this);
+    }
+
+    private void initPost() {
+        //不太着急的初始化放这里
+        initVideo();
         dialog = new ToastDialog(MainActivity.this, R.style.toastdialog);
         dialog.setCancelable(false);//点击其他区域不消失
         downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
         downloadDialog.setCancelable(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PrintComUtil.get().init(MainActivity.this);
+                ScanUtilUSB.get().init(MainActivity.this);
+                CommontUtils.writeSDFile("clear", null);
+                File updateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getResources().getString(R.string.apk_name));
+                if (updateFile.exists()) {
+                    updateFile.delete();
+                }
+            }
+        }).start();
 
-        PrintComUtil.get().init(MainActivity.this);
-        ScanUtilUSB.get().init(MainActivity.this);
-
-        CommontUtils.writeSDFile("clear", null);
-
-        File updateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getResources().getString(R.string.apk_name));
-        if (updateFile.exists()) {
-            updateFile.delete();
-        }
     }
 
 

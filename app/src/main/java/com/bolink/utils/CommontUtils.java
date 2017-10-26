@@ -16,6 +16,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
@@ -44,10 +45,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -85,8 +88,9 @@ public class CommontUtils {
         }
         return sharedPreferences;
     }
-    public static Bitmap Drawable2Bitmap(Context context,int id){
-        BitmapDrawable bd= (BitmapDrawable) context.getResources().getDrawable(id);
+
+    public static Bitmap Drawable2Bitmap(Context context, int id) {
+        BitmapDrawable bd = (BitmapDrawable) context.getResources().getDrawable(id);
         return bd.getBitmap();
     }
     /**
@@ -141,6 +145,7 @@ public class CommontUtils {
 //
 //        return bitmap;
 //    }
+
     /**
      * 快速Toast
      */
@@ -920,6 +925,7 @@ public class CommontUtils {
             return "版本号未知";
         }
     }
+
     // 获取当前应用程序的版本名称
     public static String getVersionName(Context context) {
         try {
@@ -954,6 +960,7 @@ public class CommontUtils {
         return sdf.format(date);
 //        new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(order.getBegin()) * 1000
     }
+
     /**
      * 毫秒值转化为正常时间
      */
@@ -964,6 +971,7 @@ public class CommontUtils {
         return sdf.format(date);
 //        new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.parseLong(order.getBegin()) * 1000
     }
+
     /**
      * 毫秒值转化为正常时间
      */
@@ -1032,8 +1040,8 @@ public class CommontUtils {
     public static void writeSDFile(String describe, String str) {
         try {
             File file = createSDFile();
-            if(describe.contains("clear")){
-                if(file.length()>10*1024*1024){
+            if (describe.contains("clear")) {
+                if (file.length() > 10 * 1024 * 1024) {
                     file.delete();
                     return;
                 }
@@ -1088,9 +1096,9 @@ public class CommontUtils {
     }
 
     private static final String TAG = "CommontUtils";
+
     /**
      * 判断手机类型
-     *
      */
     public static String PhoneModel() {
         Build bd = new Build();
@@ -1103,13 +1111,14 @@ public class CommontUtils {
      */
     public static boolean Is910() {
         String phonemes = PhoneModel();
-        if(TextUtils.isEmpty(phonemes))
+        if (TextUtils.isEmpty(phonemes))
             return false;
-        if(phonemes.equals("BPB-900")||phonemes.equals("SQ27C")||phonemes.equals("I9000S")||phonemes.equals("i9000S"))
+        if (phonemes.equals("BPB-900") || phonemes.equals("SQ27C") || phonemes.equals("I9000S") || phonemes.equals("i9000S"))
             return true;
         else
             return false;
     }
+
     /**
      * 判断是否 睿思科900 Pe
      */
@@ -1119,6 +1128,7 @@ public class CommontUtils {
         else
             return false;
     }
+
     /**
      * 判断是否 商米600 V1-N
      */
@@ -1128,6 +1138,7 @@ public class CommontUtils {
         else
             return false;
     }
+
     /**
      * 文字部分变色
      * 这个其实可以用 Html.fromHtml()来代替，内部实现就是用的这个
@@ -1227,7 +1238,7 @@ public class CommontUtils {
 
     public static int StringLength(String str) {
         String[] number = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "(", ")", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-        String[] spe = {"*", "-", ":",",","."};
+        String[] spe = {"*", "-", ":", ",", "."};
         boolean isinnumber = false;
         boolean isinspe = false;
         double length = 0;
@@ -1271,12 +1282,47 @@ public class CommontUtils {
         return sb.toString();
     }
 
-    public static String getMacAddress(Context context){
+    public static String getMacAddress(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        return wifiManager.getConnectionInfo().getMacAddress();
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        if (wifiInfo == null || wifiInfo.getMacAddress() == null) {
+            return getNewMac();
+        } else {
+            return wifiInfo.getMacAddress();
+        }
     }
 
-    public static String getHardWareName(Context context){
+    /**
+     * 通过网络接口取
+     *
+     * @return
+     */
+    private static String getNewMac() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return null;
+                }
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:", b));
+                }
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static String getHardWareName(Context context) {
         return android.os.Build.MODEL;
     }
 }
