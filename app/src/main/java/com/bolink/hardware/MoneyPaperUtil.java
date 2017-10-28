@@ -36,6 +36,8 @@ public class MoneyPaperUtil {
         return SingletonHolder.holder;
     }
 
+    public static int count = 0;
+
     public void init(Context context) {
         contexts = context;
         deviceCom = new ITLDeviceCom();
@@ -51,14 +53,14 @@ public class MoneyPaperUtil {
             deviceCom.start();
         } else {
 //            Toast.makeText(MainActivity.this, "No USB connection detected!", Toast.LENGTH_SHORT).show();
-            RxBus.get().post(new Messages(PAPER_MONEY_OPEN,context.getResources().getString(R.string.msg_open_cash_result)));
+            count++;
+            if (count > 1)
+                RxBus.get().post(new Messages(PAPER_MONEY_OPEN, context.getResources().getString(R.string.msg_open_cash_result)));
         }
         Open();
     }
 
     private void openDevice() {
-
-
         if (ftDev != null) {
             if (ftDev.isOpen()) {
                 // if open and run thread is stopped, start thread

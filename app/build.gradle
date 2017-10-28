@@ -26,8 +26,8 @@ android {
         ndk {
             moduleName "vbar_api"
         }
-        versionCode 1101
-        versionName "V1.1.1"
+        versionCode 1102
+        versionName "V1.1.2"
     }
 
     buildTypes {
@@ -80,7 +80,10 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:latest.release'
     compile 'com.squareup.okhttp3:logging-interceptor:latest.release'
     //glide图片轮播
-    compile 'cn.jianke.imageswitcher:app:1.0.4'
+//    compile 'cn.jianke.imageswitcher:app:1.0.4'
+    // 图片加载库采用Glide框架
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
     //如果使用glide
 //    compile 'com.github.hss01248.ImageLoader:glide:1.0.6'
 }

@@ -39,12 +39,11 @@
     <!--</com.tencent.smtt.sdk.WebView>-->
 
     <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/viewpager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="250dp">-->
+    <!--android:id="@+id/viewpager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="250dp">-->
 
     <!--</android.support.v4.view.ViewPager>-->
-
 
 
     <WebView
@@ -95,44 +94,44 @@
                 android:layout_height="wrap_content"
                 android:text="打印" />
 
-            <Button android:visibility="gone"
+            <Button
                 android:id="@+id/buttonscan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="扫描初始化" />
+                android:text="扫描初始化"
+                android:visibility="gone" />
 
-            <Button android:visibility="gone"
+            <Button
                 android:id="@+id/buttonscanopen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开始扫描" />
+                android:text="开始扫描"
+                android:visibility="gone" />
 
             <Button
-                android:visibility="gone"
                 android:id="@+id/buttonhidestatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="隐藏状态栏" />
+                android:text="隐藏状态栏"
+                android:visibility="gone" />
 
             <Button
-                android:visibility="gone"
                 android:id="@+id/buttonshowstatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="显示状态栏" />
+                android:text="显示状态栏"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/sweepcode"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnsweepcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="扫码"
-                 />
+                android:text="扫码" />
 
             <Button
                 android:id="@+id/banner"
@@ -143,9 +142,15 @@
         </LinearLayout>
 
     </WebView>
-    <com.bolink.customview.mCycleViewPager
 
+    <FrameLayout
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="250dp"></com.bolink.customview.mCycleViewPager>
+        android:layout_height="250dp"
+        android:orientation="vertical"></FrameLayout>
+    <!--<com.bolink.customview.mCycleViewPager-->
+
+    <!--android:id="@+id/viewpager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="250dp"></com.bolink.customview.mCycleViewPager>-->
 </LinearLayout>

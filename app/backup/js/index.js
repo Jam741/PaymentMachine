@@ -8,7 +8,7 @@ vve = new Vue({
     el: '#div-body',
     data: {
 //        baseUrl: 'http://jarvisqh.vicp.io/api-web/centralpayment',
- //       baseUrl: 'https://beta.bolink.club/unionapi/centralpayment',
+//      baseUrl: 'https://beta.bolink.club/unionapi/centralpayment',
          baseUrl: 'https://s.bolink.club/unionapi/centralpayment',
 
         callHostContent: '呼叫总机',
@@ -370,6 +370,9 @@ vve = new Vue({
                                             that.order_price = res.data.total;
                                             that.orderdetail_title = '总计' + this.order_price + '元';
                                         }
+                                        if(that.order_price == 0){
+                                            that.orderdetailNextGray = true;
+                                        }
                                     } else {
                                         that.showorders = true;
                                         that.used = 1;
@@ -407,6 +410,9 @@ vve = new Vue({
                                             that.order_prepay = res.data.prepay
                                             that.cashReturn = 0;
                                             that.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
+                                        }
+                                        if(that.order_price == 0){
+                                            that.orderdetailNextGray = true;
                                         }
                                     }
                                     that.url_nocarnum = '';
@@ -552,6 +558,9 @@ vve = new Vue({
                                     this.order_price = res.data.total;
                                     this.orderdetail_title = '总计' + this.order_price + '元';
                                 }
+                                if(this.order_price == 0){
+                                    this.orderdetailNextGray = true;
+                                }
                             } else {
                                 this.showorders = true;
                                 this.used = 1;
@@ -584,6 +593,9 @@ vve = new Vue({
                                     this.order_prepay = res.data.prepay
                                     this.cashReturn = 0;
                                     this.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
+                                }
+                                if(this.order_price == 0){
+                                    this.orderdetailNextGray = true;
                                 }
                             }
                         } else {
@@ -685,6 +697,9 @@ vve = new Vue({
                                 this.order_price = res.data.total;
                                 this.orderdetail_title = '总计' + this.order_price + '元';
                             }
+                            if(this.order_price == 0){
+                                this.orderdetailNextGray = true;
+                            }
                         } else if (res.data.state == 2) {
                             //已预付过
                             this.freeOutTime = res.data.freeOutTime;
@@ -702,6 +717,9 @@ vve = new Vue({
                                 this.order_prepay = res.data.prepay
                                 this.cashReturn = 0;
                                 this.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
+                            }
+                            if(this.order_price == 0){
+                                this.orderdetailNextGray = true;
                             }
                         } else {
                             this.dialogError = true;
@@ -723,6 +741,9 @@ vve = new Vue({
             this.used = 1;
             this.orderdetailNextGray = false;
             this.left[2] = 'img/left_3.png'
+            if(this.order_price == 0){
+                this.orderdetailNextGray = true;
+            }
             _close();
             ScanClose();
             this.clearTimeInteval();
@@ -851,7 +872,7 @@ vve = new Vue({
             this.clearTimeInteval();
             if (this.dialogFlag == 1) {
                 //现金页面退出 直接返回首页
-                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no=')
+                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no='+this.tradeNo)
                     .then(function (res) {
 
                     }).catch(function (e) {
@@ -869,7 +890,7 @@ vve = new Vue({
                 this.clickHome()
             } else if (this.dialogFlag == 3) {
                 //现金页面上一步
-                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no=')
+                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no='+this.tradeNo)
                     .then(function (res) {
 
                     }).catch(function (e) {
@@ -878,7 +899,7 @@ vve = new Vue({
                 this.clickPayPre();
             } else if (this.dialogFlag == 4) {
                 //现金页面点击电子支付
-                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no=')
+                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no='+this.tradeNo)
                     .then(function (res) {
 
                     }).catch(function (e) {
@@ -909,8 +930,6 @@ vve = new Vue({
                     _close();
                     //that.alertMsg(that.getCash)
                     if (that.getCash > 0) {
-
-
                         that.showcashpay2 = true;
                         that.showcashpay = false;
                         that.showPayFail = true;
@@ -921,7 +940,7 @@ vve = new Vue({
                             if (that.count > 0) {
                                 that.count--;
                             } else {
-                                that.$http.get(that.baseUrl + '/mobilerecharge?oid=' + that.oid + '&token=' + that.token + '&change=' + that.cashReturn + '&mobile=' + '&trade_no=')
+                                that.$http.get(that.baseUrl + '/mobilerecharge?oid=' + that.oid + '&token=' + that.token + '&change=' + that.cashReturn + '&mobile=' + '&trade_no='+this.tradeNo)
                                     .then(function (res) {
 
                                     }).catch(function (e) {
@@ -1076,6 +1095,7 @@ vve = new Vue({
             _close();
             ScanClose();
             this.phonenumber = '';
+			this.tradeNo = '';
             this.cashReturn = 0;
             this.getCash = 0;
             this.orderdetailNextGray = false;

@@ -86,7 +86,7 @@ input::-ms-clear {
     display: flex;
     flex-direction: row;
     flex: auto;
-    height: 685px;
+    height: 675px;
     /*margin: 10px 0;*/
 }
 
@@ -507,9 +507,14 @@ input::-ms-clear {
 /*页面4 扫码支付*/
 
 /*页面5 现金支付*/
+.cashpayimg{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .cashtips {
     color: white;
-    width: 100%;
+
     text-align: left;
     color: white;
     margin-top: 20px;
@@ -524,7 +529,7 @@ input::-ms-clear {
 
 .cashin {
     flex: 1;
-    height: 450px;
+    height: 440px;
     display: flex;
     flex-direction: column;
     justify-content: center;

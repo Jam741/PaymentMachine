@@ -71,7 +71,28 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import static com.bolink.bean.Messages.*;
+import static com.bolink.bean.Messages.CALL_ENDED;
+import static com.bolink.bean.Messages.CALL_ESTABLISHED;
+import static com.bolink.bean.Messages.CALL_HOST;
+import static com.bolink.bean.Messages.CALL_RECEIVED;
+import static com.bolink.bean.Messages.CHECK_UPDATE;
+import static com.bolink.bean.Messages.CLEAR_CACHE;
+import static com.bolink.bean.Messages.DOWNLOAD_PROGRESS_APK;
+import static com.bolink.bean.Messages.IDENTIFY_PWD_N;
+import static com.bolink.bean.Messages.IDENTIFY_PWD_Y;
+import static com.bolink.bean.Messages.LOADING_SHOW;
+import static com.bolink.bean.Messages.MacAddress;
+import static com.bolink.bean.Messages.PAPER_MONEY;
+import static com.bolink.bean.Messages.PAPER_MONEY_OPEN;
+import static com.bolink.bean.Messages.PRINT_MSG;
+import static com.bolink.bean.Messages.PRINT_TICKET;
+import static com.bolink.bean.Messages.QUERRY_ADVANCE;
+import static com.bolink.bean.Messages.QUERRY_ADVANCE_ABNORMAL;
+import static com.bolink.bean.Messages.RELOAD_WEBVIEW;
+import static com.bolink.bean.Messages.SCAN_CLOSE;
+import static com.bolink.bean.Messages.SCAN_MSG;
+import static com.bolink.bean.Messages.SCAN_OPEN;
+import static com.bolink.bean.Messages.SCAN_OPEN_RESULT;
 
 
 public class MainActivity extends BaseActivity {
@@ -89,7 +110,7 @@ public class MainActivity extends BaseActivity {
     ToastDialog dialog;
     DownloadDialog downloadDialog;
     public static String MacAdress;
-    mCycleViewPager viewPager;
+    FrameLayout viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +121,7 @@ public class MainActivity extends BaseActivity {
         webView = ((WebView) findViewById(R.id.webView));
         videoView = ((VideoView) findViewById(R.id.videoView));
         videocontain = ((FrameLayout) findViewById(R.id.videocontain));
-        viewPager = (mCycleViewPager) findViewById(R.id.viewpager);
+        viewPager = (FrameLayout) findViewById(R.id.viewpager);
 
         LinearLayout.LayoutParams params = ((LinearLayout.LayoutParams) videocontain.getLayoutParams());
         params.width = ViewUtils.getScreenWidth(this);
@@ -118,6 +139,7 @@ public class MainActivity extends BaseActivity {
 //            jsMethod.NotifyNetState(false);
 //            RxBus.get().post(new Messages(Messages.NET_DENY, null));
 //            initVideo();
+            startPlayimgClear();
             UpdateUtil.CheckUpdate(CommontUtils.getVersion(this), this);
         });
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -218,17 +240,18 @@ public class MainActivity extends BaseActivity {
         dialog.setCancelable(false);//点击其他区域不消失
         downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
         downloadDialog.setCancelable(false);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                PrintComUtil.get().init(MainActivity.this);
-                ScanUtilUSB.get().init(MainActivity.this);
-                CommontUtils.writeSDFile("clear", null);
-                File updateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getResources().getString(R.string.apk_name));
-                if (updateFile.exists()) {
-                    updateFile.delete();
-                }
+        new Thread(() -> {
+            MoneyPaperUtil.get().init(MainActivity.this);
+            PrintComUtil.get().init(MainActivity.this);
+            ScanUtilUSB.get().init(MainActivity.this);
+            ScanUtilUSB.get().open();
+            ScanUtilUSB.get().close();
+            CommontUtils.writeSDFile("clear", null);
+            File updateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getResources().getString(R.string.apk_name));
+            if (updateFile.exists()) {
+                updateFile.delete();
             }
+            MoneyPaperUtil.get().Close();
         }).start();
 
     }
@@ -366,14 +389,13 @@ public class MainActivity extends BaseActivity {
     }
 
     String openScanResult = "";
-    String openMoneyResult = "";
 
     private void ShowToastDialog(String msg) {
         dialog.show();
         dialog.setText(msg);
         new Handler().postDelayed(() -> {
             dialog.cancel();
-        }, 3000);
+        }, 2500);
     }
 
     @Override
@@ -482,12 +504,25 @@ public class MainActivity extends BaseActivity {
 
 //        ImageLoader.loadBigImages(viewPager,urls);
 //        viewPager.loadRemoteImage(urlsremote, this);
-        viewPager.loadLocalImage(imgPlayList, this);
-        viewPager.startAutoRotation(0);
+
+        viewPager.addView(mCycleViewPager.get(MainActivity.this, imgPlayList));
+
+//        viewPager.loadLocalImage(imgPlayList, this);
+//        viewPager.startAutoRotation(0);
     }
 
     private void startPlayimgClear() {
+        imgPlayList.clear();
 
+        imgPlayList.add(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "1.jpg"));
+        imgPlayList.add(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "1.jpg"));
+        imgPlayList.add(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "1.jpg"));
+        imgPlayList.add(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "1.jpg"));
+        imgPlayList.add(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "1.jpg"));
+
+        viewPager.removeAllViews();
+        viewPager.addView(mCycleViewPager.get(MainActivity.this, imgPlayList));
+        viewPager.invalidate();
     }
 
     private void startPlay() {
