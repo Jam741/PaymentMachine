@@ -147,7 +147,7 @@ public class PrintComUtil {
             Log.d("DispRecData:",ex.getMessage());
         }
     }
-    static String errmsg = "";
+    static String errmsg = "print value 7";
     // 通过系统语言判断Message显示
     String receive = "", state = ""; // 接收提示、状态类型
     String normal = "",paperExh = "",paperWillExh = "",abnormal = "";
@@ -186,8 +186,7 @@ public class PrintComUtil {
 //            CommontUtils.writeSDFile("print","send finish :");
         }else{
             RxBus.get().post(new Messages(Messages.PRINT_MSG,errmsg));
-        }
-    }
+        }    }
     public void checkstatus(){
 
     }

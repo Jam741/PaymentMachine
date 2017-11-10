@@ -444,7 +444,7 @@ input::-ms-clear {
 }
 
 .imglist {
-    margin: 15px 0px;
+    margin: 15px;
 }
 
 .imglistactive {
@@ -454,9 +454,17 @@ input::-ms-clear {
 .detail-img2 {
     flex: 9;
     overflow-y: auto;
-    display: flex;
+
     flex-wrap: wrap;
     justify-content: space-around;
+    height: 300px;
+    flex-direction: row;
+    align-self: center;
+
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
 }
 
 /*页面3 根据车牌号查询到多个订单*/

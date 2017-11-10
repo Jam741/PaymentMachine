@@ -36,6 +36,7 @@ public class Messages<T> {
     public static final int SCAN_MSG = 0x000013;
     //扫描仪打开硬件结果
     public static final int SCAN_OPEN_RESULT = 0x000023;
+    public static final int SCAN_OPEN_RESULT_BEFORE = 0x000026;
     //打印机消息
     public static final int PRINT_MSG = 0x000014;
     //重载webview
@@ -54,6 +55,11 @@ public class Messages<T> {
     public static final int LOADING_SHOW = 0x000022;
     //清除webview缓存
     public static final int CLEAR_CACHE = 0x000025;
+
+    //js loading
+    public static final int JS_LOADING_SHOW = 0x000027;
+    public static final int JS_LOADING_CANCEL = 0x000028;
+
     private int code;
     private T msg;
 

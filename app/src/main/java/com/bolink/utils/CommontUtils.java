@@ -7,6 +7,7 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -1324,5 +1325,44 @@ public class CommontUtils {
 
     public static String getHardWareName(Context context) {
         return android.os.Build.MODEL;
+    }
+
+//    检测进程是否运行
+    public static boolean IsProcessRunning(String processname, Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
+        if (list != null && list.size() > 0) {
+            for (ActivityManager.RunningAppProcessInfo info : list) {
+                if (processname.equals(info.processName))
+                    return true;
+            }
+        }
+        return false;
+    }
+    //    检测进程是否在前台运行
+    public static boolean IsProcessRunningAndFront(String processname, Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
+        if (list != null && list.size() > 0) {
+            for (ActivityManager.RunningAppProcessInfo info : list) {
+//                System.out.println(">>>"+info.processName);
+                if (processname.equals(info.processName)&& info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
+                    return true;
+            }
+        }
+        return false;
+    }
+    //检测是否安装了指定包
+    public static boolean IsAppInstall(String packname, Context context) {
+        List<ApplicationInfo> list = context.getPackageManager().getInstalledApplications(0);
+        for (ApplicationInfo info : list) {
+//            System.out.println("<<<"+info.packageName);
+            if (info.packageName.contains(packname)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

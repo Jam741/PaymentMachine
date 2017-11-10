@@ -40,6 +40,8 @@ public class MoneyPaperUtil {
 
     public void init(Context context) {
         contexts = context;
+//        CommontUtils.writeSDFile("moneyutil open begin", System.currentTimeMillis() + "");
+
         deviceCom = new ITLDeviceCom();
         try {
             ftD2xx = D2xxManager.getInstance(contexts);
@@ -51,11 +53,14 @@ public class MoneyPaperUtil {
         if (ftDev != null) {
             deviceCom.setup(ftDev, 0, false, false, 0);
             deviceCom.start();
+//            Toast.makeText(context,"ITL success",Toast.LENGTH_LONG).show();
+
         } else {
 //            Toast.makeText(MainActivity.this, "No USB connection detected!", Toast.LENGTH_SHORT).show();
             count++;
             if (count > 1)
                 RxBus.get().post(new Messages(PAPER_MONEY_OPEN, context.getResources().getString(R.string.msg_open_cash_result)));
+//            Toast.makeText(context,"ITL fail",Toast.LENGTH_LONG).show();
         }
         Open();
     }
@@ -182,6 +187,14 @@ public class MoneyPaperUtil {
 
     public void Open() {
         deviceCom.SetDeviceEnable(true);
+//        CommontUtils.writeSDFile("moneyutil open end", System.currentTimeMillis() + "");
+//        try {
+//            Thread.sleep(1000);
+//        RxBus.get().post(new Messages(JS_LOADING_CANCEL, ""));
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
     public void Close() {

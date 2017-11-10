@@ -67,7 +67,8 @@
                 android:id="@+id/currentversion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="当前版本号" />
+                android:text="当前版本号"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttoncash"
@@ -92,7 +93,8 @@
                 android:id="@+id/buttonprint2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="打印" />
+                android:text="打印"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonscan"
@@ -105,8 +107,7 @@
                 android:id="@+id/buttonscanopen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开始扫描"
-                android:visibility="gone" />
+                android:text="开始扫描" />
 
             <Button
                 android:id="@+id/buttonhidestatus"

@@ -1,7 +1,8 @@
 package com.bolink;
 
+import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -30,6 +32,7 @@ import com.bolink.bean.Download;
 import com.bolink.bean.IntevalResult;
 import com.bolink.bean.Messages;
 import com.bolink.bean.PrintMsg;
+import com.bolink.bean.Users;
 import com.bolink.bean.VideoUrls;
 import com.bolink.customview.DownloadDialog;
 import com.bolink.customview.ToastDialog;
@@ -41,6 +44,7 @@ import com.bolink.hardware.PrintUtil;
 import com.bolink.hardware.ScanUtilUSB;
 import com.bolink.method.AndroidMethod;
 import com.bolink.method.JsMethod;
+import com.bolink.process.ProcessService;
 import com.bolink.receiver.IncomingCallReceiver;
 import com.bolink.retrofit.HttpApi;
 import com.bolink.retrofit.ToStringConverterFactory;
@@ -55,7 +59,7 @@ import com.bolink.utils.UpdateUtil;
 import com.bolink.utils.ViewUtils;
 import com.google.gson.Gson;
 
-import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -80,6 +84,8 @@ import static com.bolink.bean.Messages.CLEAR_CACHE;
 import static com.bolink.bean.Messages.DOWNLOAD_PROGRESS_APK;
 import static com.bolink.bean.Messages.IDENTIFY_PWD_N;
 import static com.bolink.bean.Messages.IDENTIFY_PWD_Y;
+import static com.bolink.bean.Messages.JS_LOADING_CANCEL;
+import static com.bolink.bean.Messages.JS_LOADING_SHOW;
 import static com.bolink.bean.Messages.LOADING_SHOW;
 import static com.bolink.bean.Messages.MacAddress;
 import static com.bolink.bean.Messages.PAPER_MONEY;
@@ -93,11 +99,14 @@ import static com.bolink.bean.Messages.SCAN_CLOSE;
 import static com.bolink.bean.Messages.SCAN_MSG;
 import static com.bolink.bean.Messages.SCAN_OPEN;
 import static com.bolink.bean.Messages.SCAN_OPEN_RESULT;
+import static com.bolink.bean.Messages.SCAN_OPEN_RESULT_BEFORE;
 
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     public static final String MESSAGE_PROGRESS = "message_progress";
+    private int SCAN_OPEN_RESULT_int = 0;
+    private int PRINT_MSG_int = 0;
     //    @BindView(R.id.main_web)
     WebView webView;
     Button button;
@@ -109,7 +118,6 @@ public class MainActivity extends BaseActivity {
     public static final int WRITE_EXTERNAL_STORAGE = 0x600001;
     ToastDialog dialog;
     DownloadDialog downloadDialog;
-    public static String MacAdress;
     FrameLayout viewPager;
 
     @Override
@@ -117,7 +125,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        ButterKnife.bind(this);
-        MacAdress = CommontUtils.getMacAddress(this);
+
         webView = ((WebView) findViewById(R.id.webView));
         videoView = ((VideoView) findViewById(R.id.videoView));
         videocontain = ((FrameLayout) findViewById(R.id.videocontain));
@@ -152,8 +160,8 @@ public class MainActivity extends BaseActivity {
 //                }
 //            }
 //        }
-        SQLiteDatabase db = LitePal.getDatabase();
-        androidMethod = new AndroidMethod(MainActivity.this, db);
+//        SQLiteDatabase db = LitePal.getDatabase();
+        androidMethod = new AndroidMethod(MainActivity.this);
         jsMethod = new JsMethod(webView);
 
         WebSettings settings = webView.getSettings();
@@ -163,7 +171,9 @@ public class MainActivity extends BaseActivity {
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setUseWideViewPort(true);  //将图片调整到适合webview的大小
         settings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setWebContentsDebuggingEnabled(true);
+        }
         if (Build.VERSION.SDK_INT < 8) {
 //            settings.setPluginsEnabled(true);
         } else {
@@ -191,7 +201,20 @@ public class MainActivity extends BaseActivity {
                 return super.shouldInterceptRequest(view, url);
             }
 
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return super.shouldOverrideUrlLoading(view, request);
+            }
 
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
         });
         webView.addJavascriptInterface(androidMethod, "AndroidMethod");
         webView.loadUrl(getResources().getString(R.string.web_url));
@@ -209,7 +232,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.buttonprint2).setOnClickListener(v -> PrintComUtil.get().print());
 
         findViewById(R.id.buttonscan).setOnClickListener(v -> ScanUtilUSB.get().init(MainActivity.this));
-        findViewById(R.id.buttonscanopen).setOnClickListener(v -> ScanUtilUSB.get().open());
+        findViewById(R.id.buttonscanopen).setOnClickListener(v -> ScanUtilUSB.get().initTest());
 
         findViewById(R.id.buttonhidestatus).setOnClickListener(v -> AndroidRom.get().LockBar(MainActivity.this));
         findViewById(R.id.buttonshowstatus).setOnClickListener(v -> AndroidRom.get().UnLockBar(MainActivity.this));
@@ -228,30 +251,60 @@ public class MainActivity extends BaseActivity {
         });
 
         initRxbus();
-
+        initVideo();
+        dialog = new ToastDialog(MainActivity.this, R.style.toastdialog);
+        dialog.setCancelable(false);//点击其他区域不消失
+        downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
+        downloadDialog.setCancelable(false);
 //        initSip();
 //        AndroidRom.get().LockBar(MainActivity.this);
     }
 
     private void initPost() {
         //不太着急的初始化放这里
-        initVideo();
-        dialog = new ToastDialog(MainActivity.this, R.style.toastdialog);
-        dialog.setCancelable(false);//点击其他区域不消失
-        downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
-        downloadDialog.setCancelable(false);
+//        initVideo();
+
         new Thread(() -> {
             MoneyPaperUtil.get().init(MainActivity.this);
             PrintComUtil.get().init(MainActivity.this);
-            ScanUtilUSB.get().init(MainActivity.this);
-            ScanUtilUSB.get().open();
-            ScanUtilUSB.get().close();
             CommontUtils.writeSDFile("clear", null);
             File updateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getResources().getString(R.string.apk_name));
             if (updateFile.exists()) {
                 updateFile.delete();
             }
             MoneyPaperUtil.get().Close();
+
+            String msg = ScanUtilUSB.get().init(MainActivity.this, null);
+            if (msg.contains("success")) {
+                ScanUtilUSB.get().open();
+                ScanUtilUSB.get().close();
+            } else {
+                msg = ScanUtilUSB.get().init(MainActivity.this, null);
+                if (msg.contains("success")) {
+                    ScanUtilUSB.get().open();
+                    ScanUtilUSB.get().close();
+                } else {
+                    msg = ScanUtilUSB.get().init(MainActivity.this, null);
+                    if (msg.contains("success")) {
+                        ScanUtilUSB.get().open();
+                        ScanUtilUSB.get().close();
+                    } else {
+                        //尝试开启3次，再不行也就不管了
+
+                    }
+                }
+            }
+            RxBus.get().post(new Messages(SCAN_OPEN_RESULT, msg));
+
+//            if (!CommontUtils.IsProcessRunning(getResources().getString(R.string.target_package_name), MainActivity.this) && CommontUtils.IsAppInstall(getResources().getString(R.string.target_package_name), MainActivity.this)) {
+            if (!CommontUtils.IsProcessRunning(getResources().getString(R.string.target_package_name), MainActivity.this)) {
+//                Intent startup = new Intent();
+//                startup.setClassName(getResources().getString(R.string.target_package_name), getResources().getString(R.string.target_package_activity));
+//                startup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(startup);
+                Intent intent = new Intent(MainActivity.this, ProcessService.class);
+                startService(intent);
+            }
         }).start();
 
     }
@@ -346,6 +399,8 @@ public class MainActivity extends BaseActivity {
                     jsMethod.ScanResult((String) messages.getMsg());
                     break;
                 case PRINT_MSG:
+//                    Toast.makeText(MainActivity.this,"PPPPPPPPrint>>>"+messages.getMsg(),Toast.LENGTH_LONG).show();
+                    //这个方法也用来做js里的toast
                     ShowToastDialog((String) messages.getMsg());
                     break;
                 case RELOAD_WEBVIEW:
@@ -356,28 +411,60 @@ public class MainActivity extends BaseActivity {
                     PrintComUtil.get().PrintTicket(msg.getTitle(), msg.getContent(), msg.getTale());
                     break;
                 case SCAN_OPEN:
-                    if (openScanResult.contains("success"))
+                    if (openScanResult.contains("success")) {
                         ScanUtilUSB.get().open();
-                    else
-                        ShowToastDialog(openScanResult);
+                    } else {
+//                        ScanUtilUSB.get().init(MainActivity.this);
+//                        ScanUtilUSB.get().open();
+                        ScanUtilUSB.get().initopen(MainActivity.this);
+                    }
                     break;
                 case SCAN_OPEN_RESULT:
                     openScanResult = (String) messages.getMsg();
+//                    Toast.makeText(MainActivity.this, "SSSSSSSCan"+SCAN_OPEN_RESULT_int+openScanResult.contains("success"), Toast.LENGTH_LONG).show();
+                    if (SCAN_OPEN_RESULT_int > 0 && !openScanResult.contains("success")) {
+//                        Toast.makeText(MainActivity.this, "SSSSSSSCan", Toast.LENGTH_LONG).show();
+                        ShowToastDialog(openScanResult);
+                    }
+                    SCAN_OPEN_RESULT_int++;
+//                    jsMethod.OpenScanResult(openScanResult);
+                    jsMethod.HideLoading(openScanResult);
+                    break;
+                case SCAN_OPEN_RESULT_BEFORE:
+//                    Toast.makeText(this,"发送消息，开始loading",Toast.LENGTH_LONG).show();
+                    if (SCAN_OPEN_RESULT_int > 0)
+                        jsMethod.ShowLoading("");
                     break;
                 case PAPER_MONEY_OPEN:
+//                    Toast.makeText(MainActivity.this, "MMMMMoney", Toast.LENGTH_LONG).show();
                     ShowToastDialog((String) messages.getMsg());
                     break;
                 case SCAN_CLOSE:
                     ScanUtilUSB.get().close();
                     break;
                 case MacAddress:
-                    jsMethod.getMacAddress((String) messages.getMsg());
+                    String macadress = (String) messages.getMsg();
+                    jsMethod.getMacAddress(macadress);
+                    //自动登录
+                    List<Users> usersList = DataSupport.findAll(Users.class);
+//                    CommontUtils.writeSDFile("userlist size ", usersList.size() + "");
+                    if (null != usersList && usersList.size() > 0) {
+                        Users users = usersList.get(0);
+                        CommontUtils.writeSDFile("user content", users.toString());
+                        jsMethod.AutoLogin(users.getAccount(), users.getPassword(), macadress);
+                    }
                     break;
                 case CHECK_UPDATE:
                     UpdateUtil.CheckUpdate(CommontUtils.getVersion(this), this);
                     break;
                 case LOADING_SHOW:
                     downloadDialog.show();
+                case JS_LOADING_SHOW:
+                    jsMethod.ShowLoading("");
+                    break;
+                case JS_LOADING_CANCEL:
+                    jsMethod.HideLoading("");
+                    break;
                 case CLEAR_CACHE:
                     webView.clearCache(true);
                     webView.clearHistory();
@@ -404,7 +491,7 @@ public class MainActivity extends BaseActivity {
 //        AndroidRom.get().LockBar(MainActivity.this);
 //        startPlay();
         videoView.setOnCompletionListener(mediaPlayer -> {
-            Log.e(TAG, "VVVideo播放完了: " + current);
+            Log.e(TAG, "VVVideo play over : " + current);
             startPlay();
         });
         videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -469,6 +556,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
             if (imgDownLoadList.size() == 0) {
+                //如果不下载图片，则开始准备下载视频
                 startPlay();
                 DownloadMethod.startDownLoad(videoDownLoadList, downLoadIndex, MainActivity.this);
             }
@@ -530,16 +618,18 @@ public class MainActivity extends BaseActivity {
 //            if (videoView.isPlaying()) {
 //                return;
 //            }
-            if (current < videoPlayList.size() - 1) {
-                current++;
-            } else {
-                current = 0;
-            }
+
 //            File file = new File(String.valueOf(videoPlayList.get(current)));
 //            Log.e(TAG, "startPlay: file.exists()"+file.exists()+"   file.length()"+file.length());
             videoView.setVideoURI(Uri.parse("file://" + videoPlayList.get(current)));
             Log.e(TAG, "VVVideo开始播放: " + current);
             videoView.start();
+
+            if (current >= 0 && current < videoPlayList.size() - 1) {
+                current++;
+            } else {
+                current = 0;
+            }
         }
     }
 
@@ -572,6 +662,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        Intent intent = new Intent(MainActivity.this, ProcessService.class);
+        stopService(intent);
         AndroidRom.get().UnLockBar(MainActivity.this);
         super.onDestroy();
         if (webView != null) {
@@ -595,7 +687,11 @@ public class MainActivity extends BaseActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (System.currentTimeMillis() - currentmil > 1000) {
                 currentmil = System.currentTimeMillis();
+//                CrashReport.testJavaCrash();
             } else {
+//                MobclickAgent.onKillProcess(this);
+
+
                 finish();
                 System.exit(0);
             }

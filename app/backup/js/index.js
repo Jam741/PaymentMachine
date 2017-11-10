@@ -4,12 +4,14 @@
 // document.body.appendChild(new_element);
 
 CarNumberHead = '苏';
+const TimeOutMil = 20000;
+const TimeOutMsg = '请求超时，请重试';
 vve = new Vue({
     el: '#div-body',
     data: {
 //        baseUrl: 'http://jarvisqh.vicp.io/api-web/centralpayment',
 //      baseUrl: 'https://beta.bolink.club/unionapi/centralpayment',
-         baseUrl: 'https://s.bolink.club/unionapi/centralpayment',
+        baseUrl: 'https://s.bolink.club/unionapi/centralpayment',
 
         callHostContent: '呼叫总机',
         order_price: 0,
@@ -223,7 +225,8 @@ vve = new Vue({
         swiper: null,
         bottomimgs: false,
         checked: false,//是否全屏显示
-        VersionName:'',
+        VersionName: '',
+        LoginMsg: '请填写正确的账号和密码',
     },
     mounted: function () {
 
@@ -272,6 +275,7 @@ vve = new Vue({
             }
         },
         logUtil: function (msg) {
+            this.loading = false;
             console.log(msg);
         },
         alertMsg: function (msg) {
@@ -313,7 +317,7 @@ vve = new Vue({
             this.qrcode_nocarnum = '';
             if (this.internet) {
                 this.loading = true;
-                this.$http.get(this.baseUrl + '/getnolienceqrcode?token=' + this.token)
+                this.$http.get(this.baseUrl + '/getnolienceqrcode?token=' + this.token, {timeout: TimeOutMil})
                     .then(function (res) {
                         this.loading = false;
                         //请求无牌车二维码
@@ -338,7 +342,7 @@ vve = new Vue({
                     // if (this.internet) {
                     if (that.interval_nocar_back) {
                         that.interval_nocar_back = false;
-                        that.$http.get(that.baseUrl + '/getorderinfosbyqrcode?token=' + that.token + '&qrcode=' + that.qrcode_nocarnum)
+                        that.$http.get(that.baseUrl + '/getorderinfosbyqrcode?token=' + that.token + '&qrcode=' + that.qrcode_nocarnum, {timeout: TimeOutMil})
                             .then(function (res) {
                                 //扫描二维码 轮询
                                 that.interval_nocar_back = true;
@@ -370,7 +374,7 @@ vve = new Vue({
                                             that.order_price = res.data.total;
                                             that.orderdetail_title = '总计' + this.order_price + '元';
                                         }
-                                        if(that.order_price == 0){
+                                        if (that.order_price == 0) {
                                             that.orderdetailNextGray = true;
                                         }
                                     } else {
@@ -411,7 +415,7 @@ vve = new Vue({
                                             that.cashReturn = 0;
                                             that.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
                                         }
-                                        if(that.order_price == 0){
+                                        if (that.order_price == 0) {
                                             that.orderdetailNextGray = true;
                                         }
                                     }
@@ -504,6 +508,12 @@ vve = new Vue({
             } else if (this.carnumber.indexOf("UPDATE") != -1) {
                 checkUpdate();
                 return;
+            }else if (this.carnumber.indexOf("GUARD1") != -1) {
+                StartGuard();
+                return;
+            }else if (this.carnumber.indexOf("GUARD0") != -1) {
+                StopGuard();
+                return;
             }
             // else if (this.carnumber.indexOf("1234") != -1) {
             //     this.swiper.removeAllSlides();
@@ -529,7 +539,7 @@ vve = new Vue({
             this.oid = '';
             if (this.internet) {
                 this.loading = true;
-                this.$http.get(this.baseUrl + '/getorderinfos?plate_number=' + this.carnumber + '&token=' + this.token)
+                this.$http.get(this.baseUrl + '/getorderinfos?plate_number=' + this.carnumber + '&token=' + this.token, {timeout: TimeOutMil})
                     .then(function (res) {
                         this.loading = false;
                         this.logUtil(res.data)
@@ -558,7 +568,7 @@ vve = new Vue({
                                     this.order_price = res.data.total;
                                     this.orderdetail_title = '总计' + this.order_price + '元';
                                 }
-                                if(this.order_price == 0){
+                                if (this.order_price == 0) {
                                     this.orderdetailNextGray = true;
                                 }
                             } else {
@@ -594,7 +604,7 @@ vve = new Vue({
                                     this.cashReturn = 0;
                                     this.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
                                 }
-                                if(this.order_price == 0){
+                                if (this.order_price == 0) {
                                     this.orderdetailNextGray = true;
                                 }
                             }
@@ -634,8 +644,9 @@ vve = new Vue({
             //            this.logUtil(res.data)
             //            if (res.data.state == 1) {
             //                this.url_codepay = res.data.qrsrc;
+            // this.loading = true;
             CreateOrder(this.order_id, this.plate_number, this.order_intime, this.order_price, this.order_price);
-            this.showcodepayscan = true;
+            //this.showcodepayscan = true;
             this.showdetail = false;
             this.left[2] = 'img/left_3_c.png';
             this.tabCodeClick(-1);
@@ -674,7 +685,7 @@ vve = new Vue({
             //订单列表页面 下一步
             if (this.internet) {
                 this.loading = true;
-                this.$http.get(this.baseUrl + '/queryorderprice?oid=' + this.oid + '&token=' + this.token)
+                this.$http.get(this.baseUrl + '/queryorderprice?oid=' + this.oid + '&token=' + this.token, {timeout: TimeOutMil})
                     .then(function (res) {
                         //查询订单价格
                         this.loading = false;
@@ -697,7 +708,7 @@ vve = new Vue({
                                 this.order_price = res.data.total;
                                 this.orderdetail_title = '总计' + this.order_price + '元';
                             }
-                            if(this.order_price == 0){
+                            if (this.order_price == 0) {
                                 this.orderdetailNextGray = true;
                             }
                         } else if (res.data.state == 2) {
@@ -718,20 +729,21 @@ vve = new Vue({
                                 this.cashReturn = 0;
                                 this.orderdetail_title = '已预付' + this.order_prepay + '元,还需支付' + res.data.price + '元';
                             }
-                            if(this.order_price == 0){
+                            if (this.order_price == 0) {
                                 this.orderdetailNextGray = true;
                             }
                         } else {
                             this.dialogError = true;
                         }
+                    }, function () {
+                        this.loading = false;
+                        this.alertMsg(TimeOutMsg);
                     }).catch(function (e) {
                     this.logUtil(e.data)
                 })
             } else {
                 this.alertMsg('网络有问题,请稍后重试');
             }
-
-
         },
         clickPayPre: function () {
             //支付 上一步
@@ -741,7 +753,7 @@ vve = new Vue({
             this.used = 1;
             this.orderdetailNextGray = false;
             this.left[2] = 'img/left_3.png'
-            if(this.order_price == 0){
+            if (this.order_price == 0) {
                 this.orderdetailNextGray = true;
             }
             _close();
@@ -783,14 +795,17 @@ vve = new Vue({
                     return;
                 }
             }
+			if(!this.showcodepayscan){
+			ScanOpen();//开始扫码
+            _close();
+			}
             this.clearTimeInteval();
             this.tabPay = 1;
             this.showcashpay = false;
             this.showcashpay2 = false;
             this.showcodepayscan = true;
-            ScanOpen();//开始扫码
-            _close();
-            this.logUtil(this.order_id + '-----' + this.plate_number)
+            
+            // this.logUtil(this.order_id + '-----' + this.plate_number)
             var that = this;
             var count = 120;
             that.timeInterval = setInterval(function () {
@@ -799,24 +814,23 @@ vve = new Vue({
                     // if(this.internet){
                     if (that.interval_codepay_back) {
                         that.interval_codepay_back = false;
-                        that.$http.get(that.baseUrl + '/queryauthcodeprepayresult?token=' + that.token + '&order_id=' + that.order_id + '&plate_number=' + that.plate_number)
+                        that.$http.get(that.baseUrl + '/queryauthcodeprepayresult?token=' + that.token + '&order_id=' + that.order_id + '&plate_number=' + that.plate_number, {timeout: TimeOutMil})
                             .then(function (res) {
                                 //扫描电子支付二维码 轮询
                                 that.interval_codepay_back = true;
-                                this.logUtil(res.data);
                                 if (res.data.state == 1) {
                                     // 扫码支付成功,返回首页
                                     that.loading = false;
                                     that.showcashpay = false;
                                     that.showcodepayscan = false;
-                                    that.showfinishpay = true;
+                                    if (!that.showcashpay2)
+                                        that.showfinishpay = true;
                                     that.left[3] = 'img/left_4_c.png'
                                     that.used = 1;
                                     clearInterval(that.timeInterval)
                                 }
                             }).catch(function (e) {
-                            that.loading = false;
-                            that.logUtil(e.data)
+                            // that.logUtil(e.data)
                         })
                     }
                     // }else{
@@ -828,7 +842,7 @@ vve = new Vue({
                     clearInterval(that.timeInterval)
                     that.clickHome()
                 }
-                that.logUtil(count)
+                // that.logUtil(count)
             }, 1000)
         },
         ScanResult: function (result) {
@@ -836,7 +850,7 @@ vve = new Vue({
             //this.alertMsg('scan result:' + result);
             if (this.internet) {
                 this.loading = true;
-                this.$http.get(this.baseUrl + '/handlecenterauthcodeprepay?order_id=' + this.order_id + '&token=' + this.token + '&money=' + this.order_price + '&authcode=' + result + '&car_number=' + this.plate_number)
+                this.$http.get(this.baseUrl + '/handlecenterauthcodeprepay?order_id=' + this.order_id + '&token=' + this.token + '&money=' + this.order_price + '&authcode=' + result + '&car_number=' + this.plate_number, {timeout: TimeOutMil})
                     .then(function (res) {
 
                         if (res.data.state == 1) {
@@ -872,7 +886,7 @@ vve = new Vue({
             this.clearTimeInteval();
             if (this.dialogFlag == 1) {
                 //现金页面退出 直接返回首页
-                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no='+this.tradeNo)
+                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no=' + this.tradeNo, {timeout: TimeOutMil})
                     .then(function (res) {
 
                     }).catch(function (e) {
@@ -881,7 +895,7 @@ vve = new Vue({
                 this.clickHome();
             } else if (this.dialogFlag == 2) {
                 //找零页面退出 需要充值
-                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.cashReturn + '&mobile=' + '&trade_no=' + this.tradeNo)
+                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.cashReturn + '&mobile=' + '&trade_no=' + this.tradeNo, {timeout: TimeOutMil})
                     .then(function (res) {
 
                     }).catch(function (e) {
@@ -890,34 +904,43 @@ vve = new Vue({
                 this.clickHome()
             } else if (this.dialogFlag == 3) {
                 //现金页面上一步
-                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no='+this.tradeNo)
+                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no=' + this.tradeNo, {timeout: TimeOutMil})
                     .then(function (res) {
 
                     }).catch(function (e) {
                     this.logUtil(e.data)
-                })
+                });
+                this.getCash = 0;
                 this.clickPayPre();
             } else if (this.dialogFlag == 4) {
                 //现金页面点击电子支付
-                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no='+this.tradeNo)
+                this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.getCash + '&mobile=' + '&trade_no=' + this.tradeNo, {timeout: TimeOutMil})
                     .then(function (res) {
 
                     }).catch(function (e) {
                     this.logUtil(e.data)
-                })
+                });
+                this.getCash = 0;
                 this.tabCodeClick(-1)
             }
         },
         tabCashClick: function () {
             //点击 现金支付 tab页
+			this.loading = true;
+			if(!this.showcashpay){
+				_open();
+            ScanClose();
+			}
             this.clearTimeInteval();
             this.tabPay = 2;
             this.showcashpay = true;
             this.showcodepayscan = false;
-            _open();
-            ScanClose();
             var that = this;
-            that.count = 120;
+			 that.count = 120;
+			setTimeout(function () {
+           that.loading = false;
+        
+           
             that.timeInterval = setInterval(function () {
                 if (that.count > 0) {
                     that.count--;
@@ -940,9 +963,9 @@ vve = new Vue({
                             if (that.count > 0) {
                                 that.count--;
                             } else {
-                                that.$http.get(that.baseUrl + '/mobilerecharge?oid=' + that.oid + '&token=' + that.token + '&change=' + that.cashReturn + '&mobile=' + '&trade_no='+this.tradeNo)
+                                that.$http.get(that.baseUrl + '/mobilerecharge?oid=' + that.oid + '&token=' + that.token + '&change=' + that.cashReturn + '&mobile=' + '&trade_no=' + that.tradeNo, {timeout: TimeOutMil})
                                     .then(function (res) {
-
+                                        that.alertMsg("找零超时！请联系车场管理员")
                                     }).catch(function (e) {
                                     that.logUtil(e.data)
                                 })
@@ -958,7 +981,7 @@ vve = new Vue({
                 that.logUtil(that.count)
             }, 1000)
 
-
+}, 1500);
         },
         getMoney: function (m) {
             var intm = parseInt(m);
@@ -969,14 +992,16 @@ vve = new Vue({
                 this.cashReturn = new Number(this.getCash - this.order_price).toFixed(2)
                 if (this.internet) {
                     this.loading = true;
-                    this.$http.get(this.baseUrl + '/cashprepay?oid=' + this.oid + '&token=' + this.token + '&total=' + this.order_price + '&change=' + this.cashReturn + '&receive=' + this.getCash)
+                    this.$http.get(this.baseUrl + '/cashprepay?oid=' + this.oid + '&token=' + this.token + '&total=' + this.order_price + '&change=' + this.cashReturn + '&receive=' + this.getCash, {timeout: TimeOutMil})
                         .then(function (res) {
                             //现金预付
                             this.loading = false;
                             this.logUtil(res.data)
                             if (res.data.state == 1) {
                                 this.showcashpay = false;
+                                this.showcodepayscan = false;
                                 this.showcashpay2 = true;
+                                this.showfinishpay = false;
                                 this.tradeNo = res.data.tradeNo;
                                 Print('预付费存根', this.parkName, this.centralpaymentName, this.plate_number, this.order_price + '元', '现金支付', this.order_intime, this.freeOutTime);
                             } else {
@@ -1000,6 +1025,12 @@ vve = new Vue({
                         if (that.count > 0) {
                             that.count--;
                         } else {
+                            that.$http.get(that.baseUrl + '/mobilerecharge?oid=' + that.oid + '&token=' + that.token + '&change=' + that.cashReturn + '&mobile=' + '&trade_no=' + that.tradeNo, {timeout: TimeOutMil})
+                                .then(function (res) {
+                                    that.alertMsg("找零超时！请联系车场管理员")
+                                }).catch(function (e) {
+                                that.logUtil(e.data)
+                            })
                             clearInterval(that.timeInterval)
                             that.clickHome()
                         }
@@ -1012,7 +1043,7 @@ vve = new Vue({
                 IsCharge(this.order_id, 1);
                 if (this.internet) {
                     this.loading = true;
-                    this.$http.get(this.baseUrl + '/cashprepay?oid=' + this.oid + '&token=' + this.token + '&total=' + this.order_price + '&change=' + this.cashReturn + '&receive=' + this.getCash)
+                    this.$http.get(this.baseUrl + '/cashprepay?oid=' + this.oid + '&token=' + this.token + '&total=' + this.order_price + '&change=' + this.cashReturn + '&receive=' + this.getCash, {timeout: TimeOutMil})
                         .then(function (res) {
                             //现金预付
                             this.loading = false;
@@ -1040,7 +1071,7 @@ vve = new Vue({
             if (checkPhone(this.phonenumber)) {
                 if (this.internet) {
                     this.loading = true;
-                    this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.cashReturn + '&mobile=' + this.phonenumber + '&trade_no=' + this.tradeNo)
+                    this.$http.get(this.baseUrl + '/mobilerecharge?oid=' + this.oid + '&token=' + this.token + '&change=' + this.cashReturn + '&mobile=' + this.phonenumber + '&trade_no=' + this.tradeNo, {timeout: TimeOutMil})
                         .then(function (res) {
                             //现金预付
                             this.loading = false;
@@ -1095,7 +1126,7 @@ vve = new Vue({
             _close();
             ScanClose();
             this.phonenumber = '';
-			this.tradeNo = '';
+            this.tradeNo = '';
             this.cashReturn = 0;
             this.getCash = 0;
             this.orderdetailNextGray = false;
@@ -1138,7 +1169,7 @@ vve = new Vue({
 
             if (this.internet) {
                 this.loading = true;
-                this.$http.get(this.baseUrl + '/clearmoneybox?machine_id=' + this.loginaccout + '&token=' + this.token)
+                this.$http.get(this.baseUrl + '/clearmoneybox?machine_id=' + this.loginaccout + '&token=' + this.token, {timeout: TimeOutMil})
                     .then(function (res) {
                         //现金预付
                         this.loading = false;
@@ -1179,7 +1210,7 @@ vve = new Vue({
             this.QuerryAdavanceAbNormal('');
         },
         //高级登录 点击 设置
-        clickAdSet:function () {
+        clickAdSet: function () {
             this.showadvanceSet = true;
             this.showadvance = false;
         },
@@ -1203,20 +1234,26 @@ vve = new Vue({
             console.log('js收到了消息vve  ' + result);
             this.callHostContent = result;
         },
+        AutoLogin: function (account, password, macadress) {
+            this.loginaccout = account;
+            this.loginpwd = password;
+            this.MacAddress = macadress;
+            this.LoginMsg = '';
+            this.clickAlertLogin();
+        },
         clickAlertLogin: function () {
-
-//            UpdateUser(this.loginaccout, this.loginpwd);
+            
             if (this.loginaccout == '' || this.loginpwd == '') {
-                this.alertMsg('请填写正确的账号和密码');
-
+                this.alertMsg(this.LoginMsg);
             } else {
                 this.loading = true;
-                console.log(this.baseUrl + '/login?machine_id=' + this.loginaccout + '&password=' + this.loginpwd + '&mac_address=' + this.MacAddress);
-                this.$http.get(this.baseUrl + '/login?machine_id=' + this.loginaccout + '&password=' + this.loginpwd + '&mac_address=' + this.MacAddress)
+                // console.log(this.baseUrl + '/login?machine_id=' + this.loginaccout + '&password=' + this.loginpwd + '&mac_address=' + this.MacAddress);
+                this.$http.get(this.baseUrl + '/login?machine_id=' + this.loginaccout + '&password=' + this.loginpwd + '&mac_address=' + this.MacAddress, {timeout: TimeOutMil})
                     .then(function (res) {
                         this.loading = false;
                         this.logUtil(res.data)
                         if (res.data.state == 1) {
+							UpdateUser(this.loginaccout, this.loginpwd);
                             //登录成功，登录框消失
                             this.dialogLogin = false;
                             this.token = res.data.token;
@@ -1225,13 +1262,14 @@ vve = new Vue({
                             CarNumberHead = res.data.provinceAbbr;
                             this.carnumber = CarNumberHead;
                             this.loginpwd = '';
+                            // this.logUtil('toooooooooken:' + ths.token)
                         } else {
                             this.alertMsg(res.data.errmsg);
                             return;
                         }
                     }).catch(function (e) {
                     this.loading = false;
-                    this.logUtil('222' + e.data)
+                    //this.logUtil('222' + e.data)
                 })
             }
 
@@ -1245,7 +1283,7 @@ vve = new Vue({
                 this.alertMsg('请填写正确的密码');
             } else {
                 this.loading = true;
-                this.$http.get(this.baseUrl + '/login?machine_id=' + this.loginaccout + '&password=' + this.loginpwd + '&mac_address=' + this.MacAddress)
+                this.$http.get(this.baseUrl + '/login?machine_id=' + this.loginaccout + '&password=' + this.loginpwd + '&mac_address=' + this.MacAddress, {timeout: TimeOutMil})
                     .then(function (res) {
                         this.loading = false;
                         this.logUtil(res.data)
@@ -1309,14 +1347,23 @@ vve = new Vue({
         },
         clickUpdate: function () {
             //检查更新
+            //this.ShowLoading();
             checkUpdate();
         },
-        CurrentVersion:function (versionname) {
+        CurrentVersion: function (versionname) {
             //版本号名称
             this.VersionName = versionname;
+        },
+        //OpenScanResult: function (msg) {
+            //this.loading = false;
+        //},
+        ShowLoading: function (msg) {
+            // this.alertMsg("收到了消息，开始loading")
+            this.loading = true;
+        },
+        HideLoading:function (msg) {
+            this.loading = false;
         }
-
-
     }
 })
 
@@ -1409,8 +1456,14 @@ function MacAddress() {
 function checkUpdate() {
     window.AndroidMethod.checkUpdate();
 }
-function ClearCache(){
+function ClearCache() {
     window.AndroidMethod.ClearCache();
+}
+function StartGuard(){
+    window.AndroidMethod.StartGuard();
+}
+function StopGuard(){
+    window.AndroidMethod.StopGuard();
 }
 //android调用JS方法
 function NotifyNetState(netstate) {
@@ -1444,6 +1497,19 @@ function getCheckStatus(check) {
     vve.getCheckStatus(check);
 }
 function CurrentVersion(versionname) {
-    vve.CurrentVersion(versionname)
+    vve.CurrentVersion(versionname);
+}
+function OpenScanResult(msg) {
+    vve.OpenScanResult(msg);
+}
+function ShowLoading(msg) {
+    vve.ShowLoading(msg);
+}
+function HideLoading(msg) {
+    vve.HideLoading(msg);
+}
+function AutoLogin(account, password, macadress) {
+    console.log('----' + account + password + macadress);
+    vve.AutoLogin(account, password, macadress);
 }
 

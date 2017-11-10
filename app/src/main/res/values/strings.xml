@@ -164,4 +164,11 @@
     <string name="msg_open_scan_result">扫描仪故障！请选择现金支付</string>
     <string name="msg_open_cash_result">纸币器故障！请选择电子支付</string>
     <string name="msg_crash_alertmsg">很抱歉,程序出现异常,即将退出</string>
+
+    <!--守护程序信息-->
+    <string name="target_package_name">com.processwatcher</string>
+    <string name="target_package_activity">com.processwatcher.MainActivity</string>
+
+    <string name="target_package_name_guard">com.bolink</string>
+    <string name="target_package_activity_guard">com.bolink.MainActivity</string>
 </resources>

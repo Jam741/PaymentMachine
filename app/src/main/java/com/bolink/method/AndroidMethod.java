@@ -1,9 +1,9 @@
 package com.bolink.method;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.webkit.JavascriptInterface;
 
 import com.bolink.R;
@@ -19,13 +19,18 @@ import com.bolink.utils.CommontUtils;
 import com.bolink.utils.SharedPreferenceUtil;
 import com.google.gson.Gson;
 
-import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bolink.bean.Messages.*;
+import static com.bolink.bean.Messages.CHECK_UPDATE;
+import static com.bolink.bean.Messages.CLEAR_CACHE;
+import static com.bolink.bean.Messages.MacAddress;
+import static com.bolink.bean.Messages.PRINT_MSG;
+import static com.bolink.bean.Messages.PRINT_TICKET;
+import static com.bolink.bean.Messages.SCAN_CLOSE;
+import static com.bolink.bean.Messages.SCAN_OPEN;
 
 /**
  * Created by xulu on 2017/8/22.
@@ -35,11 +40,14 @@ import static com.bolink.bean.Messages.*;
 public class AndroidMethod {
 
     Context context;
-    SQLiteDatabase db;
+//    SQLiteDatabase db;
 
-    public AndroidMethod(Context context, SQLiteDatabase db) {
+//    public AndroidMethod(Context context, SQLiteDatabase db) {
+//        this.context = context;
+////        this.db = LitePal.getDatabase();
+//    }
+    public AndroidMethod(Context context) {
         this.context = context;
-        this.db = LitePal.getDatabase();
     }
 
     @JavascriptInterface
@@ -200,15 +208,16 @@ public class AndroidMethod {
     //账号更新
     @JavascriptInterface
     public void UpdateUser(String account, String pwd) {
-        List<Users> usersList = DataSupport.where("account like ?", account).find(Users.class);
-        if (null != usersList && usersList.size() > 0) {
-            Users users = usersList.get(0);
-            users.setPassword(pwd);
-            users.setTimespan(System.currentTimeMillis() / 1000 + "");
-            users.save();
-        } else {
+//        List<Users> usersList = DataSupport.where("account like ?", account).find(Users.class);
+//        if (null != usersList && usersList.size() > 0) {
+//            Users users = usersList.get(0);
+//            users.setPassword(pwd);
+//            users.setTimespan(System.currentTimeMillis() / 1000 + "");
+//            users.save();
+//        } else {
+            DataSupport.deleteAll(Users.class);
             CreateUser(account, pwd);
-        }
+//        }
     }
 
     //退出登录
@@ -236,6 +245,7 @@ public class AndroidMethod {
     //打开纸币器
     @JavascriptInterface
     public void Open_Paper_Money() {
+        RxBus.get().post(new Messages(Messages.JS_LOADING_SHOW, null));
         MoneyPaperUtil.get().init(context);
     }
 
@@ -308,13 +318,14 @@ public class AndroidMethod {
         if (mac.equals("")) {
             mac = CommontUtils.getMacAddress(context);
         }
-        CommontUtils.writeSDFile("MMMMMac address",mac);
+        CommontUtils.writeSDFile("MMMMMac address", mac);
         if (null != mac && !"".equals(mac)) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("MacAddress", mac);
             editor.commit();
             RxBus.get().post(new Messages(MacAddress, mac));
         }
+
     }
 
     //检查更新
@@ -329,4 +340,20 @@ public class AndroidMethod {
         RxBus.get().post(new Messages(CLEAR_CACHE, null));
     }
 
+
+    //开启守护程序的广播
+    @JavascriptInterface
+    public void StartGuard() {
+        Intent intent = new Intent();
+        intent.setAction("startDetect");
+        context.sendBroadcast(intent);
+    }
+
+    //关闭守护程序的广播
+    @JavascriptInterface
+    public void StopGuard() {
+        Intent intent = new Intent();
+        intent.setAction("stopDetect");
+        context.sendBroadcast(intent);
+    }
 }

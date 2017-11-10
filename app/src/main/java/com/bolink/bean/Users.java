@@ -40,4 +40,13 @@ public class Users extends DataSupport {
     public void setTimespan(String timespan) {
         this.timespan = timespan;
     }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", timespan='" + timespan + '\'' +
+                '}';
+    }
 }

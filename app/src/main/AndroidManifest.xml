@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--开机自启-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.sip.voip"
@@ -36,17 +38,25 @@
     <!--web x5 core-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--web x5 core-->
+    <!--安装后自启-->
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
+    <uses-permission android:name="android.permission.READ_LOGS"/>
     <application
         android:name=".AdsApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:largeHeap="true"
+        android:persistent="true"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -80,11 +90,32 @@
         <!--</receiver>-->
         <receiver android:name=".receiver.StartupReceiver">
             <intent-filter>
+                <!--开机自启-->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
+            <intent-filter>
+                <!--自动安装后自启-->
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.MEDIA_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
         </receiver>
+        <service
+            android:name=".process.ProcessService"
+            android:process="com.processwatcher" />
+        <!-- Required  . Enable it you can get statistics data with channel -->
+        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
+        <meta-data android:name="JPUSH_APPKEY" android:value="f4a339f9d321b7ef895944c0" /> <!--  </>值来自开发者平台取得的AppKey-->
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a01714caed1792d8d00011e" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" />
     </application>
 
 </manifest>

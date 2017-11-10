@@ -1,5 +1,6 @@
 package com.bolink.retrofit;
 
+import com.bolink.bean.DataBaseInfo;
 import com.bolink.bean.UpdateInfo;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -13,9 +14,7 @@ import java.io.InputStream;
 
 public class UpdataInfoParser {
     /**
-     *
-     * @param is
-     *            解析的xml的inputstream
+     * @param is 解析的xml的inputstream
      * @return updateinfo
      */
     public static UpdateInfo getUpdataInfo(InputStream is) throws Exception {
@@ -53,4 +52,31 @@ public class UpdataInfoParser {
         is.close();
         return info;
     }
+
+    public static DataBaseInfo getDataBaseInfo(InputStream is) throws Exception {
+        XmlPullParser xmlPullParser = XmlPullParserFactory.newInstance().newPullParser();
+        DataBaseInfo dataBaseInfo = new DataBaseInfo();
+        xmlPullParser.setInput(is, "UTF-8");
+        int type = xmlPullParser.getEventType();
+
+        while (type != XmlPullParser.END_DOCUMENT) {
+            switch (type) {
+                case XmlPullParser.START_TAG:
+                    if ("dbname".equals(xmlPullParser.getName())) {
+                        dataBaseInfo.setDbname(xmlPullParser.getAttributeValue(null, "value"));
+                    } else if ("version".equals(xmlPullParser.getName())) {
+                        dataBaseInfo.setVersion(xmlPullParser.getAttributeValue(null, "value"));
+                    } else if ("list".equals(xmlPullParser.getName())) {
+//                        dataBaseInfo.setDbname(xmlPullParser.getAttributeValue(null, "value"));
+                    } else if ("storage".equals(xmlPullParser.getName())) {
+                        dataBaseInfo.setStorage(xmlPullParser.getAttributeValue(null, "value"));
+                    }
+            }
+            type = xmlPullParser.next();
+        }
+        is.close();
+        return dataBaseInfo;
+    }
+
+
 }

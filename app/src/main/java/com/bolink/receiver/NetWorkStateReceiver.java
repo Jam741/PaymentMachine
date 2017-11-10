@@ -15,7 +15,7 @@ import com.bolink.rx.RxBus;
 public class NetWorkStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        System.out.println("网络状态发生变化");
+        System.out.println("Intenet status changed");
         //检测API是不是小于21，因为到了API21之后getNetworkInfo(int networkType)方法被弃用
 //        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
 
