@@ -4,9 +4,10 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by xl on 2017/8/21.
+ * 订单表
  */
 
-public class Orders extends DataSupport{
+public class Orders extends DataSupport {
 
     String orderId;
     String carNumber;
@@ -25,8 +26,56 @@ public class Orders extends DataSupport{
     int isPay;//是否支付停车费
     int isCharge;//是否充值话费
 
+
     double pay;//投入的钱里用来支付停车费的钱
     double unCharge;//投入的钱里没充值话费的部分
+
+    //2017.11.14增加- 为了保证服务器和本地的记录一致。本地存储未上报的订单
+    int isReport;//是否上报了服务器
+    String oid;
+    String change;
+    String mobile;
+    String trade_no;
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
+
+    public String getChange() {
+        return change;
+    }
+
+    public void setChange(String change) {
+        this.change = change;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getTrade_no() {
+        return trade_no;
+    }
+
+    public void setTrade_no(String trade_no) {
+        this.trade_no = trade_no;
+    }
+
+    public int getIsReport() {
+        return isReport;
+    }
+
+    public void setIsReport(int isReport) {
+        this.isReport = isReport;
+    }
 
     public double getPay() {
         return pay;
@@ -193,6 +242,11 @@ public class Orders extends DataSupport{
                 ", isCharge=" + isCharge +
                 ", pay=" + pay +
                 ", unCharge=" + unCharge +
+                ", isReport=" + isReport +
+                ", oid='" + oid + '\'' +
+                ", change='" + change + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", trade_no='" + trade_no + '\'' +
                 '}';
     }
 }

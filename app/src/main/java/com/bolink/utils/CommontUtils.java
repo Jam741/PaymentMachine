@@ -14,6 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -45,6 +47,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
@@ -1048,7 +1051,7 @@ public class CommontUtils {
                 }
             }
             FileWriter fw = new FileWriter(file.getAbsolutePath(), true);
-            fw.write(getTimespanss() + describe + "-->" + str + "\n");
+            fw.write(getTimespanss() +"  "+ describe + "-->" + str + "\n");
             fw.flush();
             fw.close();
             System.out.println(fw);
@@ -1327,7 +1330,7 @@ public class CommontUtils {
         return android.os.Build.MODEL;
     }
 
-//    检测进程是否运行
+    //    检测进程是否运行
     public static boolean IsProcessRunning(String processname, Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -1340,6 +1343,7 @@ public class CommontUtils {
         }
         return false;
     }
+
     //    检测进程是否在前台运行
     public static boolean IsProcessRunningAndFront(String processname, Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -1348,12 +1352,13 @@ public class CommontUtils {
         if (list != null && list.size() > 0) {
             for (ActivityManager.RunningAppProcessInfo info : list) {
 //                System.out.println(">>>"+info.processName);
-                if (processname.equals(info.processName)&& info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
+                if (processname.equals(info.processName) && info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
                     return true;
             }
         }
         return false;
     }
+
     //检测是否安装了指定包
     public static boolean IsAppInstall(String packname, Context context) {
         List<ApplicationInfo> list = context.getPackageManager().getInstalledApplications(0);
@@ -1364,5 +1369,56 @@ public class CommontUtils {
             }
         }
         return false;
+    }
+
+    //设置打电话模式
+    public static void setVolumePhoneType(Context context) {
+        AudioManager audioManager = ((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
+//        audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, AudioManager.FLAG_ALLOW_RINGER_MODES);
+
+        audioManager.setMode(AudioManager.ROUTE_SPEAKER);
+        int currVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL);
+        if (!audioManager.isSpeakerphoneOn()) {
+            audioManager.setSpeakerphoneOn(true);
+        }
+        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume, AudioManager.FLAG_ALLOW_RINGER_MODES);
+
+//        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+//        int amMax = am.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
+//        if (!am.isSpeakerphoneOn()) {
+//            am.setSpeakerphoneOn(true);
+//        }
+//        setVolume(amMax / 2, videoView);
+//        am.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, AudioManager.FLAG_ALLOW_RINGER_MODES);
+        setVolumeSys0(context);
+    }
+    public static void setVolumeSys0(Context context){
+        AudioManager audioManager = ((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
+        audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, AudioManager.FLAG_ALLOW_RINGER_MODES);
+    }
+    //设置正常模式
+    public static void setVolumeNormalType(Context context) {
+        AudioManager audioManager = ((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
+//        if (audioManager.isSpeakerphoneOn())
+//            audioManager.setSpeakerphoneOn(false);
+        audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, audioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM) / 2, AudioManager.FLAG_ALLOW_RINGER_MODES);
+//        am.setStreamVolume(AudioManager.STREAM_SYSTEM, amMax / 2, AudioManager.FLAG_ALLOW_RINGER_MODES);
+    }
+
+    /**
+     * 反射设置video的声音
+     *
+     * @param volume 音量大小
+     * @param object VideoView实例
+     */
+    public static void setVolume(float volume, Object object) {
+        try {
+            Class<?> forName = Class.forName("android.widget.VideoView");
+            Field field = forName.getDeclaredField("mMediaPlayer");
+            field.setAccessible(true);
+            MediaPlayer mMediaPlayer = (MediaPlayer) field.get(object);
+            mMediaPlayer.setVolume(volume, volume);
+        } catch (Exception e) {
+        }
     }
 }

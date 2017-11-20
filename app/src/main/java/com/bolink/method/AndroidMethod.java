@@ -13,9 +13,11 @@ import com.bolink.bean.Orders;
 import com.bolink.bean.PrintMsg;
 import com.bolink.bean.Users;
 import com.bolink.hardware.AndroidRom;
+import com.bolink.hardware.LinePhoneUtil;
 import com.bolink.hardware.MoneyPaperUtil;
 import com.bolink.rx.RxBus;
 import com.bolink.utils.CommontUtils;
+import com.bolink.utils.FormatUtil;
 import com.bolink.utils.SharedPreferenceUtil;
 import com.google.gson.Gson;
 
@@ -27,6 +29,7 @@ import java.util.List;
 import static com.bolink.bean.Messages.CHECK_UPDATE;
 import static com.bolink.bean.Messages.CLEAR_CACHE;
 import static com.bolink.bean.Messages.MacAddress;
+import static com.bolink.bean.Messages.NOT_REPORT_ORDERS;
 import static com.bolink.bean.Messages.PRINT_MSG;
 import static com.bolink.bean.Messages.PRINT_TICKET;
 import static com.bolink.bean.Messages.SCAN_CLOSE;
@@ -42,7 +45,7 @@ public class AndroidMethod {
     Context context;
 //    SQLiteDatabase db;
 
-//    public AndroidMethod(Context context, SQLiteDatabase db) {
+    //    public AndroidMethod(Context context, SQLiteDatabase db) {
 //        this.context = context;
 ////        this.db = LitePal.getDatabase();
 //    }
@@ -57,6 +60,11 @@ public class AndroidMethod {
     }
 
     @JavascriptInterface
+    public void WriteLog(String msg) {
+        CommontUtils.writeSDFile("wwwwwwwwweb log :", msg);
+    }
+
+    @JavascriptInterface
     public void CreateOrder(String orderId, String carNumber, String payTime, double orderPrice, double currentPrice) {
 //        CommontUtils.writeSDFile("create order", "start====" + orderId + " " + carNumber + "  " + payTime + "  " + orderPrice + "  " + currentPrice);
         Orders orders = new Orders();
@@ -67,6 +75,35 @@ public class AndroidMethod {
         orders.setCurrentPrice(currentPrice);
 //        CommontUtils.writeSDFile("create order", orders.toString());
         orders.save();
+    }
+
+    @JavascriptInterface
+    public void CreateOrder(String orderId, String carNumber, String payTime, double orderPrice, double currentPrice, String oid) {
+//        CommontUtils.writeSDFile("create order", "start====" + orderId + " " + carNumber + "  " + payTime + "  " + orderPrice + "  " + currentPrice);
+        Orders orders = new Orders();
+        orders.setOrderId(orderId);
+        orders.setCarNumber(carNumber);
+        orders.setPayTime(payTime);
+        orders.setOrderPrice(orderPrice);
+        orders.setCurrentPrice(currentPrice);
+        orders.setOid(oid);
+//        CommontUtils.writeSDFile("create order", orders.toString());
+        orders.save();
+    }
+
+    @JavascriptInterface
+    public void CreateOrder(String orderId, int cash, double getMoney, String payTime, String plate_number, double orderPrice, double currentPrice, String oid) {
+//        CommontUtils.writeSDFile("create order", "start====" + orderId + " " + carNumber + "  " + payTime + "  " + orderPrice + "  " + currentPrice);
+        Orders orders = new Orders();
+        orders.setOrderId(orderId);
+        orders.setCarNumber(plate_number);
+        orders.setPayTime(payTime);
+        orders.setOrderPrice(orderPrice);
+        orders.setCurrentPrice(currentPrice);
+        orders.setOid(oid);
+//        CommontUtils.writeSDFile("create order", orders.toString());
+        orders.save();
+        UpdateOrderMoney(orderId, cash, getMoney, payTime, plate_number, orderPrice, currentPrice, oid);
     }
 
     @JavascriptInterface
@@ -101,7 +138,59 @@ public class AndroidMethod {
                     order.setCash100(++cash100);
                     break;
             }
-            order.setGetMoney(getMoney);
+            order.setGetMoney(order.getGetMoney() + cash);
+            order.save();
+        }
+    }
+
+    @JavascriptInterface
+    public void UpdateOrderMoney(String orderId, int cash, double getMoney, String payTime, String plate_number, double orderPrice, double currentPrice, String oid) {
+//        CommontUtils.writeSDFile("UpdateOrderMoney", orderId + "   " + cash + "   " + getMoney);
+        List<Orders> orders = DataSupport.where("orderId like ?", orderId).find(Orders.class);
+        if (null != orders && orders.size() > 0) {
+            Orders order = orders.get(0);
+            switch (cash) {
+                case 1:
+                    int cash1 = order.getCash1();
+                    order.setCash1(++cash1);
+                    break;
+                case 5:
+                    int cash5 = order.getCash5();
+                    order.setCash5(++cash5);
+                    break;
+                case 10:
+                    int cash10 = order.getCash10();
+                    order.setCash10(++cash10);
+                    break;
+                case 20:
+                    int cash20 = order.getCash20();
+                    order.setCash20(++cash20);
+                    break;
+                case 50:
+                    int cash50 = order.getCash50();
+                    order.setCash50(++cash50);
+                    break;
+                case 100:
+                    int cash100 = order.getCash100();
+                    order.setCash100(++cash100);
+                    break;
+            }
+            order.setGetMoney(order.getGetMoney() + cash);
+            order.setPayTime(payTime);
+            order.save();
+        } else {
+            //如果没查到订单就创建订单
+            CreateOrder(orderId, cash, getMoney, payTime, plate_number, orderPrice, currentPrice, oid);
+        }
+    }
+
+
+    @JavascriptInterface
+    public void setTradeNo(String orderId, String tradeno) {
+        List<Orders> orders = DataSupport.where("orderId like ?", orderId).find(Orders.class);
+        if (null != orders && orders.size() > 0) {
+            Orders order = orders.get(0);
+            order.setTrade_no(tradeno);
             order.save();
         }
     }
@@ -127,6 +216,52 @@ public class AndroidMethod {
         }
     }
 
+    @JavascriptInterface
+    public void IsReport(String orderId, int isReport) {
+        CommontUtils.writeSDFile("", ">>>" + orderId + isReport + "<<<");
+        List<Orders> orders = DataSupport.where("orderId like ?", orderId).find(Orders.class);
+        CommontUtils.writeSDFile("", ">>>orders.size  = " + orders.size() + "<<<");
+        if (null != orders && orders.size() > 0) {
+            Orders order = orders.get(0);
+            order.setIsReport(isReport);
+            order.save();
+            CommontUtils.writeSDFile("", ">>>orders.更新了 " + "<<<");
+        }
+    }
+
+    @JavascriptInterface
+    public void NotReportOrders() {
+        List<Orders> orders = DataSupport.where("isReport like ? and getMoney > ?", "0", "0").find(Orders.class);
+        String json_orders = "";
+        if (null != orders && orders.size() > 0) {
+            Gson gson = new Gson();
+//           OrdersNotReport notReport = new OrdersNotReport();
+//           notReport.setOrders(orders);
+//           json_orders = gson.toJson(notReport);
+            double change = 0;
+            for (Orders order : orders) {
+                if (order.getIsPay() == 1) {
+                    //如果支付了，找零是 投入的钱-订单金额
+                    change = FormatUtil.DoubleFormat(order.getOrderPrice() - order.getGetMoney());
+                } else {
+                    //如果没有支付，找零即投入金额
+                    change = order.getGetMoney();
+                }
+                order.setChange(change + "");
+                if (order.getTrade_no() == null) {
+                    order.setTrade_no("");
+                }
+                if (order.getOid() == null) {
+                    order.setOid("");
+                }
+            }
+            json_orders = gson.toJson(orders);
+        }
+        CommontUtils.writeSDFile("NotReportOrders", ">>>" + json_orders + "<<<");
+        RxBus.get().post(new Messages(NOT_REPORT_ORDERS, json_orders));
+
+    }
+
     //统计箱子里的钱
     @JavascriptInterface
     public void GetBoxMoney() {
@@ -144,6 +279,7 @@ public class AndroidMethod {
                 m100 += order.getCash100();
             }
             total = m1 + m5 * 5 + m10 * 10 + m20 * 20 + m50 * 50 + m100 * 100;
+
         }
         BoxMomey box = new BoxMomey(total, m1, m5, m10, m20, m50, m100);
         Gson g = new Gson();
@@ -168,16 +304,14 @@ public class AndroidMethod {
                         //如果支付了停车费，投入的钱-付停车费的钱就是没有充值的钱
                         if (order.getGetMoney() > order.getOrderPrice()) {
                             //投入的钱大于订单金额，才能有剩余的钱 出现的异常里
-                            order.setUnCharge(order.getGetMoney() - order.getOrderPrice());
+                            order.setUnCharge(FormatUtil.DoubleFormat(order.getGetMoney() - order.getOrderPrice()));
                             order.setPay(order.getOrderPrice());
                             orderreturn.add(order);
                         } else {
                             //小于订单金额，不会支付停车费
                             //等于订单金额，刚好支付则不统计
                         }
-
                     }
-
                 }
             }
             Gson g = new Gson();
@@ -198,6 +332,18 @@ public class AndroidMethod {
         RxBus.get().post(new Messages(Messages.CALL_HOST, null));
     }
 
+    //注册-linephone
+    @JavascriptInterface
+    public void Regist_LinePhone(String accout, String pwd, String domain, String host) {
+        LinePhoneUtil.initLinePhone(accout, pwd, domain, host);
+    }
+
+    //呼叫总机-linephone
+    @JavascriptInterface
+    public void CallHost_LinePhone() {
+        RxBus.get().post(new Messages(Messages.CALL_HOST_LINEPHONE, null));
+    }
+
     //新账号登录
     @JavascriptInterface
     public void CreateUser(String account, String pwd) {
@@ -215,8 +361,8 @@ public class AndroidMethod {
 //            users.setTimespan(System.currentTimeMillis() / 1000 + "");
 //            users.save();
 //        } else {
-            DataSupport.deleteAll(Users.class);
-            CreateUser(account, pwd);
+        DataSupport.deleteAll(Users.class);
+        CreateUser(account, pwd);
 //        }
     }
 

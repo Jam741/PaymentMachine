@@ -60,6 +60,18 @@ public class Messages<T> {
     public static final int JS_LOADING_SHOW = 0x000027;
     public static final int JS_LOADING_CANCEL = 0x000028;
 
+    //linephone sip传递消息
+    public static final int LINEPHONE_MSG = 0x000029;
+    public static final int REGIS_LINEPHONE = 0x000030;
+    public static final int CALL_HOST_LINEPHONE = 0x000031;
+
+    //查询未上报找零的订单
+    public static final int NOT_REPORT_ORDERS = 0x000032;
+
+    public static final int VERSION_CODE = 0x000033;
+
+
+
     private int code;
     private T msg;
 

@@ -11,6 +11,9 @@ import java.util.List;
 /**
  * Created by xulu on 2017/8/24.
  * Android调用JS方法
+ * note
+ * 1.参数如果是字符串，需要加 '  '
+ * 2.如果是list或[]，不能加‘  ’否则会被解析为string
  */
 
 public class JsMethod {
@@ -92,18 +95,31 @@ public class JsMethod {
 
     //回调展示loading
     public void ShowLoading(String msg) {
-        String alert = "javascript:ShowLoading('"+msg+"');";
+        String alert = "javascript:ShowLoading('" + msg + "');";
         webView.loadUrl(alert);
     }
+
     //回调展示loading
     public void HideLoading(String msg) {
-        String alert = "javascript:HideLoading('"+msg+"');";
+        String alert = "javascript:HideLoading('" + msg + "');";
         webView.loadUrl(alert);
     }
 
     //自动登录
     public void AutoLogin(String account, String password, String macadress) {
         String alert = "javascript:AutoLogin('" + account + "','" + password + "','" + macadress + "');";
+        webView.loadUrl(alert);
+    }
+
+    //统计的未上报的找零订单
+    public void NotReportOrders(String msg) {
+        String alert = "javascript:NotReportOrders(" + msg + ");";
+        webView.loadUrl(alert);
+    }
+
+    //告知js当前版本
+    public void getVersionCode(int versioncode){
+        String alert = "javascript:getVersionCode(" + versioncode + ");";
         webView.loadUrl(alert);
     }
 

@@ -10,15 +10,19 @@ import android.net.sip.SipProfile;
 import android.net.sip.SipRegistrationListener;
 import android.util.Log;
 
-import java.text.ParseException;
-
 import com.bolink.R;
 import com.bolink.bean.Messages;
 import com.bolink.receiver.IncomingCallReceiver;
 import com.bolink.rx.RxBus;
 
+import java.text.ParseException;
+
 /**
  * Created by xulu on 2017/9/13.
+ * 该方法是用于安卓自带的sip
+ * 优点是集成简单
+ * 缺点是有杂音，通话效果不理想
+ * 实际使用linesip
  */
 
 public class SipUtil {

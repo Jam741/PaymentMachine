@@ -1,10 +1,7 @@
 package com.bolink;
 
 import android.app.Application;
-import android.os.Environment;
 
-import com.bolink.bean.DataBaseInfo;
-import com.bolink.retrofit.UpdataInfoParser;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.litepal.LitePal;
@@ -14,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by xl on 2017/8/21.
@@ -40,24 +36,28 @@ public class AdsApplication extends Application {
 //        System.out.println("appppppplication1:"+System.currentTimeMillis());
         CrashReport.initCrashReport(getApplicationContext(), "ac20af9ca0", false);
 //        System.out.println("appppppplication2:"+System.currentTimeMillis());
-        try {
-            InputStream inputStream = getAssets().open("litepal.xml");
-            DataBaseInfo dataBaseInfo = UpdataInfoParser.getDataBaseInfo(inputStream);
-            int version = Integer.parseInt(dataBaseInfo.getVersion());
-            if (version < 8) {
-                String adsDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ads";
-                File database = new File(adsDir, "adsDB.db");
-                if (database.exists())
-                    database.delete();
-                File datatemp = new File(adsDir, "adsDB.db-journal");
-                if (datatemp.exists())
-                    datatemp.delete();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+//        try {
+//            InputStream inputStream = getAssets().open("litepal.xml");
+//            DataBaseInfo dataBaseInfo = UpdataInfoParser.getDataBaseInfo(inputStream);
+//            int version = Integer.parseInt(dataBaseInfo.getVersion());
+//            if (version < 8) {
+//                String adsDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ads";
+//                File database = new File(adsDir, "adsDB.db");
+//                if (database.exists())
+//                    database.delete();
+//                File datatemp = new File(adsDir, "adsDB.db-journal");
+//                if (datatemp.exists())
+//                    datatemp.delete();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
 //        System.out.println("appppppplication3:"+System.currentTimeMillis());
         LitePal.initialize(this);
 //        System.out.println("appppppplication4:"+System.currentTimeMillis());

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <FrameLayout
+
         android:id="@+id/videocontain"
         android:layout_width="match_parent"
         android:layout_height="250dp">
@@ -52,16 +53,40 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <LinearLayout
+        <LinearLayout android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:visibility="gone">
+            android:layout_height="100dp">
+
+            <Button
+                android:id="@+id/btn_vol_sys_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统音量1/2" />
+
+            <Button
+                android:id="@+id/btn_vol_sys_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统音量0" />
+
+            <Button
+                android:id="@+id/btn_vol_vodeo_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频音量1/2" />
+
+            <Button
+                android:id="@+id/btn_vol_vodeo_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频音量0" />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="播放视频" />
+                android:text="播放视频"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/currentversion"
@@ -74,13 +99,15 @@
                 android:id="@+id/buttoncash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开始收钞" />
+                android:text="开始收钞"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttoncashno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="关闭收钞" />
+                android:text="关闭收钞"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonprint"
@@ -107,7 +134,8 @@
                 android:id="@+id/buttonscanopen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开始扫描" />
+                android:text="开始扫描"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonhidestatus"
@@ -126,13 +154,15 @@
             <EditText
                 android:id="@+id/sweepcode"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnsweepcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="扫码" />
+                android:text="扫码"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/banner"

@@ -3,6 +3,7 @@ package com.bolink.customview;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -17,7 +18,7 @@ import com.bolink.R;
  * 仿toast的dialog
  */
 
-public class ToastDialog extends Dialog{
+public class ToastDialog extends Dialog {
     public ToastDialog(@NonNull Context context) {
         super(context);
     }
@@ -29,7 +30,9 @@ public class ToastDialog extends Dialog{
     protected ToastDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
+
     TextView content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +41,33 @@ public class ToastDialog extends Dialog{
         Window dialogwidow = getWindow();
         dialogwidow.setGravity(Gravity.CENTER);
     }
-    public void setText(String msg){
+
+    public void setText(String msg) {
         content.setText(msg);
+    }
+
+    private static ToastDialog dialog = null;
+    private static int DURATION = 2500;
+    private static String TEXT = "";
+
+    public static ToastDialog makeText(Context context, String msg, int duration) {
+        if (dialog == null)
+            dialog = new ToastDialog(context, R.style.toastdialog);
+        dialog.setCancelable(false);//点击其他区域不消失
+        TEXT = msg;
+        if (duration > 0) {
+            DURATION = duration;
+        }
+        return dialog;
+    }
+
+
+    public void show_D() {
+        dialog.show();
+        dialog.setText(TEXT);
+        new Handler().postDelayed(() -> {
+            dialog.cancel();
+        }, DURATION);
     }
 
 }

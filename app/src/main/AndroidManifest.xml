@@ -43,7 +43,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
     <application
         android:name=".AdsApplication"
         android:allowBackup="true"
@@ -107,8 +108,12 @@
             android:name=".process.ProcessService"
             android:process="com.processwatcher" />
         <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="f4a339f9d321b7ef895944c0" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="f4a339f9d321b7ef895944c0" /> <!--  </>值来自开发者平台取得的AppKey-->
 
         <meta-data
             android:name="UMENG_APPKEY"

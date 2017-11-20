@@ -1,28 +1,24 @@
 package com.bolink;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -34,18 +30,18 @@ import com.bolink.bean.Messages;
 import com.bolink.bean.PrintMsg;
 import com.bolink.bean.Users;
 import com.bolink.bean.VideoUrls;
-import com.bolink.customview.DownloadDialog;
 import com.bolink.customview.ToastDialog;
 import com.bolink.customview.mCycleViewPager;
 import com.bolink.hardware.AndroidRom;
+import com.bolink.hardware.LinePhoneUtil;
 import com.bolink.hardware.MoneyPaperUtil;
 import com.bolink.hardware.PrintComUtil;
 import com.bolink.hardware.PrintUtil;
 import com.bolink.hardware.ScanUtilUSB;
+import com.bolink.hardware.Sip.SipManager;
 import com.bolink.method.AndroidMethod;
 import com.bolink.method.JsMethod;
 import com.bolink.process.ProcessService;
-import com.bolink.receiver.IncomingCallReceiver;
 import com.bolink.retrofit.HttpApi;
 import com.bolink.retrofit.ToStringConverterFactory;
 import com.bolink.rx.RxBus;
@@ -66,6 +62,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import device.itl.sspcoms.DeviceEvent;
 import device.itl.sspcoms.DeviceEventType;
 import io.reactivex.Flowable;
@@ -75,31 +73,8 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import static com.bolink.bean.Messages.CALL_ENDED;
-import static com.bolink.bean.Messages.CALL_ESTABLISHED;
-import static com.bolink.bean.Messages.CALL_HOST;
-import static com.bolink.bean.Messages.CALL_RECEIVED;
-import static com.bolink.bean.Messages.CHECK_UPDATE;
-import static com.bolink.bean.Messages.CLEAR_CACHE;
-import static com.bolink.bean.Messages.DOWNLOAD_PROGRESS_APK;
-import static com.bolink.bean.Messages.IDENTIFY_PWD_N;
-import static com.bolink.bean.Messages.IDENTIFY_PWD_Y;
-import static com.bolink.bean.Messages.JS_LOADING_CANCEL;
-import static com.bolink.bean.Messages.JS_LOADING_SHOW;
-import static com.bolink.bean.Messages.LOADING_SHOW;
-import static com.bolink.bean.Messages.MacAddress;
-import static com.bolink.bean.Messages.PAPER_MONEY;
-import static com.bolink.bean.Messages.PAPER_MONEY_OPEN;
-import static com.bolink.bean.Messages.PRINT_MSG;
-import static com.bolink.bean.Messages.PRINT_TICKET;
-import static com.bolink.bean.Messages.QUERRY_ADVANCE;
-import static com.bolink.bean.Messages.QUERRY_ADVANCE_ABNORMAL;
-import static com.bolink.bean.Messages.RELOAD_WEBVIEW;
-import static com.bolink.bean.Messages.SCAN_CLOSE;
-import static com.bolink.bean.Messages.SCAN_MSG;
-import static com.bolink.bean.Messages.SCAN_OPEN;
-import static com.bolink.bean.Messages.SCAN_OPEN_RESULT;
-import static com.bolink.bean.Messages.SCAN_OPEN_RESULT_BEFORE;
+import static com.bolink.bean.Messages.*;
+import static com.bolink.utils.CommontUtils.setVolume;
 
 
 public class MainActivity extends BaseActivity {
@@ -107,49 +82,35 @@ public class MainActivity extends BaseActivity {
     public static final String MESSAGE_PROGRESS = "message_progress";
     private int SCAN_OPEN_RESULT_int = 0;
     private int PRINT_MSG_int = 0;
-    //    @BindView(R.id.main_web)
+
+    @BindView(R.id.webView)
     WebView webView;
-    Button button;
+    @BindView(R.id.videoView)
     VideoView videoView;
+    @BindView(R.id.videocontain)
     FrameLayout videocontain;
+    @BindView(R.id.viewpager)
+    FrameLayout viewPager;
+
     //    CircleProgressBar progressbar;
     AndroidMethod androidMethod;
     JsMethod jsMethod;
+
+    Button button;
     public static final int WRITE_EXTERNAL_STORAGE = 0x600001;
-    ToastDialog dialog;
-    DownloadDialog downloadDialog;
-    FrameLayout viewPager;
+//    DownloadDialog downloadDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("Timeline","before super "+System.currentTimeMillis());
         super.onCreate(savedInstanceState);
+        Log.i("Timeline","after super "+System.currentTimeMillis());
         setContentView(R.layout.activity_main);
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
-        webView = ((WebView) findViewById(R.id.webView));
-        videoView = ((VideoView) findViewById(R.id.videoView));
-        videocontain = ((FrameLayout) findViewById(R.id.videocontain));
-        viewPager = (FrameLayout) findViewById(R.id.viewpager);
+        ViewUtils.setLayoutParams(videocontain, this);
+        ViewUtils.setLayoutParams(viewPager, this);
 
-        LinearLayout.LayoutParams params = ((LinearLayout.LayoutParams) videocontain.getLayoutParams());
-        params.width = ViewUtils.getScreenWidth(this);
-        params.height = ViewUtils.getVideoHeight(this);
-        videocontain.setLayoutParams(params);
-
-        LinearLayout.LayoutParams linparam = (LinearLayout.LayoutParams) viewPager.getLayoutParams();
-        linparam.width = ViewUtils.getScreenWidth(this);
-        linparam.height = ViewUtils.getVideoHeight(this);
-        viewPager.setLayoutParams(linparam);
-
-//        progressbar = ((CircleProgressBar) findViewById(R.id.progressbar));
-        button = ((Button) findViewById(R.id.button));
-        button.setOnClickListener(v -> {
-//            jsMethod.NotifyNetState(false);
-//            RxBus.get().post(new Messages(Messages.NET_DENY, null));
-//            initVideo();
-            startPlayimgClear();
-            UpdateUtil.CheckUpdate(CommontUtils.getVersion(this), this);
-        });
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 //                //没有授予权限，需要申请
@@ -160,7 +121,8 @@ public class MainActivity extends BaseActivity {
 //                }
 //            }
 //        }
-//        SQLiteDatabase db = LitePal.getDatabase();
+
+        LinePhoneUtil.get().init(this);
         androidMethod = new AndroidMethod(MainActivity.this);
         jsMethod = new JsMethod(webView);
 
@@ -190,30 +152,9 @@ public class MainActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 initPost();
-//                view.loadUrl("javascript:onPageFinished();");
-//                jsMethod.getMacAddress(CommontUtils.getMacAddress(MainActivity.this));
                 jsMethod.getCheckStatus(SharedPreferenceUtil.get(MainActivity.this).getBoolean("BarStatus", false));
                 jsMethod.CurrentVersion(CommontUtils.getVersionName(MainActivity.this));
-            }
-
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                return super.shouldInterceptRequest(view, url);
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return super.shouldOverrideUrlLoading(view, url);
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
+                RxBus.get().post(new Messages(VERSION_CODE, null));
             }
         });
         webView.addJavascriptInterface(androidMethod, "AndroidMethod");
@@ -223,42 +164,17 @@ public class MainActivity extends BaseActivity {
 //        webView.loadUrl("https://tryit.jssip.net/");
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        findViewById(R.id.currentversion).setOnClickListener(v -> Toast.makeText(MainActivity.this, "当前版本:" + CommontUtils.getVersion(this), Toast.LENGTH_LONG).show());
-
-        findViewById(R.id.buttoncash).setOnClickListener(v -> MoneyPaperUtil.get().init(MainActivity.this));
-        findViewById(R.id.buttoncashno).setOnClickListener(v -> MoneyPaperUtil.get().Close());
-
-        findViewById(R.id.buttonprint).setOnClickListener(v -> PrintComUtil.get().init(MainActivity.this));
-        findViewById(R.id.buttonprint2).setOnClickListener(v -> PrintComUtil.get().print());
-
-        findViewById(R.id.buttonscan).setOnClickListener(v -> ScanUtilUSB.get().init(MainActivity.this));
-        findViewById(R.id.buttonscanopen).setOnClickListener(v -> ScanUtilUSB.get().initTest());
-
-        findViewById(R.id.buttonhidestatus).setOnClickListener(v -> AndroidRom.get().LockBar(MainActivity.this));
-        findViewById(R.id.buttonshowstatus).setOnClickListener(v -> AndroidRom.get().UnLockBar(MainActivity.this));
-
-        textView = ((EditText) findViewById(R.id.sweepcode));
-        textView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.e(TAG, "onKey: keycode=" + keyCode);
-                return false;
-            }
-        });
-        findViewById(R.id.btnsweepcode).setOnClickListener(v -> {
-            String code = textView.getText().toString().trim();
-            jsMethod.ScanResult(code);
-        });
-
         initRxbus();
         initVideo();
-        dialog = new ToastDialog(MainActivity.this, R.style.toastdialog);
-        dialog.setCancelable(false);//点击其他区域不消失
-        downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
-        downloadDialog.setCancelable(false);
+
+//        downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
+//        downloadDialog.setCancelable(false);
 //        initSip();
 //        AndroidRom.get().LockBar(MainActivity.this);
+        initTests();
+        Log.i("Timeline","crate finish "+System.currentTimeMillis());
     }
+
 
     private void initPost() {
         //不太着急的初始化放这里
@@ -296,12 +212,7 @@ public class MainActivity extends BaseActivity {
             }
             RxBus.get().post(new Messages(SCAN_OPEN_RESULT, msg));
 
-//            if (!CommontUtils.IsProcessRunning(getResources().getString(R.string.target_package_name), MainActivity.this) && CommontUtils.IsAppInstall(getResources().getString(R.string.target_package_name), MainActivity.this)) {
             if (!CommontUtils.IsProcessRunning(getResources().getString(R.string.target_package_name), MainActivity.this)) {
-//                Intent startup = new Intent();
-//                startup.setClassName(getResources().getString(R.string.target_package_name), getResources().getString(R.string.target_package_activity));
-//                startup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(startup);
                 Intent intent = new Intent(MainActivity.this, ProcessService.class);
                 startService(intent);
             }
@@ -333,11 +244,13 @@ public class MainActivity extends BaseActivity {
                 case Messages.NET_ACCESS:
                     //网络畅通
                     jsMethod.NotifyNetState(true);
+                    CommontUtils.writeSDFile("nnnnnnnnnnnnnnnnnnetstate", "NET_ACCESS");
                     //webView.reload();
                     break;
                 case Messages.NET_DENY:
                     //网络堵塞
                     jsMethod.NotifyNetState(false);
+                    CommontUtils.writeSDFile("nnnnnnnnnnnnnnnnnnetstate", "NET_DENY");
                     break;
                 case DOWNLOAD_PROGRESS_APK:
 
@@ -382,6 +295,36 @@ public class MainActivity extends BaseActivity {
                     jsMethod.NotifyCallStatus("呼叫总机");
                     CallCount = 0;
                     break;
+//                case REGIS_LINEPHONE:
+//                    break;
+                case CALL_HOST_LINEPHONE:
+                    new Thread(() -> {
+                        LinePhoneUtil.callLinePhone();
+                    }).start();
+
+                    break;
+                case LINEPHONE_MSG:
+                    String linephonemsg = ((String) messages.getMsg());
+                    switch (linephonemsg) {
+                        case SipManager.SIP_RINGING:
+                            jsMethod.NotifyCallStatus(getResources().getString(R.string.Calling));
+                            break;
+                        case SipManager.SIP_INCOMMING:
+//                            break;
+                        case SipManager.SIP_TALKING:
+                            IsCalling = true;
+                            LinePhoneUtil.LinePhoneTimeCount(IsCalling, jsMethod, getResources().getString(R.string.Talking));
+                            CommontUtils.setVolumePhoneType(this);
+                            break;
+                        case SipManager.SIP_TERMINATE:
+                            IsCalling = false;
+                            LinePhoneUtil.LinePhoneTimeCount(IsCalling, jsMethod, getResources().getString(R.string.Talking));
+                            jsMethod.NotifyCallStatus(getResources().getString(R.string.CallHost));
+                            LinePhoneUtil.initLinePhone();
+                            CommontUtils.setVolumeNormalType(this);
+                            break;
+                    }
+                    break;
                 case IDENTIFY_PWD_Y:
                     jsMethod.NotifyCheckPwd(1);
                     break;
@@ -401,7 +344,7 @@ public class MainActivity extends BaseActivity {
                 case PRINT_MSG:
 //                    Toast.makeText(MainActivity.this,"PPPPPPPPrint>>>"+messages.getMsg(),Toast.LENGTH_LONG).show();
                     //这个方法也用来做js里的toast
-                    ShowToastDialog((String) messages.getMsg());
+                    ToastDialog.makeText(this, (String) messages.getMsg(), 0).show_D();
                     break;
                 case RELOAD_WEBVIEW:
                     webView.reload();
@@ -421,13 +364,10 @@ public class MainActivity extends BaseActivity {
                     break;
                 case SCAN_OPEN_RESULT:
                     openScanResult = (String) messages.getMsg();
-//                    Toast.makeText(MainActivity.this, "SSSSSSSCan"+SCAN_OPEN_RESULT_int+openScanResult.contains("success"), Toast.LENGTH_LONG).show();
                     if (SCAN_OPEN_RESULT_int > 0 && !openScanResult.contains("success")) {
-//                        Toast.makeText(MainActivity.this, "SSSSSSSCan", Toast.LENGTH_LONG).show();
-                        ShowToastDialog(openScanResult);
+                        ToastDialog.makeText(this, openScanResult, 0).show_D();
                     }
                     SCAN_OPEN_RESULT_int++;
-//                    jsMethod.OpenScanResult(openScanResult);
                     jsMethod.HideLoading(openScanResult);
                     break;
                 case SCAN_OPEN_RESULT_BEFORE:
@@ -436,8 +376,7 @@ public class MainActivity extends BaseActivity {
                         jsMethod.ShowLoading("");
                     break;
                 case PAPER_MONEY_OPEN:
-//                    Toast.makeText(MainActivity.this, "MMMMMoney", Toast.LENGTH_LONG).show();
-                    ShowToastDialog((String) messages.getMsg());
+                    ToastDialog.makeText(this, (String) messages.getMsg(), 0).show_D();
                     break;
                 case SCAN_CLOSE:
                     ScanUtilUSB.get().close();
@@ -458,7 +397,7 @@ public class MainActivity extends BaseActivity {
                     UpdateUtil.CheckUpdate(CommontUtils.getVersion(this), this);
                     break;
                 case LOADING_SHOW:
-                    downloadDialog.show();
+//                    downloadDialog.show();
                 case JS_LOADING_SHOW:
                     jsMethod.ShowLoading("");
                     break;
@@ -469,6 +408,15 @@ public class MainActivity extends BaseActivity {
                     webView.clearCache(true);
                     webView.clearHistory();
                     break;
+                case NOT_REPORT_ORDERS:
+                    String json = ((String) messages.getMsg());
+                    jsMethod.NotReportOrders(json);
+                    break;
+                case VERSION_CODE:
+                    String vc = CommontUtils.getVersion(this);
+                    if (vc != null && !vc.equals(""))
+                        jsMethod.getVersionCode(Integer.parseInt(vc));
+                    break;
                 default:
                     break;
             }
@@ -477,19 +425,10 @@ public class MainActivity extends BaseActivity {
 
     String openScanResult = "";
 
-    private void ShowToastDialog(String msg) {
-        dialog.show();
-        dialog.setText(msg);
-        new Handler().postDelayed(() -> {
-            dialog.cancel();
-        }, 2500);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
 //        AndroidRom.get().LockBar(MainActivity.this);
-//        startPlay();
         videoView.setOnCompletionListener(mediaPlayer -> {
             Log.e(TAG, "VVVideo play over : " + current);
             startPlay();
@@ -650,15 +589,16 @@ public class MainActivity extends BaseActivity {
 
     public static SipUtil sipUtil;
 
+    @Deprecated
     private void initSip() {
-
-        sipUtil = new SipUtil(MainActivity.this);
-        //动态注册的目的是让 reveiver 中获取的context可以强转为 MainActivity
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.SipDemo.INCOMING_CALL");
-        sipUtil.callReceiver = new IncomingCallReceiver();
-        this.registerReceiver(sipUtil.callReceiver, filter);
+//        sipUtil = new SipUtil(MainActivity.this);
+//        //动态注册的目的是让 reveiver 中获取的context可以强转为 MainActivity
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction("android.SipDemo.INCOMING_CALL");
+//        sipUtil.callReceiver = new IncomingCallReceiver();
+//        this.registerReceiver(sipUtil.callReceiver, filter);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -689,9 +629,6 @@ public class MainActivity extends BaseActivity {
                 currentmil = System.currentTimeMillis();
 //                CrashReport.testJavaCrash();
             } else {
-//                MobclickAgent.onKillProcess(this);
-
-
                 finish();
                 System.exit(0);
             }
@@ -708,7 +645,7 @@ public class MainActivity extends BaseActivity {
 
             if (download.getURI().contains(".apk")) {
                 //下载的apk
-                downloadDialog.dismiss();
+//                downloadDialog.dismiss();
                 UpdateUtil.installAPK(new File(download.getURI()), this);
             } else if (download.getURI().contains(".jpg")) {
                 //先下载图片，再下载视频，最后是apk
@@ -757,7 +694,7 @@ public class MainActivity extends BaseActivity {
         } else {
             if (download.getURI().contains(".apk")) {
                 //下载的apk
-                downloadDialog.setProgress(download.getProgress());
+//                downloadDialog.setProgress(download.getProgress());
             } else {
                 button.setText(
                         StringUtils.getDataSize(download.getCurrentFileSize())
@@ -767,5 +704,59 @@ public class MainActivity extends BaseActivity {
 
         }
     }
+
+    private void initTests() {
+        //        progressbar = ((CircleProgressBar) findViewById(R.id.progressbar));
+        button = ((Button) findViewById(R.id.button));
+        button.setOnClickListener(v -> {
+//            jsMethod.NotifyNetState(false);
+//            RxBus.get().post(new Messages(Messages.NET_DENY, null));
+//            initVideo();
+            startPlayimgClear();
+            UpdateUtil.CheckUpdate(CommontUtils.getVersion(this), this);
+        });
+        findViewById(R.id.currentversion).setOnClickListener(v -> Toast.makeText(MainActivity.this, "当前版本:" + CommontUtils.getVersion(this), Toast.LENGTH_LONG).show());
+
+        findViewById(R.id.buttoncash).setOnClickListener(v -> MoneyPaperUtil.get().init(MainActivity.this));
+        findViewById(R.id.buttoncashno).setOnClickListener(v -> MoneyPaperUtil.get().Close());
+
+        findViewById(R.id.buttonprint).setOnClickListener(v -> PrintComUtil.get().init(MainActivity.this));
+        findViewById(R.id.buttonprint2).setOnClickListener(v -> PrintComUtil.get().print());
+
+        findViewById(R.id.buttonscan).setOnClickListener(v -> ScanUtilUSB.get().init(MainActivity.this));
+        findViewById(R.id.buttonscanopen).setOnClickListener(v -> ScanUtilUSB.get().initTest());
+
+        findViewById(R.id.buttonhidestatus).setOnClickListener(v -> AndroidRom.get().LockBar(MainActivity.this));
+        findViewById(R.id.buttonshowstatus).setOnClickListener(v -> AndroidRom.get().UnLockBar(MainActivity.this));
+        textView = ((EditText) findViewById(R.id.sweepcode));
+        textView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.e(TAG, "onKey: keycode=" + keyCode);
+                return false;
+            }
+        });
+        findViewById(R.id.btnsweepcode).setOnClickListener(v -> {
+            String code = textView.getText().toString().trim();
+            jsMethod.ScanResult(code);
+        });
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int amMax = am.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
+        CommontUtils.writeSDFile("======amMax", "" + amMax);
+        findViewById(R.id.btn_vol_sys_2).setOnClickListener(v -> {
+            am.setStreamVolume(AudioManager.STREAM_SYSTEM, amMax / 2, AudioManager.FLAG_ALLOW_RINGER_MODES);
+        });
+        findViewById(R.id.btn_vol_sys_0).setOnClickListener(v -> {
+            am.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, AudioManager.FLAG_ALLOW_RINGER_MODES);
+        });
+        findViewById(R.id.btn_vol_vodeo_2).setOnClickListener(v -> {
+            setVolume(amMax / 2, videoView);
+        });
+        findViewById(R.id.btn_vol_vodeo_0).setOnClickListener(v -> {
+//            setVolume(0, videoView);
+            LinePhoneUtil.get().initLinePhone();
+        });
+    }
+
 
 }

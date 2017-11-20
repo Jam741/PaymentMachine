@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+def releaseTime(){
+    return new Date().format("yyyy-MM-dd",TimeZone.getTimeZone("UTC"))
+}
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -26,8 +28,8 @@ android {
         ndk {
             moduleName "vbar_api"
         }
-        versionCode 1105
-        versionName "V1.1.5"
+        versionCode 1106
+        versionName "V1.1.6"
     }
 
     buildTypes {
@@ -35,11 +37,32 @@ android {
             jni.srcDirs = []
             jniLibs.srcDir 'src/main/jniLibs'
         }
-
-        release {
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            zipAlignEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为appname-1.0-beta1-xxxx-xx-xx.apk
+                        def fileName = "app-release-${defaultConfig.versionName}-${releaseTime()}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+
+
+
     }
     allprojects {
         repositories {
@@ -65,8 +88,8 @@ dependencies {
     //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     //butter knife
-    //    compile 'com.jakewharton:butterknife:8.8.1'
-    //    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //litepal
     compile 'org.litepal.android:core:1.6.0'
     //rxjava2 + retrofit2
@@ -86,14 +109,14 @@ dependencies {
     //如果使用glide
     //    compile 'com.github.hss01248.ImageLoader:glide:1.0.6'
     //集成友盟错误分析和崩溃日志
-//    compile files('libs/umeng-common-1.4.0.jar')
-//    compile files('libs/umeng-analytics-7.4.0.jar')
-//    compile files('libs/umerror_android_1.0.0.jar')
+    //    compile files('libs/umeng-common-1.4.0.jar')
+    //    compile files('libs/umeng-analytics-7.4.0.jar')
+    //    compile files('libs/umerror_android_1.0.0.jar')
     //    compile files('libs/utdid4all-1.1.5.3_proguard.jar')
-//    compile files('libs/janalytics-android-1.1.2.jar')
-//    compile files('libs/jcore-android-1.1.7.jar')
-
+    //    compile files('libs/janalytics-android-1.1.2.jar')
+    //    compile files('libs/jcore-android-1.1.7.jar')
     compile files('libs/bugly_crash_release.jar')
+    compile files('libs/linphone.jar')
 }
 
 

@@ -239,9 +239,9 @@
                 </div>
                 <img src="img/head_price.png" style="position:absolute;left:0;top:0;"/>
             </div>
-            <div class="right-keyboard right-detail">
+            <div class="right-keyboard right-detailssss">
                 <div class="detail-img detail-img2">
-                    <img class="imglist" width="340px" height="200px" v-for="item in datas.orders"
+                    <img class="imglist" width="340px" height="195px" v-for="item in datas.orders"
                          v-bind:src="item.inparkImageUrl"
                          @click="clickImg(item)" :class="{imglistactive: selectIndex == item.inparkImageUrl}"/>
                 </div>
@@ -253,8 +253,39 @@
                 </div>
             </div>
         </div>
+        <div class="item-right" v-show="showcodepay">
+            <!--页面页面4 扫码支付 车主主动扫码-->
+            <div class="top-tab">
+                <img src="img/tab_paycode_c.png">
+                <img src="img/tab_paycash.png" @click="tabCashClick">
+            </div>
+            <div class="carno-code">
+                <div class="carno-code-img">
+                    <img v-bind:src="url_codepay" width="236px" height="236px">
+                    <p>扫码支付停车费</p></div>
+                <div class="carno-code-imgs">
+                    <div>
+                        <img src="img/pic_wechat.jpg" width="98px" height="98px">
+                    </div>
+                    <div>
+                        <img src="img/pic_alipay.png" width="98px" height="98px">
+                    </div>
+                </div>
+
+            </div>
+            <div class="detail-buttons">
+                <!--<img src="img/step_up.png" @click="clickPayPre" height="55px">-->
+                <!--<img src="img/step_down.png" height="55px">-->
+                <!---->
+                <!--<span class="homeIcon" @click="clickHome()"></span>-->
+
+                <p @click="clickPayPre">上一步</p>
+                <a class="p-devide"></a>
+                <p @click="clickHome()">退出</p>
+            </div>
+        </div>
         <div class="item-right" v-show="showcodepayscan">
-            <!--页面页面4 扫码支付-->
+            <!--页面页面4 扫码支付 扫码器扫码-->
             <div class="top-tab">
                 <img src="img/tab_paycode_c.png">
                 <img src="img/tab_paycash.png" @click="tabCashClick">
@@ -299,7 +330,7 @@
                         <img src="img/cash_in.png">
                     </div>
                     <div class="cashin-right">
-                        <p>&nbsp;停&nbsp;车&nbsp;费：{{order_price}}元</p>
+                        <p>&nbsp;停车费：{{order_price}}元</p>
                         <p class="cashin-devide"></p>
                         <p>已投金额：{{getCash}}元</p>
                         <p>找零金额：{{cashReturn}}元</p>
@@ -343,7 +374,7 @@
                     </div>
                     <p class="putincashline"></p>
 
-                    <div><p class="p-charge">找零金额{{cashReturn}}元,请输入待充值手机号</p>
+                    <div><p class="p-charge">&nbsp;&nbsp;找零金额{{cashReturn}}元,请输入待充值手机号</p>
                         <div class="right-carnumber2 cash2phone">
                             <input type="text" v-model="phonenumber" value={{phonenumber}} class="inputphone"
                                    placeholder="输入手机号" style="text-align: left;" readonly="readonly"/>
@@ -452,7 +483,7 @@
             <div class="right-keyboard right-detail">
                 <div class="advance-item2">
                     <p v-for="(item,index) in AbNormalOrders" class="error-order">
-                        {{index+1}}.{{item.carNumber}},停车费{{item.orderPrice}}元,投入现金{{item.getMoney}}元,支付停车费{{item.pay}}元,未充值话费{{item.unCharge}}元</p>
+                        {{index+1}}.&nbsp;{{item.payTime}}<br />{{item.carNumber}},停车费{{item.orderPrice}}元,投入现金{{item.getMoney}}元,支付停车费{{item.pay}}元,未充值话费{{item.unCharge}}元</p>
                 </div>
                 <div class="detail-buttons">
                     <p @click="clickAdBack()">返回</p>
@@ -477,9 +508,14 @@
                     <p class="p-devide-line"></p>
                     <div class="setbar" >
                         <p>全屏显示</p>
-                        <input type="checkbox" id="checkbox" v-model="checked" @click="clickBar()">
+                        <input type="checkbox"  v-model="checked" @click="clickBar()">
                     </div>
                     <p class="p-devide-line"></p>
+                    <div class="setbar" v-show="show_checked_guard">
+                        <p>守护程序</p>
+                        <input type="checkbox"  v-model="checked_guard" @click="clickGuard()">
+                    </div>
+                    <p class="p-devide-line" v-show="show_checked_guard"></p>
                 </div>
 
                 <div class="detail-buttons">

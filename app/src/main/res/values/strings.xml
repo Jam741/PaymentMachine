@@ -171,4 +171,9 @@
 
     <string name="target_package_name_guard">com.bolink</string>
     <string name="target_package_activity_guard">com.bolink.MainActivity</string>
+
+    <!--linephone 消息-->
+    <string name="CallHost">呼叫总机</string>
+    <string name="Calling">呼叫中...</string>
+    <string name="Talking">通话中</string>
 </resources>

@@ -292,6 +292,7 @@ input::-ms-clear {
     display: flex;
     flex-direction: column;
     align-content: center;
+	    margin-top:20px;
 }
 
 .carno-code p {
@@ -353,6 +354,14 @@ input::-ms-clear {
 }
 
 .right-detail {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    flex: 6;
+    height: 0;
+    justify-content: center;
+}
+.right-detailssss {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -516,6 +525,7 @@ input::-ms-clear {
 
 /*页面5 现金支付*/
 .cashpayimg{
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -530,6 +540,7 @@ input::-ms-clear {
 }
 
 .cashin-lr {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
