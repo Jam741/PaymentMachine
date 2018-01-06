@@ -32,7 +32,7 @@
     <!--sip 需要的权限-->
     <!--web sip-->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <!--web sip-->
     <!--web x5 core-->
@@ -40,7 +40,7 @@
     <!--web x5 core-->
     <!--安装后自启-->
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
 
 
     <uses-permission android:name="android.permission.READ_LOGS" />

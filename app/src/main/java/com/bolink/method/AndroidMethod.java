@@ -231,7 +231,7 @@ public class AndroidMethod {
 
     @JavascriptInterface
     public void NotReportOrders() {
-        List<Orders> orders = DataSupport.where("isReport like ? and getMoney > ?", "0", "0").find(Orders.class);
+        List<Orders> orders = DataSupport.where("isReport like ? and getMoney > ? and isCharge like ?", "0", "0","0").find(Orders.class);
         String json_orders = "";
         if (null != orders && orders.size() > 0) {
             Gson gson = new Gson();
@@ -335,6 +335,7 @@ public class AndroidMethod {
     //注册-linephone
     @JavascriptInterface
     public void Regist_LinePhone(String accout, String pwd, String domain, String host) {
+        WriteLog(accout + "  " + pwd + "  " + domain + "  " + host + "  ");
         LinePhoneUtil.initLinePhone(accout, pwd, domain, host);
     }
 
@@ -441,6 +442,24 @@ public class AndroidMethod {
                 + res.getString(R.string.ads_paytype) + paytype + "\n"
                 + res.getString(R.string.ads_paytime) + paytime + "\n";
         msg.setContent(content);
+        RxBus.get().post(new Messages(PRINT_TICKET, msg));
+    }
+    @JavascriptInterface
+    public void Print(String title, String park, String terminal, String carnumber, String prepay, String paytype, String paytime, String tale,String returncash,String url) {
+        PrintMsg msg = new PrintMsg();
+        msg.setTitle(title);
+        msg.setTale(tale);
+        Resources res = context.getResources();
+        String content = res.getString(R.string.ads_park) + park + "\n"
+                + res.getString(R.string.ads_teminal) + terminal + "\n"
+                + res.getString(R.string.ads_carnumber) + carnumber + "\n"
+                + res.getString(R.string.ads_prepay) + prepay + "\n"
+                + res.getString(R.string.ads_paytype) + paytype + "\n"
+                + res.getString(R.string.ads_paytime) + paytime + "\n"
+                + res.getString(R.string.ads_returncash) + returncash + "\n";
+        msg.setContent(content);
+        msg.setUrl(url);
+//        WriteLog(url);
         RxBus.get().post(new Messages(PRINT_TICKET, msg));
     }
 

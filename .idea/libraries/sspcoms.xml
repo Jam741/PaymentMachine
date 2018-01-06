@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="sspcoms">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/sspcoms.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

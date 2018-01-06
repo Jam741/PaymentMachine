@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.bolink.R;
 import com.bolink.bean.Messages;
+import com.bolink.bean.PrintMsg;
 import com.bolink.hardware.Print.Constant;
 import com.bolink.hardware.PrintCom.ComBean;
 import com.bolink.hardware.PrintCom.MyFunc;
@@ -27,16 +28,23 @@ import java.util.Queue;
  */
 
 public class PrintComUtil {
-    private static class PrintComHolder{
+    private static class PrintComHolder {
         private static final PrintComUtil holder = new PrintComUtil();
     }
-    private PrintComUtil(){};
-    public static final PrintComUtil get(){
-        return  PrintComHolder.holder;
+
+    private PrintComUtil() {
     }
+
+    ;
+
+    public static final PrintComUtil get() {
+        return PrintComHolder.holder;
+    }
+
     SerialControl ComA;//串口
     Context contexts;
-    public void init(Context context){
+
+    public void init(Context context) {
         contexts = context;
         ComA = new SerialControl();
         ComA.setbLoopData(PrintCmd.GetStatus4());
@@ -48,41 +56,47 @@ public class PrintComUtil {
         ComA.setBaudRate(context.getResources().getString(R.string.print_baud_rate));
         OpenComPort(ComA);
     }
+
     //----------------------------------------------------打开串口
     private void OpenComPort(SerialHelper ComPort) {
         try {
             ComPort.open();
         } catch (SecurityException e) {
-            RxBus.get().post(new Messages(Messages.PRINT_MSG,"No_read_or_write_permissions"));
+            RxBus.get().post(new Messages(Messages.PRINT_MSG, "No_read_or_write_permissions"));
 //            ShowMessage(getString(R.string.No_read_or_write_permissions));
         } catch (IOException e) {
 //            ShowMessage(getString(R.string.Unknown_error));
-            RxBus.get().post(new Messages(Messages.PRINT_MSG,"Unknown_error"));
+            RxBus.get().post(new Messages(Messages.PRINT_MSG, "Unknown_error"));
         } catch (InvalidParameterException e) {
 //            ShowMessage(getString(R.string.Parameter_error));
-            RxBus.get().post(new Messages(Messages.PRINT_MSG,"Parameter_error"));
+            RxBus.get().post(new Messages(Messages.PRINT_MSG, "Parameter_error"));
         }
     }
+
     //----------------------------------------------------串口控制类
     DispQueueThread DispQueue;//刷新显示线程
+
     private class SerialControl extends SerialHelper {
         public SerialControl() {
         }
+
         @Override
         protected void onDataReceived(final ComBean ComRecData) {
             DispQueue.AddQueue(ComRecData);// 线程定时刷新显示(推荐)
         }
     }
+
     //----------------------------------------------------刷新显示线程
     private class DispQueueThread extends Thread {
         private Queue<ComBean> QueueList = new LinkedList<ComBean>();
+
         @Override
         public void run() {
             super.run();
             while (!isInterrupted()) {
                 final ComBean ComData;
                 while ((ComData = QueueList.poll()) != null) {
-                    ((Activity)contexts).runOnUiThread(new Runnable() {
+                    ((Activity) contexts).runOnUiThread(new Runnable() {
                         public void run() {
                             DispRecData(ComData);
                         }
@@ -96,13 +110,16 @@ public class PrintComUtil {
                 }
             }
         }
+
         public synchronized void AddQueue(ComBean ComData) {
             QueueList.add(ComData);
         }
     }
+
     //----------------------------------------------------显示接收数据
     int m_iRecValue = -1;//接收值
-    int m_iStatusCount=0;	//返回状态计时
+    int m_iStatusCount = 0;    //返回状态计时
+
     private void DispRecData(ComBean ComRecData) {
 //        m_blnStatus = false;
         m_iStatusCount = 0;
@@ -116,14 +133,13 @@ public class PrintComUtil {
 //			Toast.makeText(MainActivity.this, "状态返回值：" + m_iRecValue, Toast.LENGTH_LONG).show();
             byte iValue = ComRecData.bRec[0];
             sMsg.append(state);
-            switch(m_iRecValue)
-            {
+            switch (m_iRecValue) {
                 case 0:
                     sMsg.append(normal);
                     break;
                 case 7:
                     sMsg.append(paperExh);
-                    errmsg=paperExh;
+                    errmsg = paperExh;
                     break;
                 case 8:
                     sMsg.append(paperWillExh);
@@ -144,13 +160,15 @@ public class PrintComUtil {
 //                PrintBankQueue();// 银行小票打印
 //            }
         } catch (Exception ex) {
-            Log.d("DispRecData:",ex.getMessage());
+            Log.d("DispRecData:", ex.getMessage());
         }
     }
+
     static String errmsg = "print value 7";
     // 通过系统语言判断Message显示
     String receive = "", state = ""; // 接收提示、状态类型
-    String normal = "",paperExh = "",paperWillExh = "",abnormal = "";
+    String normal = "", paperExh = "", paperWillExh = "", abnormal = "";
+
     private void getMsgByLanguage() {
         if (isZh()) {
             receive = Constant.Receive_CN;
@@ -168,6 +186,7 @@ public class PrintComUtil {
             abnormal = Constant.Abnormal_US;
         }
     }
+
     // 获取当前系统的语言环境
     private boolean isZh() {
         Locale locale = contexts.getResources().getConfiguration().locale;
@@ -177,20 +196,28 @@ public class PrintComUtil {
         else
             return false;
     }
-    public void print(){
+
+    public void print() {
 //        CommontUtils.writeSDFile("print","status :"+m_iRecValue);
         if (m_iRecValue != 7) {
             // ShowMessage("打印Demo...");
-            PrintBankQueue(contexts.getResources().getString(R.string.PrintTest_btn),"100","这是内容这是内容这是内容这是内容这是内容这是内容这是内容");// 银行小票打印
+            PrintBankQueue(contexts.getResources().getString(R.string.PrintTest_btn), "100", "这是内容这是内容这是内容这是内容这是内容这是内容这是内容");// 银行小票打印
             ComA.startSend();
 //            CommontUtils.writeSDFile("print","send finish :");
-        }else{
-            RxBus.get().post(new Messages(Messages.PRINT_MSG,errmsg));
-        }    }
-    public void checkstatus(){
+        } else {
+            RxBus.get().post(new Messages(Messages.PRINT_MSG, errmsg));
+        }
+    }
+
+    public void checkstatus() {
 
     }
-    public void PrintTicket(String title,String content,String tale){
+
+    public void PrintTicket(PrintMsg msg) {
+        String title = msg.getTitle();
+        String content = msg.getContent();
+        String tale = msg.getTale();
+        String url = msg.getUrl();
         try {
             CleanPrinter();
 
@@ -202,26 +229,34 @@ public class PrintComUtil {
 
             ComA.send(PrintCmd.SetAlignment(0));
             ComA.send(PrintCmd.SetSizetext(0, 0));
+
             ComA.send(PrintCmd.PrintString(content, 0));
-
-//            ComA.send(PrintCmd.PrintFeedline(1));
-
+            String talestr = contexts.getResources().getString(R.string.ads_tail_head) + tale + contexts.getResources().getString(R.string.ads_tail);
+            if (url != null && !url.equals("")) {
+                ComA.send(PrintCmd.PrintQrcode(url, 5, 2, 0));
+                ComA.send(PrintCmd.PrintFeedline(1));
+//                talestr="微信扫描二维码领取找零红包\n"+talestr;
+                ComA.send(PrintCmd.PrintString("微信扫描二维码领取找零红包", 0));;
+            }
             ComA.send(PrintCmd.PrintString(contexts.getResources().getString(R.string.ads_line), 0));
+            ComA.send(PrintCmd.PrintString(talestr, 0));
 
 //            ComA.send(PrintCmd.PrintFeedline(1));
 
-            ComA.send(PrintCmd.PrintString(contexts.getResources().getString(R.string.ads_tail_head)+tale+contexts.getResources().getString(R.string.ads_tail), 0));
+//            ComA.send(PrintCmd.PrintFeedline(1));
 
             PrintFeedCutpaper(6);
-        }catch (Exception e){
-            CommontUtils.writeSDFile("printException",e.getMessage());
+        } catch (Exception e) {
+            CommontUtils.writeSDFile("printException", e.getMessage());
         }
     }
+
     /**
-     *  1.打印银行排队办理业务排队单
+     * 1.打印银行排队办理业务排队单
      */
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); // 国际化标志时间格式类
-    private void PrintBankQueue(String title,String num,String strData) {
+
+    private void PrintBankQueue(String title, String num, String strData) {
 //        getStrDataByLanguage();
         try {
             // 小票标题
@@ -330,30 +365,34 @@ public class PrintComUtil {
             e.printStackTrace();
         }
     }
+
     // 打印自检页 指令发送函数示例
-    public static byte[] PrintSelfcheck(boolean center){
+    public static byte[] PrintSelfcheck(boolean center) {
         byte[] bCmd = new byte[3];
-        int iIndex=0;
-        bCmd[iIndex++]=0x1D;
-        bCmd[iIndex++]=0x50;
-        if(center){
-            bCmd[iIndex++]=0x01;
-        }else{
-            bCmd[iIndex++]=0x00;
+        int iIndex = 0;
+        bCmd[iIndex++] = 0x1D;
+        bCmd[iIndex++] = 0x50;
+        if (center) {
+            bCmd[iIndex++] = 0x01;
+        } else {
+            bCmd[iIndex++] = 0x00;
         }
         return bCmd;
     }
+
     // 走纸换行，再切纸，清理缓存
     private void PrintFeedCutpaper(int iLine) throws IOException {
         ComA.send(PrintCmd.PrintFeedline(iLine));
         ComA.send(PrintCmd.PrintCutpaper(1));
         ComA.send(PrintCmd.SetClean());
     }
+
     // 清理缓存，缺省模式
     private void CleanPrinter() {
         ComA.send(PrintCmd.SetClean());
     }
-    public void Destroy(){
+
+    public void Destroy() {
         if (ComA != null) {
             ComA.stopSend();
             ComA.close();

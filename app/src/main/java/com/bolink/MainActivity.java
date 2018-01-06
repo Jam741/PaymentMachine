@@ -30,6 +30,7 @@ import com.bolink.bean.Messages;
 import com.bolink.bean.PrintMsg;
 import com.bolink.bean.Users;
 import com.bolink.bean.VideoUrls;
+import com.bolink.customview.DownloadDialog;
 import com.bolink.customview.ToastDialog;
 import com.bolink.customview.mCycleViewPager;
 import com.bolink.hardware.AndroidRom;
@@ -73,7 +74,35 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import static com.bolink.bean.Messages.*;
+import static com.bolink.bean.Messages.CALL_ENDED;
+import static com.bolink.bean.Messages.CALL_ESTABLISHED;
+import static com.bolink.bean.Messages.CALL_HOST;
+import static com.bolink.bean.Messages.CALL_HOST_LINEPHONE;
+import static com.bolink.bean.Messages.CALL_RECEIVED;
+import static com.bolink.bean.Messages.CHECK_UPDATE;
+import static com.bolink.bean.Messages.CLEAR_CACHE;
+import static com.bolink.bean.Messages.DOWNLOAD_PROGRESS_APK;
+import static com.bolink.bean.Messages.IDENTIFY_PWD_N;
+import static com.bolink.bean.Messages.IDENTIFY_PWD_Y;
+import static com.bolink.bean.Messages.JS_LOADING_CANCEL;
+import static com.bolink.bean.Messages.JS_LOADING_SHOW;
+import static com.bolink.bean.Messages.LINEPHONE_MSG;
+import static com.bolink.bean.Messages.LOADING_SHOW;
+import static com.bolink.bean.Messages.MacAddress;
+import static com.bolink.bean.Messages.NOT_REPORT_ORDERS;
+import static com.bolink.bean.Messages.PAPER_MONEY;
+import static com.bolink.bean.Messages.PAPER_MONEY_OPEN;
+import static com.bolink.bean.Messages.PRINT_MSG;
+import static com.bolink.bean.Messages.PRINT_TICKET;
+import static com.bolink.bean.Messages.QUERRY_ADVANCE;
+import static com.bolink.bean.Messages.QUERRY_ADVANCE_ABNORMAL;
+import static com.bolink.bean.Messages.RELOAD_WEBVIEW;
+import static com.bolink.bean.Messages.SCAN_CLOSE;
+import static com.bolink.bean.Messages.SCAN_MSG;
+import static com.bolink.bean.Messages.SCAN_OPEN;
+import static com.bolink.bean.Messages.SCAN_OPEN_RESULT;
+import static com.bolink.bean.Messages.SCAN_OPEN_RESULT_BEFORE;
+import static com.bolink.bean.Messages.VERSION_CODE;
 import static com.bolink.utils.CommontUtils.setVolume;
 
 
@@ -98,16 +127,16 @@ public class MainActivity extends BaseActivity {
 
     Button button;
     public static final int WRITE_EXTERNAL_STORAGE = 0x600001;
-//    DownloadDialog downloadDialog;
+    DownloadDialog downloadDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("Timeline","before super "+System.currentTimeMillis());
+        Log.i("Timeline", "before super " + System.currentTimeMillis());
         super.onCreate(savedInstanceState);
-        Log.i("Timeline","after super "+System.currentTimeMillis());
+        Log.i("Timeline", "after super " + System.currentTimeMillis());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+//        startActivity(new Intent());
         ViewUtils.setLayoutParams(videocontain, this);
         ViewUtils.setLayoutParams(viewPager, this);
 
@@ -156,6 +185,17 @@ public class MainActivity extends BaseActivity {
                 jsMethod.CurrentVersion(CommontUtils.getVersionName(MainActivity.this));
                 RxBus.get().post(new Messages(VERSION_CODE, null));
             }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                String url = request.getUrl().toString();
+//                return super.shouldOverrideUrlLoading(view, request);
+//            }
         });
         webView.addJavascriptInterface(androidMethod, "AndroidMethod");
         webView.loadUrl(getResources().getString(R.string.web_url));
@@ -167,12 +207,13 @@ public class MainActivity extends BaseActivity {
         initRxbus();
         initVideo();
 
-//        downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
-//        downloadDialog.setCancelable(false);
+        //116版本注释了，117版本又不注释了。忘了为什么这么做了。。。
+        downloadDialog = new DownloadDialog(MainActivity.this, R.style.downloaddialog);
+        downloadDialog.setCancelable(false);
 //        initSip();
 //        AndroidRom.get().LockBar(MainActivity.this);
         initTests();
-        Log.i("Timeline","crate finish "+System.currentTimeMillis());
+        Log.i("Timeline", "crate finish " + System.currentTimeMillis());
     }
 
 
@@ -350,8 +391,7 @@ public class MainActivity extends BaseActivity {
                     webView.reload();
                     break;
                 case PRINT_TICKET:
-                    PrintMsg msg = (PrintMsg) messages.getMsg();
-                    PrintComUtil.get().PrintTicket(msg.getTitle(), msg.getContent(), msg.getTale());
+                    PrintComUtil.get().PrintTicket((PrintMsg) messages.getMsg());
                     break;
                 case SCAN_OPEN:
                     if (openScanResult.contains("success")) {
@@ -397,7 +437,7 @@ public class MainActivity extends BaseActivity {
                     UpdateUtil.CheckUpdate(CommontUtils.getVersion(this), this);
                     break;
                 case LOADING_SHOW:
-//                    downloadDialog.show();
+                    downloadDialog.show();
                 case JS_LOADING_SHOW:
                     jsMethod.ShowLoading("");
                     break;
@@ -645,7 +685,7 @@ public class MainActivity extends BaseActivity {
 
             if (download.getURI().contains(".apk")) {
                 //下载的apk
-//                downloadDialog.dismiss();
+                downloadDialog.dismiss();
                 UpdateUtil.installAPK(new File(download.getURI()), this);
             } else if (download.getURI().contains(".jpg")) {
                 //先下载图片，再下载视频，最后是apk
@@ -694,7 +734,7 @@ public class MainActivity extends BaseActivity {
         } else {
             if (download.getURI().contains(".apk")) {
                 //下载的apk
-//                downloadDialog.setProgress(download.getProgress());
+                downloadDialog.setProgress(download.getProgress());
             } else {
                 button.setText(
                         StringUtils.getDataSize(download.getCurrentFileSize())

@@ -144,5 +144,4 @@ public class FileUtils {
         return bitmap;
 
     }
-
 }

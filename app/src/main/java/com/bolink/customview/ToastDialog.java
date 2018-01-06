@@ -32,13 +32,14 @@ public class ToastDialog extends Dialog {
     }
 
     TextView content;
+    Window dialogwidow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_toast);
         content = ((TextView) findViewById(R.id.content));
-        Window dialogwidow = getWindow();
+        dialogwidow = getWindow();
         dialogwidow.setGravity(Gravity.CENTER);
     }
 
@@ -63,6 +64,8 @@ public class ToastDialog extends Dialog {
 
 
     public void show_D() {
+//        if (dialogwidow == null)
+//            return;
         dialog.show();
         dialog.setText(TEXT);
         new Handler().postDelayed(() -> {

@@ -62,9 +62,17 @@
 -keep class com.sun.jna.**{*;}
 
 # OkHttp3
--dontwarn okhttp3.logging.**
--keep class okhttp3.internal.**{*;}
+#-dontwarn okhttp3.logging.**
+#-keep class okhttp3.internal.**{*;}
+#-dontwarn okio.**
+#to resolve this warning : Warning:okhttp3.Address: can't find referenced class javax.annotation.Nullable
 -dontwarn okio.**
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *; }
+-keep interface com.squareup.okhttp3.* { *; }
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+
 # Retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }

@@ -93,6 +93,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         // 设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
+
     }
 
     /**
@@ -185,7 +186,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * @return 返回文件名称, 便于将文件传送到服务器
      */
     private String saveCrashInfo2File(Throwable ex) {
-
+        StringBuilder stringBuilder = new StringBuilder();
         StringBuffer sb = new StringBuffer();
         for (Map.Entry<String, String> entry : infos.entrySet()) {
             String key = entry.getKey();

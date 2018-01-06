@@ -103,66 +103,72 @@ public class SipManager implements LinphoneCoreListener {
     }
 
     public void toCall(String account) throws LinphoneCoreException {
-        LinphoneCall call = mLinphoneCore.invite(account);
-        boolean mIsCalling = true;
+        try{
+            LinphoneCall call = mLinphoneCore.invite(account);
+            boolean mIsCalling = true;
 
-        boolean isConnected = false;
-        long iterateIntervalMs = 50L;
+            boolean isConnected = false;
+            long iterateIntervalMs = 50L;
 
-        if (call == null) {
-            Log.i(TAG, "Could not place call to");
-        } else {
-            Log.i(TAG, "Call to: " + account);
+            if (call == null) {
+                Log.i(TAG, "Could not place call to");
+            } else {
+                Log.i(TAG, "Call to: " + account);
 
-            while (mIsCalling) {
-                mLinphoneCore.iterate();
+                while (mIsCalling) {
+                    mLinphoneCore.iterate();
 
-                try {
-                    Thread.sleep(iterateIntervalMs);
+                    try {
+                        Thread.sleep(iterateIntervalMs);
 
-                    if (call.getState().equals(LinphoneCall.State.CallEnd)
-                            || call.getState().equals(LinphoneCall.State.CallReleased)) {
-                        mIsCalling = false;
-                        Log.i(TAG, "LinphoneCall.State.CallEnd|LinphoneCall.State.CallReleased");
-                    }
-
-                    if (call.getState().equals(LinphoneCall.State.StreamsRunning)) {
-                        isConnected = true;
-                        // do your stuff
-                        //通话过程中
-                        Log.i(TAG, SIP_TALKING);
-                        if (!IsTalking) {
-                            RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_TALKING));
-                            IsTalking = true;
+                        if (call.getState().equals(LinphoneCall.State.CallEnd)
+                                || call.getState().equals(LinphoneCall.State.CallReleased)) {
+                            mIsCalling = false;
+                            Log.i(TAG, "LinphoneCall.State.CallEnd|LinphoneCall.State.CallReleased");
                         }
-                    }
 
-                    if (call.getState().equals(LinphoneCall.State.OutgoingRinging)) {
-                        // do your stuff
-                        //响铃中
-                        Log.i(TAG, SIP_RINGING);
-                        if (!IsRinging) {
-                            RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_RINGING));
-                            IsRinging = true;
+                        if (call.getState().equals(LinphoneCall.State.StreamsRunning)) {
+                            isConnected = true;
+                            // do your stuff
+                            //通话过程中
+                            Log.i(TAG, SIP_TALKING);
+                            if (!IsTalking) {
+                                RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_TALKING));
+                                IsTalking = true;
+                            }
                         }
+
+                        if (call.getState().equals(LinphoneCall.State.OutgoingRinging)) {
+                            // do your stuff
+                            //响铃中
+                            Log.i(TAG, SIP_RINGING);
+                            if (!IsRinging) {
+                                RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_RINGING));
+                                IsRinging = true;
+                            }
+                        }
+                    } catch (InterruptedException var8) {
+                        Log.i(TAG, "Interrupted! Aborting");
+                        //出现异常了，就重新初始化
+                        RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_INIT));
+                        IsTalking = false;
+                        IsRinging = false;
                     }
-                } catch (InterruptedException var8) {
-                    Log.i(TAG, "Interrupted! Aborting");
-                    //出现异常了，就重新初始化
-                    RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_INIT));
+                }
+                if (!LinphoneCall.State.CallEnd.equals(call.getState())) {
+                    //结束通话
+                    Log.i(TAG, SIP_TERMINATE);
+                    mLinphoneCore.terminateCall(call);
+                    RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_TERMINATE));
                     IsTalking = false;
                     IsRinging = false;
                 }
             }
-            if (!LinphoneCall.State.CallEnd.equals(call.getState())) {
-                //结束通话
-                Log.i(TAG, SIP_TERMINATE);
-                mLinphoneCore.terminateCall(call);
-                RxBus.get().post(new Messages(Messages.LINEPHONE_MSG, SIP_TERMINATE));
-                IsTalking = false;
-                IsRinging = false;
-            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+
     }
 
     public void register(String account, String password, String domain) throws LinphoneCoreException {

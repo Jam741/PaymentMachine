@@ -86,8 +86,9 @@
     <string name="ads_prepay">已 预 付：</string>
     <string name="ads_paytype">缴费方式：</string>
     <string name="ads_paytime">交易时间：</string>
+    <string name="ads_returncash">找零金额：</string>
     <string name="ads_tail_head">请在</string>
-    <string name="ads_tail">分钟内离场，超时需补缴停车费</string>
+    <string name="ads_tail">分钟内离场,超时需补缴停车费</string>
     <string name="ads_line">-------------------------------</string>
 
     <!--更新信息 beta-->

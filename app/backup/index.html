@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=11">
+    <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
     <title></title>
     <meta name="description" content="">
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
@@ -12,6 +13,9 @@
     <link rel="stylesheet" href="css/index.css">
     <script src="js/vue.min.js"></script>
     <script src="js/vue-resource.js"></script>
+    <script type="text/javascript" src="js/android.js"></script>
+    <script type="text/javascript" src="js/constmodel.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
     <!-- Swiper JS -->
     <!--<script src="js/swiper.min.js"></script>-->
     <!--&lt;!&ndash; Demo styles &ndash;&gt;-->
@@ -31,7 +35,11 @@
             <source src="http://vjs.zencdn.net/s.mp4v/ocean" type="video/mp4">
         </video>
     </div>-->
-    <div class="div-item-middle" id="keyboard">
+    <div class="img-big" v-show="showBigImg" @click="clickBigImg">
+        <img v-bind:src="InparkImageUrl_position" width="1080px" height="761px"/>
+    </div>
+    <div class="div-item-middle" id="keyboard" v-show="!showBigImg">
+        <!--<div class="item-right" v-show="showdetailPic">-->
 
         <div class="load" v-show="dialog">
             <i></i>
@@ -182,11 +190,11 @@
             </div>
             <div class="carno-code">
                 <div class="carno-code-img">
-                    <img v-bind:src="url_nocarnum" width="236px" height="236px">
+                    <img v-bind:src="url_nocarnum" width="236px" height="236px" v-show="!showkeyboard_no_scan">
                     <!--http://www.liantu.com/images/2013/liantu.png-->
-                    <p>无牌车请扫码查询</p></div>
+                    <p>{{showkeyboard_no_text}}</p></div>
 
-                <div class="carno-code-imgs">
+                <div class="carno-code-imgs" v-show="!showkeyboard_no_scan">
                     <div>
                         <img src="img/pic_wechat.jpg" width="98px" height="98px">
 
@@ -225,7 +233,35 @@
                     <img src="img/step_up.png" @click="clickOrderDetailPre">
                     <img src="img/step_down.png" @click="clickOrderDetailNext" v-show="!orderdetailNextGray">
                     <img src="img/step_down_grey.png" v-show="orderdetailNextGray">
-                    <span class="homeIcon" @click="clickHome()"></span>
+                    <span class="homeIcon" @click="clickHome()" v-show='!showSearchCar'></span>
+                    <span class="homeIcon-searchcar" @click="clickSearchCar()"
+                          v-show='showSearchCar'>{{searchCarText}}</span>
+                    <!--<span @click="clickSearch" class="right-search"></span>-->
+                </div>
+            </div>
+        </div>
+        <div class="item-right" v-show="showdetailPic">
+            <!--页面2.5 根据车牌号查询到订单-反向寻车图片-->
+            <div style="position:relative" class="showdetail-head">
+                <div style="position:absolute;left:0;top:0;z-index: 1" class="showdetail-head2">
+                    <span>{{orderdetail_title}}</span>
+                </div>
+                <img src="img/head_price.png" style="position:absolute;left:0;top:0;"/>
+            </div>
+            <div class="right-detail">
+                <div class="detail-img" style="position:relative">
+
+                    <img v-bind:src="InparkImageUrl_position" width="761px" height="450px" v-show="showUrlPosition"
+                         @click="clickBigImg"
+                         style="position:absolute;left:0;top:0;"/>
+                    <span class="searchcar-discribe" v-show="!showUrlPosition">{{InparkImageUrl_describe}}</span>
+                </div>
+                <div class="detail-buttons">
+                    <img src="img/step_up.png" @click="clickOrderDetailPre">
+                    <img src="img/step_down.png" @click="clickOrderDetailNext" v-show="!orderdetailNextGray">
+                    <img src="img/step_down_grey.png" v-show="orderdetailNextGray">
+
+                    <span class="homeIcon-searchcar" @click="clickSearchCar()">{{searchCarText}}</span>
 
                     <!--<span @click="clickSearch" class="right-search"></span>-->
                 </div>
@@ -241,7 +277,7 @@
             </div>
             <div class="right-keyboard right-detailssss">
                 <div class="detail-img detail-img2">
-                    <img class="imglist" width="340px" height="195px" v-for="item in datas.orders"
+                    <img class="imglist" width="340px" height="195px" v-for="item in orderDatas.orders"
                          v-bind:src="item.inparkImageUrl"
                          @click="clickImg(item)" :class="{imglistactive: selectIndex == item.inparkImageUrl}"/>
                 </div>
@@ -420,6 +456,7 @@
             <span class="finish-divid" v-show="!showfinishcharge"></span>
             <div class="pay-finish-msg" v-show="!showfinishcharge">
                 <p>{{freeOutTime}}分钟内离场免费</p>
+                <p v-show="showfinishcharge_r">如有找零,通过微信红包返还</p>
                 <p>欢迎下次光临</p></div>
             <div class="pay-finish-ok"><span @click="clickHome()">完&nbsp;成</span></div>
         </div>
@@ -429,8 +466,8 @@
                 <div class="pay-finish-left">
                     <img src="img/pic_error.png"></div>
                 <div class="pay-finish-right">
-                    <p class="p-finish-l">查&nbsp;询&nbsp;失&nbsp;败</p>
-                    <p class="p-finish-s">未找到您的在场订单，请点击退出</p>
+                    <p class="p-finish-l">缴&nbsp;费&nbsp;失&nbsp;败</p>
+                    <p class="p-finish-s" v-show="showfinishcharge_r">投入金额通过微信二维码红包返还</p>
                     <p class="p-finish-s">返回首页，再次尝试</p>
                 </div>
             </div>
@@ -483,7 +520,8 @@
             <div class="right-keyboard right-detail">
                 <div class="advance-item2">
                     <p v-for="(item,index) in AbNormalOrders" class="error-order">
-                        {{index+1}}.&nbsp;{{item.payTime}}<br />{{item.carNumber}},停车费{{item.orderPrice}}元,投入现金{{item.getMoney}}元,支付停车费{{item.pay}}元,未充值话费{{item.unCharge}}元</p>
+                        {{index+1}}.&nbsp;{{item.payTime}}<br/>{{item.carNumber}},停车费{{item.orderPrice}}元,投入现金{{item.getMoney}}元,支付停车费{{item.pay}}元,{{abnormal_type}}{{item.unCharge}}元
+                    </p>
                 </div>
                 <div class="detail-buttons">
                     <p @click="clickAdBack()">返回</p>
@@ -506,14 +544,14 @@
                         <p>{{VersionName}}&nbsp;&nbsp;></p>
                     </div>
                     <p class="p-devide-line"></p>
-                    <div class="setbar" >
+                    <div class="setbar">
                         <p>全屏显示</p>
-                        <input type="checkbox"  v-model="checked" @click="clickBar()">
+                        <input type="checkbox" v-model="checked" @click="clickBar()">
                     </div>
                     <p class="p-devide-line"></p>
                     <div class="setbar" v-show="show_checked_guard">
                         <p>守护程序</p>
-                        <input type="checkbox"  v-model="checked_guard" @click="clickGuard()">
+                        <input type="checkbox" v-model="checked_guard" @click="clickGuard()">
                     </div>
                     <p class="p-devide-line" v-show="show_checked_guard"></p>
                 </div>
@@ -528,31 +566,31 @@
     </div>
     <div class="div-item-bottom" v-show="bottomimgs">
         <!--<div class="swiper-container">-->
-            <!--<div class="swiper-wrapper">-->
-                <!--<div class="swiper-slide" v-for="su in swiperUrl">-->
-                    <!--<img v-bind:src="su.url" width="1080px" height="607.5px">-->
-                    <!--&lt;!&ndash;<img class="imglist" width="350px" height="200px" &ndash;&gt;-->
-                    <!--&lt;!&ndash;v-bind:src="su.url"&ndash;&gt;-->
-                    <!--&lt;!&ndash;/>&ndash;&gt;-->
-                <!--</div>-->
+        <!--<div class="swiper-wrapper">-->
+        <!--<div class="swiper-slide" v-for="su in swiperUrl">-->
+        <!--<img v-bind:src="su.url" width="1080px" height="607.5px">-->
+        <!--&lt;!&ndash;<img class="imglist" width="350px" height="200px" &ndash;&gt;-->
+        <!--&lt;!&ndash;v-bind:src="su.url"&ndash;&gt;-->
+        <!--&lt;!&ndash;/>&ndash;&gt;-->
+        <!--</div>-->
 
-                <!--&lt;!&ndash;<div class="swiper-slide s1"><img v-bind:src="swiperUrl[0]" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s2"><img src="img/2.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s3"><img src="img/3.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s4"><img src="img/4.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s5"><img src="img/5.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s1"><img v-bind:src="swiperUrl[0]" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s2"><img src="img/2.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s3"><img src="img/3.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s4"><img src="img/4.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s5"><img src="img/5.jpg" width="1080px" height="607.5px" @click="update"></div>&ndash;&gt;-->
 
-                <!--&lt;!&ndash;<div class="swiper-slide s1"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s2"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s3"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s4"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="swiper-slide s5"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
-            <!--</div>-->
-            <!--&lt;!&ndash; Add Pagination &ndash;&gt;-->
-            <!--<div class="swiper-pagination"></div>-->
-            <!--&lt;!&ndash; Add Arrows &ndash;&gt;-->
-            <!--<div class="swiper-button-next"></div>-->
-            <!--<div class="swiper-button-prev"></div>-->
+        <!--&lt;!&ndash;<div class="swiper-slide s1"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s2"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s3"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s4"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="swiper-slide s5"><img v-bind:src="left[0]" width="1080px" height="607.5px"/></div>&ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; Add Pagination &ndash;&gt;-->
+        <!--<div class="swiper-pagination"></div>-->
+        <!--&lt;!&ndash; Add Arrows &ndash;&gt;-->
+        <!--<div class="swiper-button-next"></div>-->
+        <!--<div class="swiper-button-prev"></div>-->
         <!--</div>-->
 
     </div>

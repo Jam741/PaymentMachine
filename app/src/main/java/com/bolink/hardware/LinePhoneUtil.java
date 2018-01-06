@@ -83,7 +83,8 @@ public class LinePhoneUtil {
                         jsMethod.NotifyCallStatus(state + TimeUtils.Sec2Time(aLong));
                     }));
         } else {
-            compositeDisposable.dispose();
+            if (compositeDisposable != null)
+                compositeDisposable.dispose();
         }
 //        compositeDisposable.add(Flowable.interval(1, TimeUnit.SECONDS)
 //                .onBackpressureDrop()

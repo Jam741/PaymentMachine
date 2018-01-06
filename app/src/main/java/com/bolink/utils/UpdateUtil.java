@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import com.bolink.R;
 import com.bolink.bean.Messages;
@@ -37,6 +38,7 @@ import static com.bolink.bean.Messages.PRINT_MSG;
  */
 
 public class UpdateUtil {
+    private static final String TAG = "UpdateUtil";
     public static void CheckUpdate(String versionCode, Context context) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getResources().getString(R.string.update_url))
@@ -49,10 +51,12 @@ public class UpdateUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bytes -> {
                     RxBus.get().post(new Messages(JS_LOADING_CANCEL, ""));
+                    Log.e(TAG, "CheckUpdate: "+ bytes);
                     if (bytes != null) {
                         InputStream inputStream = new ByteArrayInputStream(bytes);
                         UpdateInfo info = UpdataInfoParser.getUpdataInfo(inputStream);
                         inputStream.close();
+                        Log.e(TAG, "CheckUpdate: "+ info.getVersion()+info.getDescription());
                         if (Integer.parseInt(versionCode) < Integer.parseInt(info.getVersion())) {
                             File updateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), context.getResources().getString(R.string.apk_name));
                             if (updateFile.exists()) {
@@ -63,6 +67,7 @@ public class UpdateUtil {
                                 RxBus.get().post(new Messages(LOADING_SHOW, null));
                             }
                         } else {
+
                             RxBus.get().post(new Messages(PRINT_MSG, context.getResources().getString(R.string.msg_alreadylatest)));
                         }
                     }
