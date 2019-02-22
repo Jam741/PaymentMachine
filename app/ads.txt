@@ -1,6 +1,0 @@
-2017-10-30 08:54:01MMMMMac address-->cc:b8:a8:32:ec:a0
-2017-10-30 08:54:09scan open result-->success
-2017-10-30 08:54:09clear-->null
-2017-10-30 09:04:25MMMMMac address-->cc:b8:a8:32:ec:a0
-2017-10-30 09:04:32scan open result-->success
-2017-10-30 09:04:32clear-->null

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 
+import com.bolink.BuildConfig;
 import com.bolink.R;
 import com.bolink.bean.BoxMomey;
 import com.bolink.bean.Messages;
@@ -32,6 +34,8 @@ import static com.bolink.bean.Messages.MacAddress;
 import static com.bolink.bean.Messages.NOT_REPORT_ORDERS;
 import static com.bolink.bean.Messages.PRINT_MSG;
 import static com.bolink.bean.Messages.PRINT_TICKET;
+import static com.bolink.bean.Messages.REQUEST_SPECIE_COUNT;
+import static com.bolink.bean.Messages.REQUEST_SPECIE_OUT;
 import static com.bolink.bean.Messages.SCAN_CLOSE;
 import static com.bolink.bean.Messages.SCAN_OPEN;
 
@@ -231,7 +235,7 @@ public class AndroidMethod {
 
     @JavascriptInterface
     public void NotReportOrders() {
-        List<Orders> orders = DataSupport.where("isReport like ? and getMoney > ? and isCharge like ?", "0", "0","0").find(Orders.class);
+        List<Orders> orders = DataSupport.where("isReport like ? and getMoney > ? and isCharge like ?", "0", "0", "0").find(Orders.class);
         String json_orders = "";
         if (null != orders && orders.size() > 0) {
             Gson gson = new Gson();
@@ -431,6 +435,8 @@ public class AndroidMethod {
     //打印内容
     @JavascriptInterface
     public void Print(String title, String park, String terminal, String carnumber, String prepay, String paytype, String paytime, String tale) {
+
+        Log.d("PRINT", "打印小票");
         PrintMsg msg = new PrintMsg();
         msg.setTitle(title);
         msg.setTale(tale);
@@ -444,8 +450,32 @@ public class AndroidMethod {
         msg.setContent(content);
         RxBus.get().post(new Messages(PRINT_TICKET, msg));
     }
+
+    //打印内容
     @JavascriptInterface
-    public void Print(String title, String park, String terminal, String carnumber, String prepay, String paytype, String paytime, String tale,String returncash,String url) {
+    public void Print(String title, String park, String terminal, String carnumber, String prepay, String paytype, String paytime, String tale,String returncash) {
+
+        Log.d("PRINT", "打印小票");
+        PrintMsg msg = new PrintMsg();
+        msg.setTitle(title);
+        msg.setTale(tale);
+        Resources res = context.getResources();
+        String content = res.getString(R.string.ads_park) + park + "\n"
+                + res.getString(R.string.ads_teminal) + terminal + "\n"
+                + res.getString(R.string.ads_carnumber) + carnumber + "\n"
+                + res.getString(R.string.ads_prepay) + prepay + "\n"
+                + res.getString(R.string.ads_paytype) + paytype + "\n"
+                + res.getString(R.string.ads_paytime) + paytime + "\n"
+                + res.getString(R.string.ads_returncash) + returncash + "\n" + "(请与管理员联系找零 )";
+        msg.setContent(content);
+        RxBus.get().post(new Messages(PRINT_TICKET, msg));
+    }
+
+
+    @JavascriptInterface
+    public void Print(String title, String park, String terminal, String carnumber, String prepay, String paytype, String paytime, String tale, String returncash, String url) {
+
+        Log.d("PRINT", "打印小票2");
         PrintMsg msg = new PrintMsg();
         msg.setTitle(title);
         msg.setTale(tale);
@@ -462,6 +492,20 @@ public class AndroidMethod {
 //        WriteLog(url);
         RxBus.get().post(new Messages(PRINT_TICKET, msg));
     }
+
+
+    //查询硬币余额
+    @JavascriptInterface
+    public void RequestSpecieCount() {
+        RxBus.get().post(new Messages(REQUEST_SPECIE_COUNT, null));
+    }
+
+    //出币
+    @JavascriptInterface
+    public void RequestSpecieOut(String count) {
+        RxBus.get().post(new Messages(REQUEST_SPECIE_OUT, count));
+    }
+
 
     //扫码器 启动扫描
     @JavascriptInterface
@@ -483,6 +527,12 @@ public class AndroidMethod {
         if (mac.equals("")) {
             mac = CommontUtils.getMacAddress(context);
         }
+
+        if (BuildConfig.DEBUG) {
+//            mac = "7c:1d:d9:f2:7f:5c";
+//            mac = "7c:1d:d9:f2:7f:5c";
+        }
+
         CommontUtils.writeSDFile("MMMMMac address", mac);
         if (null != mac && !"".equals(mac)) {
             SharedPreferences.Editor editor = sp.edit();
@@ -521,4 +571,16 @@ public class AndroidMethod {
         intent.setAction("stopDetect");
         context.sendBroadcast(intent);
     }
+
+    //跳转到新的地址
+    @JavascriptInterface
+    public void RememberURL(String url) {
+//        RxBus.get().post(new Messages(LOGIN_JUMP, url));
+        SharedPreferences.Editor editor = SharedPreferenceUtil.get(context).edit();
+        editor.putString("JumpURL", url);
+        editor.commit();
+//        System.out.println("-----------url="+url);
+    }
+
+
 }

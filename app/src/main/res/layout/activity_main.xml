@@ -5,6 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <!--<com.tencent.smtt.sdk.WebView-->
+
+    <!--android:id="@+id/webView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1" >-->
+    <!--<Button-->
+    <!--android:id="@+id/button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <!--</com.tencent.smtt.sdk.WebView>-->
+
+    <!--<android.support.v4.view.ViewPager-->
+    <!--android:id="@+id/viewpager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="250dp">-->
+
+    <!--</android.support.v4.view.ViewPager>-->
+
     <FrameLayout
 
         android:id="@+id/videocontain"
@@ -27,24 +47,8 @@
             app:ringColor="@color/colorAccent"
             app:textColor="#ffffff" />
     </FrameLayout>
-    <!--<com.tencent.smtt.sdk.WebView-->
 
-    <!--android:id="@+id/webView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight="1" >-->
-    <!--<Button-->
-    <!--android:id="@+id/button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content" />-->
-    <!--</com.tencent.smtt.sdk.WebView>-->
 
-    <!--<android.support.v4.view.ViewPager-->
-    <!--android:id="@+id/viewpager"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="250dp">-->
-
-    <!--</android.support.v4.view.ViewPager>-->
 
 
     <WebView
@@ -53,9 +57,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <LinearLayout android:visibility="gone"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/btn_vol_sys_2"
@@ -171,14 +176,15 @@
                 android:text="更新banner"
                 android:visibility="gone" />
         </LinearLayout>
-
     </WebView>
 
     <FrameLayout
+
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:orientation="vertical"></FrameLayout>
+
     <!--<com.bolink.customview.mCycleViewPager-->
 
     <!--android:id="@+id/viewpager"-->

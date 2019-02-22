@@ -1,6 +1,7 @@
 package com.bolink.hardware;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bolink.R;
 import com.bolink.bean.Messages;
@@ -39,6 +40,7 @@ public class ScanUtilUSB {
         boolean state = b.vbarOpen();
 //        CommontUtils.writeSDFile("scan open end", System.currentTimeMillis()+"");
         String msg;
+        Log.d("JAM", "state:" + state);
         if (state) {
             msg = "success";
         } else {
@@ -63,11 +65,16 @@ public class ScanUtilUSB {
 
         }
         IsRun = state;
+
+
+        Log.d("JAM", "state:" + state);
+
 //        Toast.makeText(context,msg,Toast.LENGTH_LONG).show();
         CommontUtils.writeSDFile("scan open result", msg);
 //        RxBus.get().post(new Messages(SCAN_OPEN_RESULT,msg));
         return msg;
     }
+
     public void initTest() {
 
 //        RxBus.get().post(new Messages(SCAN_OPEN_RESULT_BEFORE, null));
@@ -79,6 +86,7 @@ public class ScanUtilUSB {
 
     public void open() {
         try {
+
 //            CommontUtils.writeSDFile(">>>>>>>>>>oppppen:",IsRun+"");
             IsRun = true;
             Thread t = new Thread() {
@@ -91,6 +99,7 @@ public class ScanUtilUSB {
 //                        CommontUtils.writeSDFile(">>>>>>>>>>new thread:",this.getId()+"");
                         synchronized (this) {
                             final String str = b.getResultsingle();
+                            Log.d("JAM", "Scan " + str);
                             if (str != null) {
                                 if (str != null && str.length() > 0) {
                                     RxBus.get().post(new Messages(SCAN_MSG, str));
@@ -136,6 +145,7 @@ public class ScanUtilUSB {
 
     public void close() {
         IsRun = false;
+        b.closeDev();
     }
 
     private static final String TAG = "ScanUtilUSB";

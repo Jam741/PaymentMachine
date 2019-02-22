@@ -23,6 +23,12 @@ public class JsMethod {
         this.webView = webView;
     }
 
+
+    public void responseChangeSpecieCount(int count) {
+        String alert = "javascript:responseChangeSpecieCount(" + count + ");";
+        webView.loadUrl(alert);
+    }
+
     public void NotifyNetState(boolean netAvilable) {
         String alert = "javascript:NotifyNetState(" + netAvilable + ");";
         webView.loadUrl(alert);
@@ -111,6 +117,12 @@ public class JsMethod {
         webView.loadUrl(alert);
     }
 
+    //自动跳转
+    public void AutoJump(String url) {
+        String alert = "javascript:AutoJump('" + url + "');";
+        webView.loadUrl(alert);
+    }
+
     //统计的未上报的找零订单
     public void NotReportOrders(String msg) {
         String alert = "javascript:NotReportOrders(" + msg + ");";
@@ -118,7 +130,7 @@ public class JsMethod {
     }
 
     //告知js当前版本
-    public void getVersionCode(int versioncode){
+    public void getVersionCode(int versioncode) {
         String alert = "javascript:getVersionCode(" + versioncode + ");";
         webView.loadUrl(alert);
     }

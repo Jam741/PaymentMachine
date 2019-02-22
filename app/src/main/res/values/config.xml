@@ -9,6 +9,9 @@
     <!--扫描仪配置-->
     <string name="scan_device">/dev/ttyS1</string>
     <string name="scan_baud_rate">9600</string>
+    <!--零钱机配置-->
+    <string name="change_device">/dev/ttyS1</string>
+    <string name="change_baud_rate">9600</string>
     <!--打印机com配置-->
     <string name="print_device">/dev/ttyS3</string>
     <string name="print_baud_rate">9600</string>

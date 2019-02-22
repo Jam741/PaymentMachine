@@ -55,6 +55,13 @@ public class Messages<T> {
     public static final int LOADING_SHOW = 0x000022;
     //清除webview缓存
     public static final int CLEAR_CACHE = 0x000025;
+    //硬币余额数量结果
+    public static final int REQUEST_SPECIE_COUNT = 100001;
+    //返回银币余额
+    public static final int RESPONSE_SPECIE_COUNT = 100002;
+    //出币
+    public static final int REQUEST_SPECIE_OUT = 100003;
+
 
     //js loading
     public static final int JS_LOADING_SHOW = 0x000027;
@@ -69,7 +76,8 @@ public class Messages<T> {
     public static final int NOT_REPORT_ORDERS = 0x000032;
 
     public static final int VERSION_CODE = 0x000033;
-
+    //记住跳转地址
+    public static final int REMEMBER_JUMP = 0x000034;
 
 
     private int code;

@@ -214,6 +214,9 @@ public class PrintComUtil {
     }
 
     public void PrintTicket(PrintMsg msg) {
+
+        Log.d("PRINT","开始打印小票");
+
         String title = msg.getTitle();
         String content = msg.getContent();
         String tale = msg.getTale();

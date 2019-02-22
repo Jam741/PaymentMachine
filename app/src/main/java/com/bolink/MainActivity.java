@@ -2,12 +2,14 @@ package com.bolink;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,6 +36,9 @@ import com.bolink.customview.DownloadDialog;
 import com.bolink.customview.ToastDialog;
 import com.bolink.customview.mCycleViewPager;
 import com.bolink.hardware.AndroidRom;
+import com.bolink.hardware.Scan.SerialPortFinder;
+import com.bolink.hardware.ScanHelper;
+import com.bolink.hardware.change.ChangeUtil;
 import com.bolink.hardware.LinePhoneUtil;
 import com.bolink.hardware.MoneyPaperUtil;
 import com.bolink.hardware.PrintComUtil;
@@ -55,6 +60,7 @@ import com.bolink.utils.TimeUtils;
 import com.bolink.utils.UpdateUtil;
 import com.bolink.utils.ViewUtils;
 import com.google.gson.Gson;
+import com.vguang.Vbar;
 
 import org.litepal.crud.DataSupport;
 
@@ -70,6 +76,7 @@ import device.itl.sspcoms.DeviceEventType;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -97,6 +104,9 @@ import static com.bolink.bean.Messages.PRINT_TICKET;
 import static com.bolink.bean.Messages.QUERRY_ADVANCE;
 import static com.bolink.bean.Messages.QUERRY_ADVANCE_ABNORMAL;
 import static com.bolink.bean.Messages.RELOAD_WEBVIEW;
+import static com.bolink.bean.Messages.REQUEST_SPECIE_COUNT;
+import static com.bolink.bean.Messages.REQUEST_SPECIE_OUT;
+import static com.bolink.bean.Messages.RESPONSE_SPECIE_COUNT;
 import static com.bolink.bean.Messages.SCAN_CLOSE;
 import static com.bolink.bean.Messages.SCAN_MSG;
 import static com.bolink.bean.Messages.SCAN_OPEN;
@@ -128,6 +138,7 @@ public class MainActivity extends BaseActivity {
     Button button;
     public static final int WRITE_EXTERNAL_STORAGE = 0x600001;
     DownloadDialog downloadDialog;
+    private int pagefinish = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +146,15 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Log.i("Timeline", "after super " + System.currentTimeMillis());
         setContentView(R.layout.activity_main);
+
+
+//        findViewById(R.id.btn_exit).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                test();
+//            }
+//        });
+
         ButterKnife.bind(this);
 //        startActivity(new Intent());
         ViewUtils.setLayoutParams(videocontain, this);
@@ -158,12 +178,23 @@ public class MainActivity extends BaseActivity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDefaultTextEncodingName("UTF-8");
+        settings.setDatabaseEnabled(true);
+        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
+        settings.setAppCachePath(appCachePath);
+        settings.setAllowFileAccess(true);    // 可以读取文件缓存
+        settings.setAppCacheEnabled(true);    //开启H5(APPCache)缓存功能
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setUseWideViewPort(true);  //将图片调整到适合webview的大小
         settings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
+
+
+        // 开启DOM缓存，开启LocalStorage存储（html5的本地存储方式）
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setDatabaseEnabled(true);
+        webView.getSettings().setDatabasePath(MainActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(true);
+            WebView.setWebContentsDebuggingEnabled(true);
         }
         if (Build.VERSION.SDK_INT < 8) {
 //            settings.setPluginsEnabled(true);
@@ -171,19 +202,53 @@ public class MainActivity extends BaseActivity {
             settings.setPluginState(WebSettings.PluginState.ON);
         }
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.setWebViewClient(new WebViewClient() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
+            public void run() {
                 initPost();
                 jsMethod.getCheckStatus(SharedPreferenceUtil.get(MainActivity.this).getBoolean("BarStatus", false));
                 jsMethod.CurrentVersion(CommontUtils.getVersionName(MainActivity.this));
                 RxBus.get().post(new Messages(VERSION_CODE, null));
+            }
+        }, 5000);
+
+//        test();
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if (newProgress == 100) {
+                    pagefinish++;
+                    if (pagefinish > 1) {
+
+                    } else {
+                        Log.d("CHANGE", "onPageFinished:initPost");
+
+
+                    }
+                }
+            }
+        });
+
+
+        SerialPortFinder mSerialPortFinder = new SerialPortFinder();
+        mSerialPortFinder.getAllDevices();
+
+        Log.d("CHANGE", "setWebViewClient:" + pagefinish);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.d("CHANGE", "onPageFinished:" + pagefinish);
+
+
             }
 
             @Override
@@ -198,9 +263,9 @@ public class MainActivity extends BaseActivity {
 //            }
         });
         webView.addJavascriptInterface(androidMethod, "AndroidMethod");
-        webView.loadUrl(getResources().getString(R.string.web_url));
+//        webView.loadUrl(getResources().getString(R.string.web_url));
 
-//        webView.loadUrl("file:///android_asset/index.html");
+        webView.loadUrl("file:///android_asset/index.html");
 //        webView.loadUrl("https://tryit.jssip.net/");
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -220,10 +285,13 @@ public class MainActivity extends BaseActivity {
     private void initPost() {
         //不太着急的初始化放这里
 //        initVideo();
-
+        Log.d("CHANGE", "BEFORE");
         new Thread(() -> {
             MoneyPaperUtil.get().init(MainActivity.this);
             PrintComUtil.get().init(MainActivity.this);
+            ChangeUtil.get().init(MainActivity.this);
+            Log.d("CHANGE", "INIT");
+
             CommontUtils.writeSDFile("clear", null);
             File updateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getResources().getString(R.string.apk_name));
             if (updateFile.exists()) {
@@ -231,27 +299,31 @@ public class MainActivity extends BaseActivity {
             }
             MoneyPaperUtil.get().Close();
 
-            String msg = ScanUtilUSB.get().init(MainActivity.this, null);
-            if (msg.contains("success")) {
-                ScanUtilUSB.get().open();
-                ScanUtilUSB.get().close();
-            } else {
-                msg = ScanUtilUSB.get().init(MainActivity.this, null);
-                if (msg.contains("success")) {
-                    ScanUtilUSB.get().open();
-                    ScanUtilUSB.get().close();
-                } else {
-                    msg = ScanUtilUSB.get().init(MainActivity.this, null);
-                    if (msg.contains("success")) {
-                        ScanUtilUSB.get().open();
-                        ScanUtilUSB.get().close();
-                    } else {
-                        //尝试开启3次，再不行也就不管了
-
-                    }
-                }
-            }
-            RxBus.get().post(new Messages(SCAN_OPEN_RESULT, msg));
+//            String msg = ScanUtilUSB.get().init(MainActivity.this, null);
+//
+//
+//            Log.d("JAM", "ScanUtilUSB msg :" + msg);
+//
+//            if (msg.contains("success")) {
+//                ScanUtilUSB.get().open();
+////                ScanUtilUSB.get().close();
+//            } else {
+//                msg = ScanUtilUSB.get().init(MainActivity.this, null);
+//                if (msg.contains("success")) {
+//                    ScanUtilUSB.get().open();
+//                    ScanUtilUSB.get().close();
+//                } else {
+//                    msg = ScanUtilUSB.get().init(MainActivity.this, null);
+//                    if (msg.contains("success")) {
+//                        ScanUtilUSB.get().open();
+//                        ScanUtilUSB.get().close();
+//                    } else {
+//                        //尝试开启3次，再不行也就不管了
+//
+//                    }
+//                }
+//            }
+//            RxBus.get().post(new Messages(SCAN_OPEN_RESULT, msg));
 
             if (!CommontUtils.IsProcessRunning(getResources().getString(R.string.target_package_name), MainActivity.this)) {
                 Intent intent = new Intent(MainActivity.this, ProcessService.class);
@@ -280,7 +352,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void initRxbus() {
-        RxBus.get().toFlowable(Messages.class).onBackpressureDrop().observeOn(AndroidSchedulers.mainThread()).subscribe(messages -> {
+        Disposable subscribe = RxBus.get().toFlowable(Messages.class).onBackpressureDrop().observeOn(AndroidSchedulers.mainThread()).subscribe((Messages messages) -> {
             switch (messages.getCode()) {
                 case Messages.NET_ACCESS:
                     //网络畅通
@@ -380,6 +452,7 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case SCAN_MSG:
+                    Log.d(ScanHelper.TAG, (String) messages.getMsg());
                     jsMethod.ScanResult((String) messages.getMsg());
                     break;
                 case PRINT_MSG:
@@ -394,13 +467,25 @@ public class MainActivity extends BaseActivity {
                     PrintComUtil.get().PrintTicket((PrintMsg) messages.getMsg());
                     break;
                 case SCAN_OPEN:
-                    if (openScanResult.contains("success")) {
-                        ScanUtilUSB.get().open();
-                    } else {
-//                        ScanUtilUSB.get().init(MainActivity.this);
+//                    if (openScanResult.contains("success")) {
 //                        ScanUtilUSB.get().open();
-                        ScanUtilUSB.get().initopen(MainActivity.this);
-                    }
+//                    } else {
+////                        ScanUtilUSB.get().init(MainActivity.this);
+////                        ScanUtilUSB.get().open();
+//                        ScanUtilUSB.get().initopen(MainActivity.this);
+//                    }
+
+                    ScanHelper.getInstance().scanOpen(this);
+                    break;
+                case REQUEST_SPECIE_COUNT:
+                    ChangeUtil.get().requestSpecieCount();
+                    break;
+                case RESPONSE_SPECIE_COUNT:
+                    jsMethod.responseChangeSpecieCount((Integer) messages.getMsg());
+                    break;
+                case REQUEST_SPECIE_OUT:
+                    Float cash = Float.valueOf(messages.getMsg().toString());
+                    ChangeUtil.get().requestSpecieOut(cash.intValue());
                     break;
                 case SCAN_OPEN_RESULT:
                     openScanResult = (String) messages.getMsg();
@@ -419,7 +504,8 @@ public class MainActivity extends BaseActivity {
                     ToastDialog.makeText(this, (String) messages.getMsg(), 0).show_D();
                     break;
                 case SCAN_CLOSE:
-                    ScanUtilUSB.get().close();
+//                    ScanUtilUSB.get().close();
+                    ScanHelper.getInstance().scanClose(this);
                     break;
                 case MacAddress:
                     String macadress = (String) messages.getMsg();
@@ -431,6 +517,10 @@ public class MainActivity extends BaseActivity {
                         Users users = usersList.get(0);
                         CommontUtils.writeSDFile("user content", users.toString());
                         jsMethod.AutoLogin(users.getAccount(), users.getPassword(), macadress);
+                        SharedPreferences sp = SharedPreferenceUtil.get(this);
+                        String url = sp.getString("JumpURL", "");
+//                        System.out.println("==========url="+url);
+                        jsMethod.AutoJump(url);
                     }
                     break;
                 case CHECK_UPDATE:
@@ -794,9 +884,44 @@ public class MainActivity extends BaseActivity {
         });
         findViewById(R.id.btn_vol_vodeo_0).setOnClickListener(v -> {
 //            setVolume(0, videoView);
+
             LinePhoneUtil.get().initLinePhone();
         });
     }
+
+
+    boolean IsRun = true;
+    Vbar b = new Vbar();
+
+    private void test() {
+
+//        ScanUtilUSB.get().initTest();
+
+
+        Log.d("JAM", "-- :" + b.vbarOpen());
+
+
+        new Thread() {
+            @Override
+            public void run() {
+                while (IsRun) {
+                    final String str = b.getResultsingle();
+                    if (str != null) {
+                        Log.d("JAMv", "Scan -t- : " + str);
+
+                    }
+                    try {
+                        Thread.sleep(0);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+
+    }
+
 
 
 }

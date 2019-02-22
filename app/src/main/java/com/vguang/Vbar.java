@@ -12,13 +12,13 @@ public class Vbar {
 		Vdll INSTANCE = (Vdll) Native.loadLibrary("vbar", Vdll.class);
 
 		//打开信道
-		public  IntByReference vbar_channel_open(int type, long arg);
+		public IntByReference vbar_channel_open(int type, long arg);
 
 		//发送数据
-		public int vbar_channel_send(IntByReference vbar_channel, byte[] buffer,int length);
+		public int vbar_channel_send(IntByReference vbar_channel, byte[] buffer, int length);
 
 		//接收数据
-		public int vbar_channel_recv(IntByReference vbar_channel, byte[] buffer,int size,int milliseconds);
+		public int vbar_channel_recv(IntByReference vbar_channel, byte[] buffer, int size, int milliseconds);
 
 		//关闭信道
 		public void  vbar_channel_close(IntByReference vbar_channel);
@@ -33,7 +33,9 @@ public class Vbar {
 
 	//打开设备
 	public boolean vbarOpen() {
-		vbar_channel = Vbar.Vdll.INSTANCE.vbar_channel_open(1,1);
+		if(vbar_channel == null) {
+			vbar_channel = Vbar.Vdll.INSTANCE.vbar_channel_open(1, 1);
+		}
 		if (vbar_channel != null) {
 			System.out.println("open device success");
 			return true;
@@ -144,6 +146,7 @@ public class Vbar {
 		if(vbar_channel != null)
 		{
 			Vbar.Vdll.INSTANCE.vbar_channel_close(vbar_channel);
+			vbar_channel = null;
 			System.out.println("close success");
 		}
 	}
@@ -175,7 +178,6 @@ public class Vbar {
 
 		if (bufferrecv[0] == 119 && bufferrecv[1] == -52 && bufferrecv[2] == -35 && bufferrecv[5] == 0)
 		{
-//			CommontUtils.writeSDFile("scan start:","==============result=getstate="+getstate);
 			int datalen = (bufferrecv[6] & 0xff) + ((bufferrecv[7] << 8) & 0xff);  //高位左移位8位 按协议低位在前 高位在后 扫码数据总长度
 			if (datalen <= 55)
 			{
@@ -206,7 +208,6 @@ public class Vbar {
 		}
 		else
 		{
-//			CommontUtils.writeSDFile("scan start:","==============null=getstate="+getstate);
 			return null;
 		}
 	}

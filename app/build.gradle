@@ -30,8 +30,14 @@ android {
         ndk {
             moduleName "vbar_api"
         }
-        versionCode 1108
-        versionName "V1.1.8"
+        versionCode 8108
+        versionName "V8.1.8"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
     }
 
     buildTypes {
@@ -40,15 +46,15 @@ android {
             jniLibs.srcDir 'src/main/jniLibs'
         }
         debug {
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
+            minifyEnabled false
+//            zipAlignEnabled true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
+            minifyEnabled false
+//            zipAlignEnabled true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
 //            applicationVariants.all { variant ->
@@ -75,6 +81,19 @@ android {
             maven { url "https://jitpack.io" }
         }
     }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -93,7 +112,7 @@ dependencies {
     compile files('src/main/jniLibs/jna.jar')
     //    compile 'com.android.support:appcompat-v7:25.3.0'
     //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     //butter knife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
