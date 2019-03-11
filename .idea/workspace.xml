@@ -16,273 +16,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="319ab3c1-51e7-48f3-a6db-95de1f97017c" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/__local_aars___E__xulu_PaymentMachine_app_libs_bugly_crash_release_jar_unspecified_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/__local_aars___E__xulu_PaymentMachine_app_libs_d2xx_jar_unspecified_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/__local_aars___E__xulu_PaymentMachine_app_libs_linphone_jar_unspecified_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/__local_aars___E__xulu_PaymentMachine_app_libs_printsdk_v2_0_jar_unspecified_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/__local_aars___E__xulu_PaymentMachine_app_libs_sspcoms_jar_unspecified_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/__local_aars___E__xulu_PaymentMachine_app_libs_usbprintsdk_v2_0_jar_unspecified_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/__local_aars___E__xulu_PaymentMachine_app_src_main_jniLibs_jna_jar_unspecified_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/android_arch_core_common_1_0_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/android_arch_lifecycle_common_1_0_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/android_arch_lifecycle_runtime_1_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_animated_vector_drawable_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_appcompat_v7_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_annotations_26_1_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_compat_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_core_ui_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_core_utils_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_fragment_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_media_compat_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_v4_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_vector_drawable_26_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_github_bumptech_glide_glide_3_7_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_google_code_gson_gson_2_7_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_jakewharton_butterknife_8_8_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_jakewharton_butterknife_annotations_8_8_1_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_squareup_okhttp3_logging_interceptor_3_9_1_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_squareup_okhttp3_okhttp_3_9_1_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_squareup_okio_okio_1_13_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_squareup_retrofit2_adapter_rxjava2_2_3_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_squareup_retrofit2_converter_gson_2_3_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_squareup_retrofit2_retrofit_2_3_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/io_reactivex_rxjava2_rxandroid_2_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/io_reactivex_rxjava2_rxjava_2_1_1_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jp_wasabeef_glide_transformations_2_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/junit_junit_4_12_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_hamcrest_hamcrest_core_1_3_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_litepal_android_core_1_6_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_reactivestreams_reactive_streams_1_0_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/markdown-navigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/markdown-navigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/markdown-navigator/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/markdown-navigator/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/qaplug_profiles.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentMachine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PaymentMachine.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UsbPrinterTest1.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/404.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/apple-touch-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/armeabi/libBugly.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/armeabi/libjnidispatch.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/armeabi/liblinphone-armeabi.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/armeabi/libserial_port.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/armeabi/libvbar.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/browserconfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/crossdomain.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/css/Siptest.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/css/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/css/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/css/swiper.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/css/test.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/css/video.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/TOC.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/css.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/extend.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/faq.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/html.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/js.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/misc.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/doc/usage.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/humans.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/bg_keyboard.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/bg_keyboard_press.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/cash_in.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/head_price.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/indicate_l.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/indicate_r.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_1_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_2_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_3_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_4_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/left_5_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/load.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/pic_alipay.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/pic_del.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/pic_error.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/pic_ok.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/pic_search.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/pic_search_press.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/pic_wechat.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/step_down.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/step_down_grey.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/step_home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/step_home_p.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/step_up.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_carnum.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_carnum_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_nocar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_nocar_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_paycash.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_paycash_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_paycode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/img/tab_paycode_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/SaveBlob.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/Simple5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/index-backup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/jquery-1.9.1.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/plugins.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/require.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/swiper.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/util.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/vendor/modernizr-2.8.3.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/vue-resource.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/vue.min - 备份.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/js/vue.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/litepal.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/robots.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/tile-wide.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/tile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/x86/libBugly.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-10-13手机扫缴费机二维码备份/x86/libserial_port.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.editorconfig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.idea/assets.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.idea/watcherTasks.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/404.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/apple-touch-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/browserconfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/crossdomain.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/css/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/css/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/css/swiper.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/humans.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/bg_keyboard.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/bg_keyboard_press.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/cash_in.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/head_price.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/indicate_l.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/indicate_r.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_1_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_2_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_3_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_4_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/left_5_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/load.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/pic_alipay.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/pic_del.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/pic_error.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/pic_ok.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/pic_search.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/pic_search_press.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/pic_wechat.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/step_down.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/step_down_grey.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/step_home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/step_home_p.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/step_up.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_carnum.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_carnum_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_nocar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_nocar_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_paycash.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_paycash_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_paycode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/img/tab_paycode_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/android.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/constmodel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/invisibleindex.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/md5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/swiper.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/vue-resource.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/js/vue.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/robots.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/tile-wide.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/tile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/404.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/apple-touch-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/browserconfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/crossdomain.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/css/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/css/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/css/swiper.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/humans.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/js/invisibleindex.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/js/swiper.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/js/vue-resource.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/js/vue.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/robots.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/tile-wide.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/2017-12-26红包升级/服务器备份/tile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ads.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/css/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/css/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/css/swiper.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/js/swiper.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/js/vue-resource.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup-assets/js/vue.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup/invisible.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup/js/invisibleindex.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bolink/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bolink/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bolink/bean/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bolink/bean/Messages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/PrintCom/MyFunc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/PrintCom/MyFunc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/PrintComUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/PrintComUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/ScanUtilUSB.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/ScanUtilUSB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bolink/method/AndroidMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bolink/method/AndroidMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bolink/method/JsMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bolink/method/JsMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/vguang/Vbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/vguang/Vbar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/vguang/vbarlib/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/vguang/vbarlib/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/armeabi/libBugly.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/armeabi/libjnidispatch.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/armeabi/libserial_port.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/armeabi/libvbar.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/x86/libBugly.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/x86/libserial_port.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -345,7 +80,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
+            <state relative-caret-position="5460">
               <caret line="477" column="48" selection-start-line="477" selection-start-column="48" selection-end-line="477" selection-end-column="48" />
             </state>
           </provider>
@@ -363,7 +98,7 @@
       <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
+            <state relative-caret-position="810">
               <caret line="54" column="32" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="32" />
             </state>
           </provider>
@@ -375,40 +110,38 @@
       <file leaf-file-name="ChangeUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/change/ChangeUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
+            <state relative-caret-position="945">
               <caret line="84" column="42" selection-start-line="84" selection-start-column="37" selection-end-line="84" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/assets/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2670">
-              <caret line="178" column="51" selection-start-line="178" selection-start-column="51" selection-end-line="178" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider editor-type-id="android-manifest">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="51" column="39" selection-start-line="51" selection-start-column="39" selection-end-line="51" selection-end-column="39" />
+            <state relative-caret-position="555">
+              <caret line="37" column="45" selection-start-line="37" selection-start-column="45" selection-end-line="37" selection-end-column="45" />
               <folding>
                 <marker date="1550813800455" expanded="true" signature="1446:2123" ph="..." />
               </folding>
             </state>
+          </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="icon_logo.png" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/icon_logo.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/assets/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
+            <state relative-caret-position="3435">
               <caret line="229" column="13" selection-start-line="229" selection-start-column="13" selection-end-line="229" selection-end-column="13" />
             </state>
           </provider>
@@ -417,8 +150,8 @@
       <file leaf-file-name="ScanHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/ScanHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="59" column="19" lean-forward="true" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+            <state relative-caret-position="705">
+              <caret line="59" column="19" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1550813190488" expanded="true" signature="1497:2240" ph="..." />
@@ -430,19 +163,8 @@
       <file leaf-file-name="AndroidMethod.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/method/AndroidMethod.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="444" column="71" lean-forward="true" selection-start-line="444" selection-start-column="71" selection-end-line="444" selection-end-column="71" />
-              <folding>
-                <element signature="e#17411#17443#0" expanded="true" />
-                <element signature="e#17476#17511#0" expanded="true" />
-                <element signature="e#17548#17585#0" expanded="true" />
-                <element signature="e#17623#17657#0" expanded="true" />
-                <element signature="e#17692#17727#0" expanded="true" />
-                <element signature="e#17763#17798#0" expanded="true" />
-                <element signature="e#17834#17872#0" expanded="true" />
-                <element signature="e#18424#18425#0" expanded="true" />
-                <element signature="e#18487#18488#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="5895">
+              <caret line="444" column="71" selection-start-line="444" selection-start-column="71" selection-end-line="444" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -450,7 +172,7 @@
       <file leaf-file-name="Messages.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/bean/Messages.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
+            <state relative-caret-position="690">
               <caret line="46" column="34" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
             </state>
           </provider>
@@ -2835,10 +2557,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="49" />
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
-    <option name="width" value="1391" />
+    <option name="width" value="1440" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -2849,9 +2570,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -2928,6 +2646,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3145,17 +2866,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="0" />
     <layout>
-      <window_info anchor="bottom" id="Android Profiler" order="7" weight="0.47158405" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" weight="0.47158405" />
       <window_info id="Build Variants" order="2" sideWeight="0.5008347" side_tool="true" weight="0.24964234" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5035765" side_tool="true" weight="0.40870616" />
       <window_info anchor="right" id="Flutter Outline" order="3" />
       <window_info anchor="bottom" id="Logcat" order="7" sideWeight="0.49642345" weight="0.45707375" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.6142684" />
+      <window_info active="true" anchor="bottom" id="Build" order="7" visible="true" weight="0.63171357" />
       <window_info anchor="right" id="WIFI ADB ULTIMATE" order="3" weight="0.3297568" />
       <window_info id="Structure" order="1" sideWeight="0.5008347" side_tool="true" weight="0.24964234" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
@@ -3165,29 +2885,28 @@
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Flutter Performance" order="7" side_tool="true" />
-      <window_info anchor="right" id="Preview" order="3" weight="0.3297568" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32889965" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49928468" weight="0.4764208" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49928468" weight="0.47453415" />
       <window_info id="Captures" order="2" sideWeight="0.49916527" weight="0.24964234" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49916527" visible="true" weight="0.2639485" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49916527" visible="true" weight="0.2639485" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.3297568" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" sideWeight="0.5008347" side_tool="true" weight="0.26323318" />
       <window_info anchor="right" id="Flutter Inspector" order="3" />
+      <window_info anchor="right" id="Preview" order="3" weight="0.3297568" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
       <window_info anchor="bottom" id="Build" order="8" weight="0.6142684" />
       <window_info id="Designer" order="2" />
       <window_info id="Build Variants" order="3" sideWeight="0.5008347" side_tool="true" weight="0.24964234" />
-      <window_info id="Image Layers" order="4" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32889965" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -3200,7 +2919,7 @@
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Android Profiler" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50214595" side_tool="true" weight="0.46311972" />
-      <window_info anchor="right" id="Preview" order="6" weight="0.3297568" />
+      <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="7" side_tool="true" />
       <window_info anchor="right" id="Flutter Outline" order="8" />
@@ -3211,10 +2930,11 @@
       <window_info anchor="right" id="Gradle" order="9" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49916527" visible="true" weight="0.26323318" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info id="Image Layers" order="4" />
       <window_info anchor="right" id="Palette&#9;" order="10" />
       <window_info anchor="right" id="Theme Preview" order="11" />
       <window_info id="Structure" order="1" sideWeight="0.5008347" side_tool="true" weight="0.24964234" />
+      <window_info anchor="right" id="Preview" order="6" weight="0.3297568" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39903265" />
@@ -3237,13 +2957,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/app/libs/d2xx.jar!/com/ftdi/j2xx/D2xxManager.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/PaperMoneyITL/ITLDeviceCom.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -3514,14 +3227,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/change/ChangeUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
+        <state relative-caret-position="945">
           <caret line="84" column="42" selection-start-line="84" selection-start-column="37" selection-end-line="84" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
+        <state relative-caret-position="810">
           <caret line="54" column="32" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="32" />
         </state>
       </provider>
@@ -3531,7 +3244,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/assets/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
+        <state relative-caret-position="3435">
           <caret line="229" column="13" selection-start-line="229" selection-start-column="13" selection-end-line="229" selection-end-column="13" />
         </state>
       </provider>
@@ -3545,22 +3258,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/bean/Messages.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
+        <state relative-caret-position="690">
           <caret line="46" column="34" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
+        <state relative-caret-position="5460">
           <caret line="477" column="48" selection-start-line="477" selection-start-column="48" selection-end-line="477" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/hardware/ScanHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="59" column="19" lean-forward="true" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+        <state relative-caret-position="705">
+          <caret line="59" column="19" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1550813190488" expanded="true" signature="1497:2240" ph="..." />
@@ -3570,33 +3283,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bolink/method/AndroidMethod.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="444" column="71" lean-forward="true" selection-start-line="444" selection-start-column="71" selection-end-line="444" selection-end-column="71" />
-          <folding>
-            <element signature="e#17411#17443#0" expanded="true" />
-            <element signature="e#17476#17511#0" expanded="true" />
-            <element signature="e#17548#17585#0" expanded="true" />
-            <element signature="e#17623#17657#0" expanded="true" />
-            <element signature="e#17692#17727#0" expanded="true" />
-            <element signature="e#17763#17798#0" expanded="true" />
-            <element signature="e#17834#17872#0" expanded="true" />
-            <element signature="e#18424#18425#0" expanded="true" />
-            <element signature="e#18487#18488#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="5895">
+          <caret line="444" column="71" selection-start-line="444" selection-start-column="71" selection-end-line="444" selection-end-column="71" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="51" column="39" selection-start-line="51" selection-start-column="39" selection-end-line="51" selection-end-column="39" />
+        <state relative-caret-position="555">
+          <caret line="37" column="45" selection-start-line="37" selection-start-column="45" selection-end-line="37" selection-end-column="45" />
           <folding>
             <marker date="1550813800455" expanded="true" signature="1446:2123" ph="..." />
           </folding>
         </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/icon_logo.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
   </component>
